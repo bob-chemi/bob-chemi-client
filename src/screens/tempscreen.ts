@@ -1,1 +1,1 @@
-export const screen = '';
+export const screen = ''

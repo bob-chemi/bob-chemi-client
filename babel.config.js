@@ -1,22 +1,11 @@
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
-<<<<<<< Updated upstream
   plugins: [
     [
       'module-resolver',
       {
         root: ['./src'],
-        extensions: [
-          '.ios.ts',
-          '.android.ts',
-          '.ts',
-          '.ios.tsx',
-          '.android.tsx',
-          '.tsx',
-          '.jsx',
-          '.js',
-          '.json',
-        ],
+        extensions: ['.ios.ts', '.android.ts', '.ts', '.ios.tsx', '.android.tsx', '.tsx', '.jsx', '.js', '.json'],
         alias: {
           '@': './src',
           '@components': './src/components',
@@ -28,7 +17,4 @@ module.exports = {
       },
     ],
   ],
-};
-=======
 }
->>>>>>> Stashed changes
