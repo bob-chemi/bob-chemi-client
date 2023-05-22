@@ -1,5 +1,6 @@
 module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
+<<<<<<< Updated upstream
   plugins: [
     [
       'module-resolver',
@@ -28,3 +29,6 @@ module.exports = {
     ],
   ],
 };
+=======
+}
+>>>>>>> Stashed changes
