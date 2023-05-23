@@ -1,1 +1,2 @@
-export const temp = ''
+const temp = ''
+export { temp }
