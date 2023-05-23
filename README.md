@@ -2,19 +2,19 @@
 
 ## 팀 소개
 
-| <img src="https://avatars.githubusercontent.com/u/74127841?v=4"/> | <img src="https://avatars.githubusercontent.com/u/91247176?v=4"/> | <img src="https://avatars.githubusercontent.com/u/85508157?v=4"/> |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| <a href="https://github.com/Strongorange">이찬휘</a>              | <a href="https://github.com/Juhyun34">김주현</a>                  | <a href="https://github.com/sacultang">오영재</a>                 |
+| <img src="https://avatars.githubusercontent.com/u/74127841?v=4" width="200"/> | <img src="https://avatars.githubusercontent.com/u/91247176?v=4" width="200"/> | <img src="https://avatars.githubusercontent.com/u/85508157?v=4" width="200"/> |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| <a href="https://github.com/Strongorange">이찬휘</a>                          | <a href="https://github.com/Juhyun34">김주현</a>                              | <a href="https://github.com/sacultang">오영재</a>                             |
 
 ## 📜 목차
 
-- [프로젝트 개요](##프로젝트-개요)
+- [프로젝트 개요](##📬-프로젝트-개요)
 - [기술 스택](##기술-스택)
 - [팀 규칙](##팀-규칙)
   - [Commit 규칙](###Git-commit-convention)
   - [Branch/Pull Request형식](##Branch/Pull-Request형식)
-  - [변수/파일 이름 규칙](##변수/파일-이름-규칙)
-- [폴더 구조](##프로젝트-개요)
+  - [변수/파일 이름 규칙](##변수/파일이름-규칙)
+- [폴더 구조](##폴더-구조)
 
 ## 📬 프로젝트 개요
 
