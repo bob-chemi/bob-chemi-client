@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { View, Text } from 'react-native'
-import Home from '@/screens/Home'
+import Home from '@/screens/Home/Home'
 
 // 앱의 하단에 존재하는 BottomTab의 param list
 type TabParamList = {
