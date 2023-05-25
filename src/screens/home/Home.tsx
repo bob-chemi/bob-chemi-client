@@ -1,8 +1,8 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import * as S from './Home.style'
-import Button from '@/common/components/Button'
+import ButtonStyle from '@/common/components/ButtonStyle'
 
 const Home = () => {
   const [steps, setSteps] = useState<number>(0)
@@ -27,13 +27,13 @@ const Home = () => {
       {currentStepData.next ? (
         <S.ButtonWrapView>
           <TouchableOpacity onPress={handleNext}>
-            <Button>NEXT</Button>
+            <ButtonStyle>NEXT</ButtonStyle>
           </TouchableOpacity>
           <S.SkipText>Skip</S.SkipText>
         </S.ButtonWrapView>
       ) : (
         <TouchableOpacity onPress={handleNext}>
-          <Button>GET STARTED</Button>
+          <ButtonStyle>GET STARTED</ButtonStyle>
         </TouchableOpacity>
       )}
     </S.Container>

@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 interface ButtonProps {
   children: string
 }
-const Button = ({ children }: ButtonProps) => {
+const ButtonStyle = ({ children }: ButtonProps) => {
   return (
     <ButtonView>
       <ButtonText>{children}</ButtonText>
@@ -11,7 +11,7 @@ const Button = ({ children }: ButtonProps) => {
   )
 }
 
-export default Button
+export default ButtonStyle
 
 const ButtonView = styled.View`
   background-color: #ff7622;
