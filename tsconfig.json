@@ -9,7 +9,8 @@
       "@modules/*": ["modules/*"],
       "@scenes/*": ["scenes/*"],
       "@utils/*": ["utils/*"]
-    }
+    },
+    "types": ["@types/styled-components-react-native"]
   },
   "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
 }
