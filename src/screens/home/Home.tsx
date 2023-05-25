@@ -1,0 +1,65 @@
+import { useNavigation } from '@react-navigation/native'
+import React, { useState } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
+import * as S from './Home.style'
+import Button from '@/common/components/Button'
+
+const Home = () => {
+  const [steps, setSteps] = useState<number>(0)
+  const navigation = useNavigation()
+
+  const handleNext = () => {
+    if (steps === 0) {
+      setSteps(1)
+    } else {
+      navigation.navigate('LoginPage')
+    }
+  }
+
+  const currentStepData = HOMESTART_STEP[steps]
+  return (
+    <S.Container>
+      <S.ImageArea></S.ImageArea>
+      <S.TextArea>
+        <S.BoldText>{currentStepData.title}</S.BoldText>
+        <S.NomalText>{currentStepData.desc}</S.NomalText>
+      </S.TextArea>
+      {currentStepData.next ? (
+        <S.ButtonWrapView>
+          <TouchableOpacity onPress={handleNext}>
+            <Button>NEXT</Button>
+          </TouchableOpacity>
+          <S.SkipText>Skip</S.SkipText>
+        </S.ButtonWrapView>
+      ) : (
+        <TouchableOpacity onPress={handleNext}>
+          <Button>GET STARTED</Button>
+        </TouchableOpacity>
+      )}
+    </S.Container>
+  )
+}
+
+export default Home
+
+interface Step {
+  imgPath: string
+  title: string
+  desc: string
+  next: boolean
+}
+
+export const HOMESTART_STEP: Step[] = [
+  {
+    imgPath: '',
+    title: '혼밥러들 모여라!!',
+    desc: '혼자 밥 먹기 싫은 사람 같이 먹읍시다!!',
+    next: true,
+  },
+  {
+    imgPath: '',
+    title: '동네 숨은 맛집을 찾아서!',
+    desc: '동네 숨은 맛집을 공유하고, 모임을 만들어 같이 방문해보세요',
+    next: false,
+  },
+]
