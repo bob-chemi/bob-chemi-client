@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 apply plugin: "com.facebook.react"
 
 import com.android.build.OutputFile
@@ -100,6 +101,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        // 네이버 지도 API 키
+        resValue "string", "NAVER_MAPS_CLIENT_SECRET", project.env.get("NAVER_MAPS_CLIENT_SECRET")
+        resValue "string", "NAVER_MAPS_CLIENT_ID", project.env.get("NAVER_MAPS_CLIENT_ID")
     }
 
     splits {
@@ -151,6 +155,9 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+    
+    // 네이버 지도 SDK
+    implementation 'com.naver.maps:map-sdk:3.16.2'
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 
