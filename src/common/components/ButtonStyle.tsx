@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 interface ButtonProps {
   children: string
 }
@@ -15,7 +16,7 @@ export default ButtonStyle
 
 const ButtonView = styled.View`
   background-color: #ff7622;
-  width: 327px;
+  width: ${SCREEN_WIDTH - 48}px;
   height: 62px;
   border-radius: 20px;
   justify-content: center;
