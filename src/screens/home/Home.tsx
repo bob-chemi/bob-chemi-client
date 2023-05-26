@@ -1,7 +1,12 @@
-import { View } from 'react-native'
+import NaverMap from './components/NaverMap'
+import * as S from '@/screens/home/Home.style'
 
 const Home = () => {
-  return <View></View>
+  return (
+    <S.HomeLayout>
+      <NaverMap />
+    </S.HomeLayout>
+  )
 }
 
 export default Home

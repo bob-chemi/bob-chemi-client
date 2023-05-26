@@ -1,11 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
+import { View } from 'react-native'
 import Home from '@/screens/home/Home'
 import LoginScreen from '@/screens/login/LoginScreen'
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
 import RegisterScreen from '@/screens/register/RegisterScreen'
-import { View, Text } from 'react-native'
-
 
 // 앱의 하단에 존재하는 BottomTab의 param list
 type TabParamList = {
@@ -14,10 +13,15 @@ type TabParamList = {
   Matching: undefined
   Social: undefined
   Profile: undefined
+  PreviewScreen: undefined
+  LoginScreen: undefined
+  RegisterScreen: undefined
 }
 
 const Tab = createBottomTabNavigator<TabParamList>()
-
+const Settings = () => {
+  return <View></View>
+}
 const BottomTabs = () => {
   return (
     <Tab.Navigator>
