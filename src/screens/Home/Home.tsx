@@ -1,10 +1,10 @@
-import NaverMap from './components/NaverMap'
+import GoogleMap from './components/GoogleMap'
 import * as S from '@/screens/Home/Home.style'
 
 const Home = () => {
   return (
     <S.HomeLayout>
-      <NaverMap />
+      <GoogleMap />
     </S.HomeLayout>
   )
 }
