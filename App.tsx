@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native'
-import RootNavigation from '@/navigations/RootNavigation'
 import usePermissions from '@/hooks/usePermissions'
+import RootNavigation from '@/navigations/RootNavigation'
 
 const App = () => {
   usePermissions()
