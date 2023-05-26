@@ -1,7 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import BottomTabs from '@/navigations/BottomTabs'
 
-const RootNativeStack = createNativeStackNavigator()
+// 앱의 최상단에 존재하는 RootNativeStack의 param list
+// 앱 기능이 추가되어 새로운 Stack이 필요할때마다 추가
+type RootNativeStackParamList = {
+  Tab: undefined
+}
+
+const RootNativeStack = createNativeStackNavigator<RootNativeStackParamList>()
 
 const RootNavigation = () => {
   return (
