@@ -25,15 +25,17 @@ export const InputWrapper = styled.View`
   border-radius: 40px;
   margin-top: 30px;
 `
-export const InputLabel = styled.Text`
+export const InputLabel = styled.Text<{ validation: boolean }>`
   font-size: 13px;
-  color: #32343e;
+  color: ${({ validation }) => (validation ? '#ff7622' : '#32343e ')};
   margin-bottom: 10px;
 `
-export const LoginInput = styled.TextInput`
+export const LoginInput = styled.TextInput<{ validate: string }>`
   background-color: #f0f5fa;
   width: ${SCREEN_WIDTH - 48}px;
   padding-left: 20px;
+  border-color: ${({ validate }) => (validate ? '#ff7622' : 'transparent')};
+  border-width: 1px;
 `
 export const SaveIdLine = styled.View`
   flex-direction: row;
@@ -42,7 +44,6 @@ export const SaveIdLine = styled.View`
   padding-bottom: 24px;
 `
 export const JoinIdLine = styled.View`
-  flex-direction: row;
   justify-content: center;
   padding-top: 24px;
   padding-bottom: 24px;
@@ -52,4 +53,8 @@ export const JoinIdLine = styled.View`
 export const ColorText = styled.Text`
   color: #ff7622;
   font-weight: 600;
+`
+export const LabelWrapper = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
 `

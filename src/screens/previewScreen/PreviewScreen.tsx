@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import * as S from './PreviewScreen.style'
-import ButtonStyle from '@/common/components/ButtonStyle'
+import ButtonStyle from '@/common/components/CustomButton'
 
 const PreviewScreen = () => {
   const [steps, setSteps] = useState<number>(0)
@@ -12,7 +12,7 @@ const PreviewScreen = () => {
     if (steps === 0) {
       setSteps(1)
     } else {
-      navigation.navigate('LoginPage')
+      navigation.navigate('LoginScreen')
     }
   }
 

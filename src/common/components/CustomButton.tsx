@@ -4,7 +4,7 @@ import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 interface ButtonProps {
   children: string
 }
-const ButtonStyle = ({ children }: ButtonProps) => {
+const CustomButton = ({ children }: ButtonProps) => {
   return (
     <ButtonView>
       <ButtonText>{children}</ButtonText>
@@ -12,7 +12,7 @@ const ButtonStyle = ({ children }: ButtonProps) => {
   )
 }
 
-export default ButtonStyle
+export default CustomButton
 
 const ButtonView = styled.View`
   background-color: #ff7622;
