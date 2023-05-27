@@ -22,9 +22,11 @@ const Layout = styled.View`
 
 const MyLocationButton = ({ onPress }: MyLocationButtonProps) => {
   return (
-    <Pressable onPress={onPress}>
-      <Text style={{ color: 'white' }}>Cur</Text>
-    </Pressable>
+    <Layout>
+      <Pressable onPress={onPress}>
+        <Text style={{ color: 'white' }}>Cur</Text>
+      </Pressable>
+    </Layout>
   )
 }
 
