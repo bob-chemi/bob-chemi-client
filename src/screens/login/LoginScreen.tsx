@@ -2,9 +2,9 @@ import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import * as S from './LoginScreen.style'
-import ButtonStyle from '@/common/components/CustomButton'
+import CustomButton from '@/common/components/CustomButton'
+import { Nav } from '@/types/nav'
 import { emailValidator, passwordValidator } from '@/utils/validator'
-
 type ValidateType = {
   value: string
   error: string
@@ -13,7 +13,7 @@ type ValidateType = {
 const LoginScreen = () => {
   const [email, setEmail] = useState<ValidateType>({ value: '', error: '' })
   const [password, setPassword] = useState<ValidateType>({ value: '', error: '' })
-  const navigation = useNavigation()
+  const { navigate } = useNavigation<Nav>()
   const loginOnPressed = () => {
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
@@ -67,11 +67,11 @@ const LoginScreen = () => {
           <Text>비밀번호를 잊으셨나요?</Text>
         </S.SaveIdLine>
         <TouchableOpacity onPress={loginOnPressed}>
-          <ButtonStyle>로그인하기</ButtonStyle>
+          <CustomButton>로그인하기</CustomButton>
         </TouchableOpacity>
 
         <S.JoinIdLine>
-          <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigation.navigate('RegisterScreen')}>
+          <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('RegisterScreen')}>
             <Text>아직 회원이 아니신가요? &nbsp;&nbsp;</Text>
             <S.ColorText>회원가입</S.ColorText>
           </TouchableOpacity>
