@@ -3,19 +3,22 @@ import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 import * as S from './PreviewScreen.style'
 import ButtonStyle from '@/common/components/CustomButton'
+import { Nav } from '@/types/nav'
 
 const PreviewScreen = () => {
   const [steps, setSteps] = useState<number>(0)
-  const navigation = useNavigation()
+  const { navigate } = useNavigation<Nav>()
 
   const handleNext = () => {
     if (steps === 0) {
       setSteps(1)
     } else {
-      navigation.navigate('LoginScreen')
+      navigate('LoginScreen')
     }
   }
-
+  const handleSkip = () => {
+    navigate('LoginScreen')
+  }
   const currentStepData = HOMESTART_STEP[steps]
   return (
     <S.Container>
@@ -29,7 +32,9 @@ const PreviewScreen = () => {
           <TouchableOpacity onPress={handleNext}>
             <ButtonStyle>NEXT</ButtonStyle>
           </TouchableOpacity>
-          <S.SkipText>Skip</S.SkipText>
+          <TouchableOpacity onPress={handleSkip}>
+            <S.SkipText>Skip</S.SkipText>
+          </TouchableOpacity>
         </S.ButtonWrapView>
       ) : (
         <TouchableOpacity onPress={handleNext}>
