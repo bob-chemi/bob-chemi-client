@@ -5,15 +5,12 @@ import * as S from './LoginScreen.style'
 import CustomButton from '@/common/components/CustomButton'
 import { Nav } from '@/types/nav'
 import { emailValidator, passwordValidator } from '@/utils/validator'
-type ValidateType = {
-  value: string
-  error: string
-}
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState<ValidateType>({ value: '', error: '' })
-  const [password, setPassword] = useState<ValidateType>({ value: '', error: '' })
+  const [email, setEmail] = useState({ value: '', error: '' })
+  const [password, setPassword] = useState({ value: '', error: '' })
   const { navigate } = useNavigation<Nav>()
+
   const loginOnPressed = () => {
     const emailError = emailValidator(email.value)
     const passwordError = passwordValidator(password.value)
