@@ -39,21 +39,38 @@ const Home = () => {
       {
         enableHighAccuracy: true,
         timeout: 10000,
-        maximumAge: 10000,
       }
     )
   }
 
   // 현재 위치 주변의 식당 정보 가져오기
   const getNearByRestaurants = async () => {
+    // FIXME: 개발 중 API 중복 호출 방지, 추후 삭제
+    if (nearByRestaurants.length > 0) return
     const reqUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${currentLocation.latitude},${currentLocation.longitude}&radius=1500&type=restaurant&key=${GOOGLE_MAPS_API_KEY}`
     try {
       const res = await axios.get(reqUrl)
       if (res.status === 200) {
-        console.log(res.data)
-        setNearByRestaurants(res.data.results)
+        const { results } = res.data
+
+        // 상세 정보 API 호출해서 사진 Refs 가져오기
+        const detailReqUrl = 'https://maps.googleapis.com/maps/api/place/details/json'
+        await Promise.all(
+          results.map(async (item: any) => {
+            const { data } = await axios.get(detailReqUrl, {
+              params: {
+                place_id: item.place_id,
+                key: GOOGLE_MAPS_API_KEY,
+                language: 'ko',
+                fields: 'photo',
+              },
+            })
+            // photosRef 배열 results에 추가
+            item.photoRefs = data.result.photos
+          })
+        )
+        setNearByRestaurants(results)
       }
-      console.log(res)
     } catch (error) {
       console.log(error)
     }
@@ -68,6 +85,11 @@ const Home = () => {
   useEffect(() => {
     getNearByRestaurants()
   }, [currentLocation])
+
+  // 디버깅
+  useEffect(() => {
+    console.log(nearByRestaurants)
+  }, [nearByRestaurants])
 
   return (
     <S.HomeLayout>
