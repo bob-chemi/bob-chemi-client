@@ -1,8 +1,11 @@
 import { GOOGLE_MAPS_API_KEY } from '@env'
 import axios from 'axios'
+import { useEffect, useRef } from 'react'
 import MapView, { Marker, Region } from 'react-native-maps'
+import SlidingUpPanel from 'rn-sliding-up-panel'
 import * as S from './GoogleMap.style'
 import MyLocationButton from './MyLocationButton'
+import RestaurantsSlider from './RestaurantsSlider'
 
 interface GoogleMapProps {
   currentLocation: Region
@@ -10,11 +13,12 @@ interface GoogleMapProps {
 }
 
 const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
-  const getNearByRestaurants = async () => {
-    const reqUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${currentLocation.latitude},${currentLocation.longitude}&radius=1500&type=restaurant&key=${GOOGLE_MAPS_API_KEY}&language=ko`
-    const res = await axios.get(reqUrl)
-    console.log(res)
-  }
+  // Functions
+
+  // 디버깅
+  // useEffect(() => {
+  //   console.log('마커 렌더링', nearByRestaurants)
+  // }, [nearByRestaurants])
 
   return (
     <S.Layout>
@@ -38,12 +42,13 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
               <Marker
                 key={index}
                 title={restaurant.name}
+                description={restaurant.vicinity}
                 coordinate={{ latitude: lat ? lat : 0, longitude: lng ? lng : 0 }}
               />
             )
           })}
       </MapView>
-      <MyLocationButton onPress={getNearByRestaurants} />
+      <RestaurantsSlider nearByRestaurants={nearByRestaurants} />
     </S.Layout>
   )
 }

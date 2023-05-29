@@ -25,7 +25,7 @@ const Settings = () => {
 }
 const BottomTabs = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="PreviewScreen" component={PreviewScreen} />
       <Tab.Screen name="LoginScreen" component={LoginScreen} />
