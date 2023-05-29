@@ -8,5 +8,5 @@ export const Container = styled.View`
 `
 
 export const WeekContainer = styled.View`
-  height: 45px;
+  height: 46px;
 `
