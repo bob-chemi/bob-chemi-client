@@ -14,11 +14,11 @@ export const TextDate = styled.Text<{ isSelected: boolean }>`
   font-weight: 600;
   textAlign: center;
   backgroundColor: ${(props) => props.isSelected ? 'rgba(255,100,30,1)' : 'transparent'};
-  border-radius: 20;
-  width: 35;
+  border-radius: 20px;
+  width: 35px;
 `
 
 export const DateBtn = styled.TouchableOpacity`
   alignItems: center;
-  width: ${(SCREEN_WIDTH - 20) / 7};
+  width: ${(SCREEN_WIDTH - 40) / 7}px;
 `

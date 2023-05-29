@@ -1,16 +1,15 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 import { FlatList, } from 'react-native'
 import * as S from './WeekDayPicker.style'
 
 const WeekDayPicker = () => {
-  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedDate, setSelectedDate] = useState(new Date().getDate().toString());
   const weekDates = getWeekDates();
   const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
   const handleDatePress = (date: string) => {
     setSelectedDate(date);
   };
-
 
   const renderDateItem = ({ item, index }: { item: string; index: number }) => {
     const isSelected = item === selectedDate;
@@ -23,6 +22,7 @@ const WeekDayPicker = () => {
       </S.DateBtn>
     );
   };
+
   return (
     <FlatList
       data={weekDates}
