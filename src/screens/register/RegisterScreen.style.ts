@@ -4,7 +4,6 @@ import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 export const Container = styled.View`
   flex: 1;
   background-color: #32343e;
-  position: relative;
 `
 export const MainTextWrapper = styled.View`
   flex: 1;
@@ -16,8 +15,10 @@ export const MainText = styled.Text`
   font-size: 40px;
   font-weight: 600;
 `
-export const TextInputForm = styled.KeyboardAvoidingView`
+export const ScrollView = styled.ScrollView`
   flex: 3;
+`
+export const TextInputForm = styled.KeyboardAvoidingView`
   background-color: #fff;
   padding: 24px;
 `

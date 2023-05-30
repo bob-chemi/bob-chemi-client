@@ -30,68 +30,70 @@ const RegisterScreen = () => {
       <S.MainTextWrapper>
         <S.MainText>SignUp</S.MainText>
       </S.MainTextWrapper>
-      <S.TextInputForm behavior="padding" enabled>
-        <S.InputWrapper>
-          <S.LabelWrapper>
-            <S.InputLabel validation={false}>EMAIl</S.InputLabel>
-            <S.InputLabel validation>{email.error && email.error}</S.InputLabel>
-          </S.LabelWrapper>
-          <S.LoginInput
-            aria-label="loginInput"
-            placeholder="example@mail.com"
-            placeholderTextColor="#A0A5BA"
-            onChangeText={mail => setEmail({ value: mail, error: '' })}
-            underlineColorAndroid="transparent"
-            validate={email.error}
-            autoCapitalize="none"
-            textContentType="emailAddress"
-            keyboardType="email-address"
-          />
-        </S.InputWrapper>
-        <S.InputWrapper>
-          <S.LabelWrapper>
-            <S.InputLabel validation={false}>CREATE PASSWORD</S.InputLabel>
-            <S.InputLabel validation>{password.error && password.error}</S.InputLabel>
-          </S.LabelWrapper>
-          <S.LoginInput
-            aria-label="password"
-            placeholder="* * * * * * *"
-            secureTextEntry
-            placeholderTextColor="#A0A5BA"
-            onChangeText={pw => setPassword({ value: pw, error: '' })}
-            validate={password.error}
-            autoCapitalize="none"
-            keyboardType="visible-password"
-          ></S.LoginInput>
-        </S.InputWrapper>
-        <S.InputWrapper>
-          <S.LabelWrapper>
-            <S.InputLabel validation={false}>CONFIRM PASSWORD</S.InputLabel>
-            <S.InputLabel validation>{confirmPassword.error && confirmPassword.error}</S.InputLabel>
-          </S.LabelWrapper>
-          <S.LoginInput
-            aria-label="confirmpassword"
-            placeholder="* * * * * * *"
-            secureTextEntry
-            placeholderTextColor="#A0A5BA"
-            onChangeText={confirmPw => setConfirmPassword({ value: confirmPw, error: '' })}
-            validate={confirmPassword.error}
-            autoCapitalize="none"
-            keyboardType="visible-password"
-          ></S.LoginInput>
-        </S.InputWrapper>
-        <S.SaveIdLine></S.SaveIdLine>
-        <TouchableOpacity onPress={signUpOnPressed}>
-          <CustomButton>회원가입</CustomButton>
-        </TouchableOpacity>
-
-        <S.JoinIdLine>
-          <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('RegisterScreen')}>
-            <Text>이미 회원이신가요? &nbsp;&nbsp;</Text>
-            <S.ColorText>로그인하러 가기</S.ColorText>
+      <S.ScrollView>
+        <S.TextInputForm behavior="padding" enabled>
+          <S.InputWrapper>
+            <S.LabelWrapper>
+              <S.InputLabel validation={false}>EMAIl</S.InputLabel>
+              <S.InputLabel validation>{email.error && email.error}</S.InputLabel>
+            </S.LabelWrapper>
+            <S.LoginInput
+              aria-label="loginInput"
+              placeholder="example@mail.com"
+              placeholderTextColor="#A0A5BA"
+              onChangeText={mail => setEmail({ value: mail, error: '' })}
+              underlineColorAndroid="transparent"
+              validate={email.error}
+              autoCapitalize="none"
+              textContentType="emailAddress"
+              keyboardType="email-address"
+            />
+          </S.InputWrapper>
+          <S.InputWrapper>
+            <S.LabelWrapper>
+              <S.InputLabel validation={false}>CREATE PASSWORD</S.InputLabel>
+              <S.InputLabel validation>{password.error && password.error}</S.InputLabel>
+            </S.LabelWrapper>
+            <S.LoginInput
+              aria-label="password"
+              placeholder="* * * * * * *"
+              secureTextEntry
+              placeholderTextColor="#A0A5BA"
+              onChangeText={pw => setPassword({ value: pw, error: '' })}
+              validate={password.error}
+              autoCapitalize="none"
+              keyboardType="visible-password"
+            ></S.LoginInput>
+          </S.InputWrapper>
+          <S.InputWrapper>
+            <S.LabelWrapper>
+              <S.InputLabel validation={false}>CONFIRM PASSWORD</S.InputLabel>
+              <S.InputLabel validation>{confirmPassword.error && confirmPassword.error}</S.InputLabel>
+            </S.LabelWrapper>
+            <S.LoginInput
+              aria-label="confirmpassword"
+              placeholder="* * * * * * *"
+              secureTextEntry
+              placeholderTextColor="#A0A5BA"
+              onChangeText={confirmPw => setConfirmPassword({ value: confirmPw, error: '' })}
+              validate={confirmPassword.error}
+              autoCapitalize="none"
+              keyboardType="visible-password"
+            ></S.LoginInput>
+          </S.InputWrapper>
+          <S.SaveIdLine></S.SaveIdLine>
+          <TouchableOpacity onPress={signUpOnPressed}>
+            <CustomButton>회원가입</CustomButton>
           </TouchableOpacity>
-        </S.JoinIdLine>
-      </S.TextInputForm>
+
+          <S.JoinIdLine>
+            <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('LoginScreen')}>
+              <Text>이미 회원이신가요? &nbsp;&nbsp;</Text>
+              <S.ColorText>로그인하러 가기</S.ColorText>
+            </TouchableOpacity>
+          </S.JoinIdLine>
+        </S.TextInputForm>
+      </S.ScrollView>
     </S.Container>
   )
 }
