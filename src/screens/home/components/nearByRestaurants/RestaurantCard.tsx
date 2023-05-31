@@ -1,9 +1,8 @@
 import { GOOGLE_MAPS_API_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { View, Text, FlatList, Pressable } from 'react-native'
+import { Text, Pressable } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import styled from 'styled-components/native'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
@@ -13,6 +12,21 @@ const CardLayout = styled.View`
   z-index: 20;
   background-color: white;
   padding: 10px;
+  flex-direction: row;
+`
+
+const ImageCol = styled.View`
+  flex: 1;
+  border-radius: 15px;
+  overflow: hidden;
+`
+
+const Separator = styled.View`
+  width: 10px;
+`
+
+const InfoCol = styled.View`
+  flex: 1.5;
 `
 
 const Name = styled.Text`
@@ -78,59 +92,41 @@ const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
   // TODO: TIL에 추가
   const navigation = useNavigation<NativeStackNavigationProp<SliderParamList>>()
 
-  // Constants
-  const tempPhotoUrl =
-    'https://lh3.googleusercontent.com/places/ANJU3Dsi9WxeODudmuSZY3nawTrJcbdkb1fud1RDM9r2Mqzxj9pkbuRzJvPfSyEdTqDHtZpURS_03BDmYUDAsV0MtjvUtb57Sr93Oj8=s1600-w400'
-  const [images, setImages] = useState<any[]>([])
-  const [tempImage, setTempImage] = useState<string[]>([
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-  ])
+  // States
+  const [image, setImage] = useState<any[]>([])
 
   // FUNCTIONS
-  const getImage = async () => {
-    const reqUrl = 'https://maps.googleapis.com/maps/api/place/photo'
-
-    const res = await axios.get(reqUrl, {
-      params: {
-        maxwidth: 400,
-        photo_reference: item.photoRefs[0].photo_reference,
-        key: GOOGLE_MAPS_API_KEY,
-      },
-    })
-    console.log('res', res)
-    setTempImage(res.data)
+  const getImage = () => {
+    if (item.photos) {
+      const reqUrl = 'https://maps.googleapis.com/maps/api/place/photo'
+      const photoRef = item.photos[0].photo_reference
+      const imageUrl = `${reqUrl}?maxwidth=400&photo_reference=${photoRef}&key=${GOOGLE_MAPS_API_KEY}`
+      setImage([imageUrl])
+    }
   }
 
-  const getImages = async () => {
-    if (!item.photoRefs) return
-    const reqUrl = 'https://maps.googleapis.com/maps/api/place/photo'
-    const imageRefs = item.photoRefs
-    const imageUrls: string[] = imageRefs.map((imageRef: any) => {
-      const ref = imageRef.photo_reference
-      const url = `${reqUrl}?maxwidth=400&photo_reference=${ref}&key=${GOOGLE_MAPS_API_KEY}`
-      return url
-    })
-    setImages(imageUrls)
-  }
+  // 사진 전부 요청하는 API 사용량이 너무 많아서 현재는 사용 X
+  // const getImages = async () => {
+  //   if (!item.photoRefs) return
+  //   const reqUrl = 'https://maps.googleapis.com/maps/api/place/photo'
+  //   const imageRefs = item.photoRefs
+  //   const imageUrls: string[] = imageRefs.map((imageRef: any) => {
+  //     const ref = imageRef.photo_reference
+  //     const url = `${reqUrl}?maxwidth=400&photo_reference=${ref}&key=${GOOGLE_MAPS_API_KEY}`
+  //     return url
+  //   })
+  //   setImage(imageUrls)
+  // }
 
-  const renderImages = ({ item }: { item: any }) => {
-    return (
-      <FastImage
-        style={{ width: 150, height: 150, backgroundColor: 'red' }}
-        source={{ uri: String(item) }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-    )
-  }
+  // const renderImages = ({ item }: { item: any }) => {
+  //   return (
+  //     <FastImage
+  //       style={{ width: 150, height: 150, backgroundColor: 'red' }}
+  //       source={{ uri: String(item) }}
+  //       resizeMode={FastImage.resizeMode.cover}
+  //     />
+  //   )
+  // }
 
   const goToDetailPage = () => {
     console.log('goToDetailPage', item)
@@ -143,40 +139,40 @@ const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
       // FIXME: API 사용량 때문에 주석처리
       // getImages()
       // console.log('카드 컴포넌트', item)
-      // getImage()
+      getImage()
     }
   }, [])
 
   return (
     <Pressable onPress={goToDetailPage}>
       <CardLayout>
-        <Name>{item ? item.name : '존재하지 않음'}</Name>
-        <RatingRow>
-          <RatingNumberWrapper>
-            <RatingNumer>{item.rating ? item.rating : '평점 없음'}</RatingNumer>
-          </RatingNumberWrapper>
-          <RatingStar>★</RatingStar>
-        </RatingRow>
-        <AddressAndOperationCol>
-          <Address>서울시 강남구</Address>
-          <Operation>영업중</Operation>
-        </AddressAndOperationCol>
-        {images && (
-          <FlatList
-            data={images}
-            renderItem={renderImages}
-            horizontal
-            ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-          />
-        )}
-        {/* {tempImage && (
-        <FlatList
-          data={tempImage}
-          renderItem={renderImages}
-          horizontal
-          ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-        />
-      )} */}
+        <ImageCol>
+          {image ? (
+            <FastImage
+              style={{ width: 150, height: 150, backgroundColor: 'red' }}
+              source={{ uri: String(image) }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+          ) : (
+            <Text>이미지 없음</Text>
+          )}
+        </ImageCol>
+        <Separator />
+        <InfoCol>
+          <Name>{item ? item.name : '존재하지 않음'}</Name>
+          <RatingRow>
+            <RatingNumberWrapper>
+              <RatingNumer>{item.rating ? item.rating : '평점 없음'}</RatingNumer>
+            </RatingNumberWrapper>
+            <RatingStar>★</RatingStar>
+          </RatingRow>
+          <AddressAndOperationCol>
+            <Address>{item.formatted_address ? item.formatted_address : '주소 정보 없음'}</Address>
+            <Operation>
+              {item && item.current_opening_hours && item.current_opening_hours.open_now ? '영업중' : '영업중 아님'}
+            </Operation>
+          </AddressAndOperationCol>
+        </InfoCol>
       </CardLayout>
     </Pressable>
   )

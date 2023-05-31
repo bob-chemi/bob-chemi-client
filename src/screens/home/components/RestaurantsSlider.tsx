@@ -72,16 +72,7 @@ const RestaurantsSlider = forwardRef(
               <Text>핸들러</Text>
             </Pressable>
           </Handler>
-          {/* {nearByRestaurants && nearByRestaurants.map((item, index) => <RestaurantCard key={index} item={item} />)} */}
-          {/* <View style={{ flex: 1, width: '100%' }}>
-            <FlatList
-              style={{ width: '100%', flex: 1 }}
-              data={nearByRestaurants}
-              renderItem={renderRestaurantCard}
-              contentContainerStyle={{ width: '100%', backgroundColor: '#e8eff5' }}
-              ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-            />
-          </View> */}
+
           <View style={{ flex: 1, width: '100%' }}>
             <SliderStackNavigation />
           </View>

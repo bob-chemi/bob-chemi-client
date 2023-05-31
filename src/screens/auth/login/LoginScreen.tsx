@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { Pressable, Text, TouchableOpacity } from 'react-native'
 import * as S from './LoginScreen.style'
 import CustomButton from '@/common/components/CustomButton'
 import { Nav } from '@/types/nav'
@@ -10,6 +10,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const { navigate } = useNavigation<Nav>()
+  const navigation = useNavigation()
 
   const loginOnPressed = () => {
     const emailError = emailValidator(email.value)
@@ -20,6 +21,15 @@ const LoginScreen = () => {
       return
     }
   }
+
+  // 개발 중 로그인 버튼 클릭시 홈으로 이동
+  // FIXME: 로그인 기능 구현 후 로그인 성공시 홈으로 이동으로 수정
+  const tempGoToHome = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    navigation.navigate('Tab', { screen: 'Home' })
+  }
+
   return (
     <S.Container>
       <S.MainTextWrapper>
@@ -66,6 +76,10 @@ const LoginScreen = () => {
         <TouchableOpacity onPress={loginOnPressed}>
           <CustomButton>로그인하기</CustomButton>
         </TouchableOpacity>
+        {/* 개발 중 홈화면으로 가기 위한 버튼  */}
+        <Pressable onPress={tempGoToHome}>
+          <CustomButton>홈으로 가기(개발중)</CustomButton>
+        </Pressable>
 
         <S.JoinIdLine>
           <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('RegisterScreen')}>
