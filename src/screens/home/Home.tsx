@@ -4,7 +4,9 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { Region } from 'react-native-maps'
+import { useRecoilState } from 'recoil'
 import GoogleMap from './components/GoogleMap'
+import { nearByRestaurantsAtom } from '@/recoil/atoms/nearByRestaurantsAtom'
 import * as S from '@/screens/home/Home.style'
 
 const Home = () => {
@@ -17,7 +19,7 @@ const Home = () => {
     longitudeDelta: 0.0211,
   })
   // FIXME: 작업 후 타입 추가
-  const [nearByRestaurants, setNearByRestaurants] = useState<any[]>([])
+  const [nearByRestaurants, setNearByRestaurants] = useRecoilState(nearByRestaurantsAtom)
 
   //FUNCTIONS
   // 현재 위치정보 가져오기
@@ -46,7 +48,7 @@ const Home = () => {
   // 현재 위치 주변의 식당 정보 가져오기
   const getNearByRestaurants = async () => {
     // FIXME: 개발 중 API 중복 호출 방지, 추후 삭제
-    if (nearByRestaurants.length > 0) return
+    // if (nearByRestaurants.length > 0) return
     const reqUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${currentLocation.latitude},${currentLocation.longitude}&radius=1500&type=restaurant&key=${GOOGLE_MAPS_API_KEY}`
     try {
       const res = await axios.get(reqUrl)

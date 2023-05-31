@@ -1,5 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { enableLatestRenderer } from 'react-native-maps'
+import { RecoilRoot } from 'recoil'
 import usePermissions from '@/hooks/usePermissions'
 import RootNavigation from '@/navigations/RootNavigation'
 
@@ -9,9 +10,11 @@ const App = () => {
   usePermissions()
 
   return (
-    <NavigationContainer>
-      <RootNavigation />
-    </NavigationContainer>
+    <RecoilRoot>
+      <NavigationContainer>
+        <RootNavigation />
+      </NavigationContainer>
+    </RecoilRoot>
   )
 }
 

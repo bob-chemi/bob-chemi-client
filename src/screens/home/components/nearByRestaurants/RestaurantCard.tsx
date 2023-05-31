@@ -1,9 +1,12 @@
 import { GOOGLE_MAPS_API_KEY } from '@env'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { View, Text, FlatList, Pressable } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import styled from 'styled-components/native'
+import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
 
 const CardLayout = styled.View`
   width: 100%;
@@ -71,6 +74,11 @@ interface RestaurantCardProps {
 }
 
 const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
+  // Navigations
+  // TODO: TIL에 추가
+  const navigation = useNavigation<NativeStackNavigationProp<SliderParamList>>()
+
+  // Constants
   const tempPhotoUrl =
     'https://lh3.googleusercontent.com/places/ANJU3Dsi9WxeODudmuSZY3nawTrJcbdkb1fud1RDM9r2Mqzxj9pkbuRzJvPfSyEdTqDHtZpURS_03BDmYUDAsV0MtjvUtb57Sr93Oj8=s1600-w400'
   const [images, setImages] = useState<any[]>([])
@@ -124,38 +132,44 @@ const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
     )
   }
 
+  const goToDetailPage = () => {
+    console.log('goToDetailPage', item)
+    navigation.navigate('RestaurantsDetail', { item })
+  }
+
   // EFFECTS
   useEffect(() => {
     if (item) {
       // FIXME: API 사용량 때문에 주석처리
-      getImages()
+      // getImages()
       // console.log('카드 컴포넌트', item)
       // getImage()
     }
   }, [])
 
   return (
-    <CardLayout>
-      <Name>{item ? item.name : '존재하지 않음'}</Name>
-      <RatingRow>
-        <RatingNumberWrapper>
-          <RatingNumer>{item.rating ? item.rating : '평점 없음'}</RatingNumer>
-        </RatingNumberWrapper>
-        <RatingStar>★</RatingStar>
-      </RatingRow>
-      <AddressAndOperationCol>
-        <Address>서울시 강남구</Address>
-        <Operation>영업중</Operation>
-      </AddressAndOperationCol>
-      {images && (
-        <FlatList
-          data={images}
-          renderItem={renderImages}
-          horizontal
-          ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-        />
-      )}
-      {/* {tempImage && (
+    <Pressable onPress={goToDetailPage}>
+      <CardLayout>
+        <Name>{item ? item.name : '존재하지 않음'}</Name>
+        <RatingRow>
+          <RatingNumberWrapper>
+            <RatingNumer>{item.rating ? item.rating : '평점 없음'}</RatingNumer>
+          </RatingNumberWrapper>
+          <RatingStar>★</RatingStar>
+        </RatingRow>
+        <AddressAndOperationCol>
+          <Address>서울시 강남구</Address>
+          <Operation>영업중</Operation>
+        </AddressAndOperationCol>
+        {images && (
+          <FlatList
+            data={images}
+            renderItem={renderImages}
+            horizontal
+            ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
+          />
+        )}
+        {/* {tempImage && (
         <FlatList
           data={tempImage}
           renderItem={renderImages}
@@ -163,7 +177,8 @@ const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
           ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
         />
       )} */}
-    </CardLayout>
+      </CardLayout>
+    </Pressable>
   )
 }
 
