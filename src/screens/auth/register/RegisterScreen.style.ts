@@ -16,7 +16,7 @@ export const MainText = styled.Text`
   font-weight: 600;
 `
 export const ScrollView = styled.ScrollView`
-  flex: 3;
+  flex: 1;
 `
 export const TextInputForm = styled.KeyboardAvoidingView`
   background-color: #fff;
@@ -24,11 +24,11 @@ export const TextInputForm = styled.KeyboardAvoidingView`
 `
 export const InputWrapper = styled.View`
   border-radius: 40px;
-  margin-top: 30px;
+  margin-top: 20px;
 `
-export const InputLabel = styled.Text<{ validation: boolean }>`
+export const InputLabel = styled.Text<{ validation?: boolean }>`
   font-size: 13px;
-  color: ${({ validation }) => (validation ? '#ff7622' : '#32343e ')};
+  color: #ff7622;
   margin-bottom: 10px;
 `
 export const LoginInput = styled.TextInput<{ validate: string }>`

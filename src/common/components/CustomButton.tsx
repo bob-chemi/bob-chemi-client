@@ -3,10 +3,11 @@ import styled from 'styled-components/native'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 interface ButtonProps {
   children: string
+  disabled?: boolean
 }
-const CustomButton = ({ children }: ButtonProps) => {
+const CustomButton = ({ children, disabled }: ButtonProps) => {
   return (
-    <ButtonView>
+    <ButtonView disabled={disabled}>
       <ButtonText>{children}</ButtonText>
     </ButtonView>
   )
@@ -14,8 +15,8 @@ const CustomButton = ({ children }: ButtonProps) => {
 
 export default CustomButton
 
-const ButtonView = styled.View`
-  background-color: #ff7622;
+const ButtonView = styled.View<{ disabled: boolean | undefined }>`
+  background-color: ${({ disabled }) => (disabled ? '#C8D3DE' : '#ff7622')};
   width: ${SCREEN_WIDTH - 48}px;
   height: 62px;
   border-radius: 20px;

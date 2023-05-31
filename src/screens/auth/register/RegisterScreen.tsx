@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { Button, Text, TouchableOpacity } from 'react-native'
 import * as S from './RegisterScreen.style'
 import CustomButton from '@/common/components/CustomButton'
 import { Nav } from '@/types/nav'
@@ -10,6 +10,9 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const [confirmPassword, setConfirmPassword] = useState({ value: '', error: '' })
+  const [nickname, setNickname] = useState({ value: '', error: '' })
+  const [phoneNumber, setPhoneNumber] = useState({ value: '', error: '' })
+  const [buttonDisable, setButtonDisable] = useState(true)
   const { navigate } = useNavigation<Nav>()
 
   const signUpOnPressed = () => {
@@ -27,18 +30,15 @@ const RegisterScreen = () => {
 
   return (
     <S.Container>
-      <S.MainTextWrapper>
-        <S.MainText>SignUp</S.MainText>
-      </S.MainTextWrapper>
       <S.ScrollView>
-        <S.TextInputForm behavior="padding" enabled>
+        <S.TextInputForm>
           <S.InputWrapper>
             <S.LabelWrapper>
-              <S.InputLabel validation={false}>EMAIl</S.InputLabel>
+              <S.InputLabel>아이디</S.InputLabel>
               <S.InputLabel validation>{email.error && email.error}</S.InputLabel>
             </S.LabelWrapper>
             <S.LoginInput
-              aria-label="loginInput"
+              aria-label="id"
               placeholder="example@mail.com"
               placeholderTextColor="#A0A5BA"
               onChangeText={mail => setEmail({ value: mail, error: '' })}
@@ -51,7 +51,7 @@ const RegisterScreen = () => {
           </S.InputWrapper>
           <S.InputWrapper>
             <S.LabelWrapper>
-              <S.InputLabel validation={false}>CREATE PASSWORD</S.InputLabel>
+              <S.InputLabel>CREATE PASSWORD</S.InputLabel>
               <S.InputLabel validation>{password.error && password.error}</S.InputLabel>
             </S.LabelWrapper>
             <S.LoginInput
@@ -67,7 +67,7 @@ const RegisterScreen = () => {
           </S.InputWrapper>
           <S.InputWrapper>
             <S.LabelWrapper>
-              <S.InputLabel validation={false}>CONFIRM PASSWORD</S.InputLabel>
+              <S.InputLabel>CONFIRM PASSWORD</S.InputLabel>
               <S.InputLabel validation>{confirmPassword.error && confirmPassword.error}</S.InputLabel>
             </S.LabelWrapper>
             <S.LoginInput
@@ -81,9 +81,43 @@ const RegisterScreen = () => {
               keyboardType="visible-password"
             ></S.LoginInput>
           </S.InputWrapper>
+          <S.InputWrapper>
+            <S.LabelWrapper>
+              <S.InputLabel>닉네임</S.InputLabel>
+              <S.InputLabel validation>{confirmPassword.error && confirmPassword.error}</S.InputLabel>
+            </S.LabelWrapper>
+            <S.LoginInput
+              aria-label="nickname"
+              placeholder="닉네임"
+              secureTextEntry
+              placeholderTextColor="#A0A5BA"
+              onChangeText={confirmPw => setConfirmPassword({ value: confirmPw, error: '' })}
+              validate={confirmPassword.error}
+              autoCapitalize="none"
+              keyboardType="visible-password"
+            ></S.LoginInput>
+          </S.InputWrapper>
+          <S.InputWrapper>
+            <S.LabelWrapper>
+              <S.InputLabel>휴대전화 번호</S.InputLabel>
+              <S.InputLabel validation>{confirmPassword.error && confirmPassword.error}</S.InputLabel>
+            </S.LabelWrapper>
+            <S.LoginInput
+              aria-label="phone-number"
+              placeholder="01012345678"
+              secureTextEntry
+              placeholderTextColor="#A0A5BA"
+              onChangeText={confirmPw => setConfirmPassword({ value: confirmPw, error: '' })}
+              validate={confirmPassword.error}
+              autoCapitalize="none"
+              keyboardType="visible-password"
+            ></S.LoginInput>
+            <Button title="인증하기"></Button>
+          </S.InputWrapper>
+
           <S.SaveIdLine></S.SaveIdLine>
-          <TouchableOpacity onPress={signUpOnPressed}>
-            <CustomButton>회원가입</CustomButton>
+          <TouchableOpacity disabled={buttonDisable} onPress={signUpOnPressed}>
+            <CustomButton disabled={buttonDisable}>회원가입</CustomButton>
           </TouchableOpacity>
 
           <S.JoinIdLine>
