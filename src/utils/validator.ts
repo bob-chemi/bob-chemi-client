@@ -4,9 +4,14 @@ const emailValidator = (email: string) => {
   if (!EMAIL_REGEX.test(email)) return '이메일 형식의 아이디를 입력해주세요.'
   return ''
 }
-function passwordValidator(password: string) {
+const passwordValidator = (password: string) => {
   if (!password) return '비밀번호가 비었습니다.'
   if (password.length < 6 || password.length > 16) return '6~16글자를 입력해주세요'
   return ''
 }
-export { emailValidator, passwordValidator }
+const confirmPwValidator = (password: string, confirm: string) => {
+  if (!confirm) return '비밀번호가 비었습니다.'
+  if (password !== confirm) return '비밀번호를 확인해주세요.'
+  return ''
+}
+export { emailValidator, passwordValidator, confirmPwValidator }
