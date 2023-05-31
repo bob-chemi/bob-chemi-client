@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { Text } from 'react-native'
 import * as S from './SocialScreen.style'
 import WeekDayPicker from './WeekDayPicker'
 
@@ -9,7 +9,7 @@ const SocialScreen = () => {
         <WeekDayPicker></WeekDayPicker>
       </S.WeekContainer>
     </S.Container>
-  );
+  )
 }
 
 export default SocialScreen
