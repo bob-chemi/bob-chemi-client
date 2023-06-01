@@ -9,22 +9,25 @@ interface CustomButtonProps {
   color?: string
   disabled?: boolean
   variant?: Variant
+  width?: number
+  fullWidth?: boolean
+  onPress?: () => void
 }
 
-type ButtonViewProp = Pick<CustomButtonProps, 'disabled' | 'variant'>
+type ButtonViewProp = Pick<CustomButtonProps, 'disabled' | 'variant' | 'width' | 'fullWidth'>
 
 type ButtonTextProp = Pick<CustomButtonProps, 'color' | 'variant'>
 
 const FULL_WIDTH = SCREEN_WIDTH - 48
 
-const ButtonView = styled.View<ButtonViewProp>`
+const TouchableButton = styled.TouchableOpacity<ButtonViewProp>`
   background-color: ${({ theme, disabled, variant }) =>
     disabled ? theme.colors['gray200'] : variant && theme.colors[variant]};
-  width: ${FULL_WIDTH}px;
-  height: 62px;
+  width: ${({ fullWidth, width }) => (fullWidth ? FULL_WIDTH + 'px' : width ? width + 'px' : '50%')};
   border-radius: 20px;
   justify-content: center;
   align-items: center;
+  height: 100%;
 `
 const ButtonText = styled.Text<ButtonTextProp>`
   color: ${({ color, theme, variant }) => color || (variant && theme.colors[variant]) || theme.colors['black']};
@@ -32,11 +35,11 @@ const ButtonText = styled.Text<ButtonTextProp>`
   font-weight: bold;
 `
 
-const CustomButton = ({ children, disabled, variant, color }: CustomButtonProps) => {
+const CustomButton = ({ children, disabled, variant, color, width, fullWidth, onPress }: CustomButtonProps) => {
   return (
-    <ButtonView disabled={disabled} variant={variant}>
+    <TouchableButton disabled={disabled} variant={variant} width={width} fullWidth={fullWidth} onPress={onPress}>
       <ButtonText color={color}>{children}</ButtonText>
-    </ButtonView>
+    </TouchableButton>
   )
 }
 
