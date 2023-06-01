@@ -8,6 +8,7 @@ export const InputWrapper = styled.View`
 export const Label = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 `
 
 export const InputLabel = styled.Text`

@@ -6,6 +6,7 @@ export interface TextInputCompProp extends TextInputProps {
   validate: string
   onChangeText: (text: string) => void
   fullWidth?: boolean
+  onEndEditing?: () => void
 }
 const TextInputComp = ({
   labelText,
@@ -15,12 +16,13 @@ const TextInputComp = ({
   keyboardType,
   secureTextEntry,
   fullWidth,
+  onEndEditing,
 }: TextInputCompProp) => {
   return (
     <S.InputWrapper>
       <S.Label>
         <S.InputLabel>{labelText}</S.InputLabel>
-        <S.InputLabel>{validate && validate}</S.InputLabel>
+        {validate && <S.InputLabel> {validate}</S.InputLabel>}
       </S.Label>
       <S.Input
         aria-label={labelText}
@@ -32,6 +34,7 @@ const TextInputComp = ({
         keyboardType={keyboardType}
         secureTextEntry={secureTextEntry}
         fullWidth={fullWidth}
+        onEndEditing={onEndEditing}
       />
     </S.InputWrapper>
   )
