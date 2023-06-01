@@ -2,7 +2,7 @@ import { GOOGLE_MAPS_API_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useEffect, useState } from 'react'
-import { Text, Pressable } from 'react-native'
+import { Text, Pressable, TextProps } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import styled from 'styled-components/native'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
@@ -70,7 +70,11 @@ const Address = styled.Text`
   color: #c4c0c0;
 `
 
-const Operation = styled.Text`
+interface OperationHoursProps extends TextProps {
+  isOpen: 'open' | 'close' | 'unknown'
+}
+
+const Operation = styled.Text<OperationHoursProps>`
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
@@ -79,7 +83,7 @@ const Operation = styled.Text`
   display: flex;
   align-items: center;
 
-  color: #7bcc85;
+  color: ${({ isOpen }) => (isOpen === 'open' ? '#00B979' : '#FF7B26')};
 `
 
 interface RestaurantCardProps {
@@ -94,6 +98,7 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
 
   // States
   const [image, setImage] = useState<any[]>([])
+  const [isOpen, setIsOpen] = useState<'open' | 'close' | 'unknown'>('open')
 
   // FUNCTIONS
   const getImage = () => {
@@ -120,6 +125,18 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (!item) return
+    let openState: 'open' | 'close' | 'unknown' = 'unknown'
+    if ('opening_hours' in item && item.opening_hours.open_now) {
+      openState = 'open'
+    } else if ('opening_hours' in item && !item.opening_hours.open_now) {
+      openState = 'close'
+    }
+
+    setIsOpen(openState)
+  }, [item])
+
   return (
     <Pressable onPress={goToDetailPage}>
       <CardLayout>
@@ -145,7 +162,7 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
           </RatingRow>
           <AddressAndOperationCol>
             <Address>{item.vicinity ? item.vicinity : '주소 정보 없음'}</Address>
-            <Operation>
+            <Operation isOpen={isOpen}>
               {item && item.opening_hours
                 ? item.opening_hours.open_now
                   ? '영업중'
