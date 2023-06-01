@@ -37,6 +37,3 @@ export const ButtonWrapView = styled.View`
   max-height: 62px;
   margin: 20px 0;
 `
-export const SkipText = styled.Text`
-  margin-top: 15px;
-`

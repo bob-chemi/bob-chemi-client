@@ -32,7 +32,7 @@ const ScrollItem = ({ data, index, scrollRef }: ScrollItemProp) => {
         <S.BoldText>{data.title}</S.BoldText>
         <S.NomalText>{data.desc}</S.NomalText>
       </S.TextArea>
-      <Bullets />
+      <Bullets index={index} />
       <S.ButtonWrapView>
         <CustomButton variant="primary" color="white" fullWidth onPress={() => setScrollIndex(index)}>
           {data.next ? 'Next' : 'Get Started'}
