@@ -1,15 +1,32 @@
 import { GOOGLE_MAPS_API_KEY } from '@env'
-import axios from 'axios'
+import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useEffect, useState } from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { Text, Pressable, TextProps } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import styled from 'styled-components/native'
+import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
 
 const CardLayout = styled.View`
   width: 100%;
   z-index: 20;
   background-color: white;
   padding: 10px;
+  flex-direction: row;
+`
+
+const ImageCol = styled.View`
+  flex: 1;
+  border-radius: 15px;
+  overflow: hidden;
+`
+
+const Separator = styled.View`
+  width: 10px;
+`
+
+const InfoCol = styled.View`
+  flex: 1.5;
 `
 
 const Name = styled.Text`
@@ -53,7 +70,11 @@ const Address = styled.Text`
   color: #c4c0c0;
 `
 
-const Operation = styled.Text`
+interface OperationHoursProps extends TextProps {
+  isOpen: 'open' | 'close' | 'unknown'
+}
+
+const Operation = styled.Text<OperationHoursProps>`
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
@@ -62,7 +83,7 @@ const Operation = styled.Text`
   display: flex;
   align-items: center;
 
-  color: #7bcc85;
+  color: ${({ isOpen }) => (isOpen === 'open' ? '#00B979' : '#FF7B26')};
 `
 
 interface RestaurantCardProps {
@@ -70,100 +91,88 @@ interface RestaurantCardProps {
   index?: number
 }
 
-const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
-  const tempPhotoUrl =
-    'https://lh3.googleusercontent.com/places/ANJU3Dsi9WxeODudmuSZY3nawTrJcbdkb1fud1RDM9r2Mqzxj9pkbuRzJvPfSyEdTqDHtZpURS_03BDmYUDAsV0MtjvUtb57Sr93Oj8=s1600-w400'
-  const [images, setImages] = useState<any[]>([])
-  const [tempImage, setTempImage] = useState<string[]>([
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-    tempPhotoUrl,
-  ])
+const RestaurantCard = ({ item }: RestaurantCardProps) => {
+  // Navigations
+  // TODO: TIL에 추가
+  const navigation = useNavigation<NativeStackNavigationProp<SliderParamList>>()
+
+  // States
+  const [image, setImage] = useState<any[]>([])
+  const [isOpen, setIsOpen] = useState<'open' | 'close' | 'unknown'>('open')
 
   // FUNCTIONS
-  const getImage = async () => {
-    const reqUrl = 'https://maps.googleapis.com/maps/api/place/photo'
-
-    const res = await axios.get(reqUrl, {
-      params: {
-        maxwidth: 400,
-        photo_reference: item.photoRefs[0].photo_reference,
-        key: GOOGLE_MAPS_API_KEY,
-      },
-    })
-    console.log('res', res)
-    setTempImage(res.data)
+  const getImage = () => {
+    if (item.photos) {
+      const reqUrl = 'https://maps.googleapis.com/maps/api/place/photo'
+      const photoRef = item.photos[0].photo_reference
+      const imageUrl = `${reqUrl}?maxwidth=400&photo_reference=${photoRef}&key=${GOOGLE_MAPS_API_KEY}`
+      setImage([imageUrl])
+    }
   }
 
-  const getImages = async () => {
-    if (!item.photoRefs) return
-    const reqUrl = 'https://maps.googleapis.com/maps/api/place/photo'
-    const imageRefs = item.photoRefs
-    const imageUrls: string[] = imageRefs.map((imageRef: any) => {
-      const ref = imageRef.photo_reference
-      const url = `${reqUrl}?maxwidth=400&photo_reference=${ref}&key=${GOOGLE_MAPS_API_KEY}`
-      return url
-    })
-    setImages(imageUrls)
-  }
-
-  const renderImages = ({ item }: { item: any }) => {
-    return (
-      <FastImage
-        style={{ width: 150, height: 150, backgroundColor: 'red' }}
-        source={{ uri: String(item) }}
-        resizeMode={FastImage.resizeMode.cover}
-      />
-    )
+  const goToDetailPage = () => {
+    console.log('goToDetailPage', item)
+    navigation.navigate('RestaurantsDetail', { item })
   }
 
   // EFFECTS
   useEffect(() => {
     if (item) {
       // FIXME: API 사용량 때문에 주석처리
-      getImages()
+      // getImages()
       // console.log('카드 컴포넌트', item)
-      // getImage()
+      getImage()
     }
   }, [])
 
+  useEffect(() => {
+    if (!item) return
+    let openState: 'open' | 'close' | 'unknown' = 'unknown'
+    if ('opening_hours' in item && item.opening_hours.open_now) {
+      openState = 'open'
+    } else if ('opening_hours' in item && !item.opening_hours.open_now) {
+      openState = 'close'
+    }
+
+    setIsOpen(openState)
+  }, [item])
+
   return (
-    <CardLayout>
-      <Name>{item ? item.name : '존재하지 않음'}</Name>
-      <RatingRow>
-        <RatingNumberWrapper>
-          <RatingNumer>{item.rating ? item.rating : '평점 없음'}</RatingNumer>
-        </RatingNumberWrapper>
-        <RatingStar>★</RatingStar>
-      </RatingRow>
-      <AddressAndOperationCol>
-        <Address>서울시 강남구</Address>
-        <Operation>영업중</Operation>
-      </AddressAndOperationCol>
-      {images && (
-        <FlatList
-          data={images}
-          renderItem={renderImages}
-          horizontal
-          ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-        />
-      )}
-      {/* {tempImage && (
-        <FlatList
-          data={tempImage}
-          renderItem={renderImages}
-          horizontal
-          ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
-        />
-      )} */}
-    </CardLayout>
+    <Pressable onPress={goToDetailPage}>
+      <CardLayout>
+        <ImageCol>
+          {image ? (
+            <FastImage
+              style={{ width: 150, height: 150, backgroundColor: 'red' }}
+              source={{ uri: String(image) }}
+              resizeMode={FastImage.resizeMode.cover}
+            />
+          ) : (
+            <Text>이미지 없음</Text>
+          )}
+        </ImageCol>
+        <Separator />
+        <InfoCol>
+          <Name>{item ? item.name : '이름을 알 수 없는 식당'}</Name>
+          <RatingRow>
+            <RatingNumberWrapper>
+              <RatingNumer>{item.rating ? item.rating : '평점 없음'}</RatingNumer>
+            </RatingNumberWrapper>
+            <RatingStar>★</RatingStar>
+          </RatingRow>
+          <AddressAndOperationCol>
+            <Address>{item.vicinity ? item.vicinity : '주소 정보 없음'}</Address>
+            <Operation isOpen={isOpen}>
+              {item && item.opening_hours
+                ? item.opening_hours.open_now
+                  ? '영업중'
+                  : '영업 중이 아님'
+                : '영업 정보 없음'}
+            </Operation>
+          </AddressAndOperationCol>
+        </InfoCol>
+      </CardLayout>
+    </Pressable>
   )
 }
 

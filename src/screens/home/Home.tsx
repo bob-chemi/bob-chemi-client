@@ -4,7 +4,9 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { Region } from 'react-native-maps'
+import { useRecoilState } from 'recoil'
 import GoogleMap from './components/GoogleMap'
+import { nearByRestaurantsAtom } from '@/recoil/atoms/nearByRestaurantsAtom'
 import * as S from '@/screens/home/Home.style'
 
 const Home = () => {
@@ -17,7 +19,7 @@ const Home = () => {
     longitudeDelta: 0.0211,
   })
   // FIXME: 작업 후 타입 추가
-  const [nearByRestaurants, setNearByRestaurants] = useState<any[]>([])
+  const [nearByRestaurants, setNearByRestaurants] = useRecoilState(nearByRestaurantsAtom)
 
   //FUNCTIONS
   // 현재 위치정보 가져오기
@@ -52,23 +54,6 @@ const Home = () => {
       const res = await axios.get(reqUrl)
       if (res.status === 200) {
         const { results } = res.data
-
-        // 상세 정보 API 호출해서 사진 Refs 가져오기
-        const detailReqUrl = 'https://maps.googleapis.com/maps/api/place/details/json'
-        await Promise.all(
-          results.map(async (item: any) => {
-            const { data } = await axios.get(detailReqUrl, {
-              params: {
-                place_id: item.place_id,
-                key: GOOGLE_MAPS_API_KEY,
-                language: 'ko',
-                fields: 'photo',
-              },
-            })
-            // photosRef 배열 results에 추가
-            item.photoRefs = data.result.photos
-          })
-        )
         setNearByRestaurants(results)
       }
     } catch (error) {

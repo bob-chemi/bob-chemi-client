@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Animated, Dimensions, FlatList, View } from 'react-native'
+import React, { Dispatch, ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react'
+import { Animated, Dimensions, FlatList, Pressable, Text, View } from 'react-native'
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import styled from 'styled-components/native'
+import SliderStackNavigation from '../navigations/SliderStackNavigatoin'
 import RestaurantCard from './nearByRestaurants/RestaurantCard'
 
 const { height } = Dimensions.get('window')
@@ -10,7 +11,6 @@ const Layout = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  background-color: lightcoral;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   overflow-y: scroll;
@@ -18,58 +18,68 @@ const Layout = styled.View`
 
 const Handler = styled.View`
   height: 40px;
-  background-color: teal;
+  background-color: lightpink;
+  width: 100%;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 `
 
 interface RestaurantsSliderProps {
   nearByRestaurants: any[]
+  setSliderShowing: Dispatch<React.SetStateAction<boolean>>
 }
 
-const RestaurantsSlider = ({ nearByRestaurants }: RestaurantsSliderProps) => {
-  // Constants
-  const draggedValue = new Animated.Value(180)
+const RestaurantsSlider = forwardRef(
+  ({ nearByRestaurants, setSliderShowing }: RestaurantsSliderProps, ref: ForwardedRef<SlidingUpPanel | null>) => {
+    // Constants
 
-  // States
+    // States
 
-  // Refs
-  const sliderPanelRef = useRef<SlidingUpPanel>(null)
+    // Refs
 
-  // Functions
-  const renderRestaurantCard = ({ item, index }: { item: any; index: number }) => {
-    return <RestaurantCard item={item} index={index} />
+    // Functions
+    const renderRestaurantCard = ({ item, index }: { item: any; index: number }) => {
+      return <RestaurantCard item={item} index={index} />
+    }
+
+    const controlSliderShowing = () => {
+      if (typeof ref === 'object' && ref?.current) {
+        console.log(ref.current)
+        ref.current.show()
+      }
+    }
+
+    const onBottomReached = () => {
+      console.log('슬라이더 닫힘')
+      setSliderShowing(false)
+    }
+
+    // 디버깅
+
+    return (
+      <SlidingUpPanel
+        ref={ref}
+        draggableRange={{ top: 600, bottom: 40 }}
+        height={600}
+        showBackdrop={false}
+        friction={0.5}
+        snappingPoints={[0, 600]}
+        onBottomReached={onBottomReached}
+      >
+        <Layout>
+          <Handler>
+            <Pressable onPress={controlSliderShowing}>
+              <Text>핸들러</Text>
+            </Pressable>
+          </Handler>
+
+          <View style={{ flex: 1, width: '100%' }}>
+            <SliderStackNavigation />
+          </View>
+        </Layout>
+      </SlidingUpPanel>
+    )
   }
-
-  // 디버깅
-
-  return (
-    <SlidingUpPanel
-      ref={sliderPanelRef}
-      draggableRange={{ top: height * 0.7, bottom: 40 }}
-      height={height * 0.7}
-      animatedValue={draggedValue}
-      allowMomentum
-      snappingPoints={[40, height * 0.7]}
-      showBackdrop={false}
-      // onDragStart={() => console.log('onDragStart')}
-      // onDragEnd={() => console.log('onDragEnd')}
-      // onMomentumDragStart={() => console.log('onMomentumDragStart')}
-      // onMomentumDragEnd={() => console.log('onMomentumDragEnd')}
-    >
-      <Layout>
-        <Handler />
-        {/* {nearByRestaurants && nearByRestaurants.map((item, index) => <RestaurantCard key={index} item={item} />)} */}
-        <View style={{ flex: 1, width: '100%' }}>
-          <FlatList
-            style={{ width: '100%', flex: 1 }}
-            data={nearByRestaurants}
-            renderItem={renderRestaurantCard}
-            contentContainerStyle={{ width: '100%', backgroundColor: '#e8eff5' }}
-            ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-          />
-        </View>
-      </Layout>
-    </SlidingUpPanel>
-  )
-}
+)
 
 export default RestaurantsSlider

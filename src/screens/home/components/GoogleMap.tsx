@@ -1,10 +1,8 @@
-import { GOOGLE_MAPS_API_KEY } from '@env'
-import axios from 'axios'
-import { useEffect, useRef } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { useRef, useState } from 'react'
 import MapView, { Marker, Region } from 'react-native-maps'
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import * as S from './GoogleMap.style'
-import MyLocationButton from './MyLocationButton'
 import RestaurantsSlider from './RestaurantsSlider'
 
 interface GoogleMapProps {
@@ -13,7 +11,24 @@ interface GoogleMapProps {
 }
 
 const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
+  // Navigation
+  const navigation = useNavigation()
+  //States
+  const [sliderShowing, setSliderShowing] = useState(false)
+
+  // Refs
+  const restaurantSliderRef = useRef<SlidingUpPanel>(null)
+
   // Functions
+  const showRestaurantDetail = (restaurant: any) => {
+    // console.log(restaurant)
+    if (restaurantSliderRef.current) {
+      restaurantSliderRef.current.show()
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      navigation.navigate('RestaurantsDetail', { item: restaurant })
+    }
+  }
 
   // 디버깅
   // useEffect(() => {
@@ -44,11 +59,16 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
                 title={restaurant.name}
                 description={restaurant.vicinity}
                 coordinate={{ latitude: lat ? lat : 0, longitude: lng ? lng : 0 }}
+                onPress={() => showRestaurantDetail(restaurant)}
               />
             )
           })}
       </MapView>
-      <RestaurantsSlider nearByRestaurants={nearByRestaurants} />
+      <RestaurantsSlider
+        nearByRestaurants={nearByRestaurants}
+        ref={restaurantSliderRef}
+        setSliderShowing={setSliderShowing}
+      />
     </S.Layout>
   )
 }
