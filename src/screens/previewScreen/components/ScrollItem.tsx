@@ -4,7 +4,7 @@ import { ScrollView, TouchableOpacity } from 'react-native'
 import { HOMESTART_STEP, Step } from '../PreviewScreen'
 import * as S from '../PreviewScreen.style'
 import Bullets from './Bullets'
-import ButtonStyle from '@/common/components/CustomButton'
+import CustomButton from '@/common/components/CustomButton'
 import { Nav } from '@/types/nav'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 
@@ -35,7 +35,9 @@ const ScrollItem = ({ data, index, scrollRef }: ScrollItemProp) => {
       <Bullets />
       <S.ButtonWrapView>
         <TouchableOpacity onPress={() => setScrollIndex(index)}>
-          <ButtonStyle>{data.next ? 'Next' : 'Get Started'}</ButtonStyle>
+          <CustomButton variant="primary" color="white">
+            {data.next ? 'Next' : 'Get Started'}
+          </CustomButton>
         </TouchableOpacity>
       </S.ButtonWrapView>
     </S.Container>

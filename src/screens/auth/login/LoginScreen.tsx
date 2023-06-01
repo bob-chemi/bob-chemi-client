@@ -74,11 +74,13 @@ const LoginScreen = () => {
           <Text>비밀번호를 잊으셨나요?</Text>
         </S.SaveIdLine>
         <TouchableOpacity onPress={loginOnPressed}>
-          <CustomButton>로그인하기</CustomButton>
+          <CustomButton variant="primary" color="white">
+            로그인하기
+          </CustomButton>
         </TouchableOpacity>
         {/* 개발 중 홈화면으로 가기 위한 버튼  */}
         <Pressable onPress={tempGoToHome}>
-          <CustomButton>홈으로 가기(개발중)</CustomButton>
+          <CustomButton variant="primary">홈으로 가기(개발중)</CustomButton>
         </Pressable>
 
         <S.JoinIdLine>
