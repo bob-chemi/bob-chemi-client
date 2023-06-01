@@ -54,24 +54,7 @@ const Home = () => {
       const res = await axios.get(reqUrl)
       if (res.status === 200) {
         const { results } = res.data
-
-        // 상세 정보 API 호출해서 사진 Refs 가져오기
-        const detailReqUrl = 'https://maps.googleapis.com/maps/api/place/details/json'
-        const detailInfo = await Promise.all(
-          results.map(async (item: any) => {
-            const { data } = await axios.get(detailReqUrl, {
-              params: {
-                place_id: item.place_id,
-                key: GOOGLE_MAPS_API_KEY,
-                language: 'ko',
-                // fields: 'photo',
-              },
-            })
-            return data.result
-          })
-        )
-
-        setNearByRestaurants(detailInfo)
+        setNearByRestaurants(results)
       }
     } catch (error) {
       console.log(error)

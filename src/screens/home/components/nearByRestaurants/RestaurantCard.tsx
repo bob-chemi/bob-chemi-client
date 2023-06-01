@@ -87,7 +87,7 @@ interface RestaurantCardProps {
   index?: number
 }
 
-const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
+const RestaurantCard = ({ item }: RestaurantCardProps) => {
   // Navigations
   // TODO: TIL에 추가
   const navigation = useNavigation<NativeStackNavigationProp<SliderParamList>>()
@@ -104,29 +104,6 @@ const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
       setImage([imageUrl])
     }
   }
-
-  // 사진 전부 요청하는 API 사용량이 너무 많아서 현재는 사용 X
-  // const getImages = async () => {
-  //   if (!item.photoRefs) return
-  //   const reqUrl = 'https://maps.googleapis.com/maps/api/place/photo'
-  //   const imageRefs = item.photoRefs
-  //   const imageUrls: string[] = imageRefs.map((imageRef: any) => {
-  //     const ref = imageRef.photo_reference
-  //     const url = `${reqUrl}?maxwidth=400&photo_reference=${ref}&key=${GOOGLE_MAPS_API_KEY}`
-  //     return url
-  //   })
-  //   setImage(imageUrls)
-  // }
-
-  // const renderImages = ({ item }: { item: any }) => {
-  //   return (
-  //     <FastImage
-  //       style={{ width: 150, height: 150, backgroundColor: 'red' }}
-  //       source={{ uri: String(item) }}
-  //       resizeMode={FastImage.resizeMode.cover}
-  //     />
-  //   )
-  // }
 
   const goToDetailPage = () => {
     console.log('goToDetailPage', item)
@@ -159,7 +136,7 @@ const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
         </ImageCol>
         <Separator />
         <InfoCol>
-          <Name>{item ? item.name : '존재하지 않음'}</Name>
+          <Name>{item ? item.name : '이름을 알 수 없는 식당'}</Name>
           <RatingRow>
             <RatingNumberWrapper>
               <RatingNumer>{item.rating ? item.rating : '평점 없음'}</RatingNumer>
@@ -167,9 +144,13 @@ const RestaurantCard = ({ item, index }: RestaurantCardProps) => {
             <RatingStar>★</RatingStar>
           </RatingRow>
           <AddressAndOperationCol>
-            <Address>{item.formatted_address ? item.formatted_address : '주소 정보 없음'}</Address>
+            <Address>{item.vicinity ? item.vicinity : '주소 정보 없음'}</Address>
             <Operation>
-              {item && item.current_opening_hours && item.current_opening_hours.open_now ? '영업중' : '영업중 아님'}
+              {item && item.opening_hours
+                ? item.opening_hours.open_now
+                  ? '영업중'
+                  : '영업 중이 아님'
+                : '영업 정보 없음'}
             </Operation>
           </AddressAndOperationCol>
         </InfoCol>
