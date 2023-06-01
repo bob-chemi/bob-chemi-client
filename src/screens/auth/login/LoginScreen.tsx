@@ -1,22 +1,23 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { Pressable, Text, TouchableOpacity } from 'react-native'
-import * as S from './LoginScreen.style'
+import * as S from '../Auth.style'
+import TextInputComp from '../register/components/TextInputComp'
 import CustomButton from '@/common/components/CustomButton'
 import { Nav } from '@/types/nav'
-import { emailValidator, passwordValidator } from '@/utils/validator'
+import { idValidator, passwordValidator } from '@/utils/validator'
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState({ value: '', error: '' })
+  const [id, setId] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const { navigate } = useNavigation<Nav>()
   const navigation = useNavigation()
 
   const loginOnPressed = () => {
-    const emailError = emailValidator(email.value)
+    const idError = idValidator(id.value)
     const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError })
+    if (idError || passwordError) {
+      setId({ ...id, error: idError })
       setPassword({ ...password, error: passwordError })
       return
     }
@@ -31,64 +32,47 @@ const LoginScreen = () => {
   }
 
   return (
-    <S.Container>
-      <S.MainTextWrapper>
-        <S.MainText>Login</S.MainText>
-      </S.MainTextWrapper>
-      <S.TextInputForm behavior="padding" enabled>
-        <S.InputWrapper>
-          <S.LabelWrapper>
-            <S.InputLabel validation={false}>EMAIl</S.InputLabel>
-            <S.InputLabel validation>{email.error && email.error}</S.InputLabel>
-          </S.LabelWrapper>
-          <S.LoginInput
-            aria-label="loginInput"
-            placeholder="example@mail.com"
-            placeholderTextColor="#A0A5BA"
-            onChangeText={mail => setEmail({ value: mail, error: '' })}
-            underlineColorAndroid="transparent"
-            validate={email.error}
-            autoCapitalize="none"
-            textContentType="emailAddress"
-            keyboardType="email-address"
-          />
-        </S.InputWrapper>
-        <S.InputWrapper>
-          <S.LabelWrapper>
-            <S.InputLabel validation={false}>PASSWORD</S.InputLabel>
-            <S.InputLabel validation>{password.error && password.error}</S.InputLabel>
-          </S.LabelWrapper>
-          <S.LoginInput
-            aria-label="password"
-            placeholder="* * * * * * *"
-            secureTextEntry
-            placeholderTextColor="#A0A5BA"
-            onChangeText={pw => setPassword({ value: pw, error: '' })}
-            validate={password.error}
-            autoCapitalize="none"
-            keyboardType="visible-password"
-          ></S.LoginInput>
-        </S.InputWrapper>
-        <S.SaveIdLine>
-          <Text>아이디 기억하기</Text>
-          <Text>비밀번호를 잊으셨나요?</Text>
-        </S.SaveIdLine>
-        <TouchableOpacity onPress={loginOnPressed}>
-          <CustomButton>로그인하기</CustomButton>
-        </TouchableOpacity>
-        {/* 개발 중 홈화면으로 가기 위한 버튼  */}
-        <Pressable onPress={tempGoToHome}>
-          <CustomButton>홈으로 가기(개발중)</CustomButton>
-        </Pressable>
-
-        <S.JoinIdLine>
-          <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('RegisterScreen')}>
-            <Text>아직 회원이 아니신가요? &nbsp;&nbsp;</Text>
-            <S.ColorText>회원가입</S.ColorText>
-          </TouchableOpacity>
-        </S.JoinIdLine>
+    <S.ScrollView>
+      <S.TextInputForm>
+        <TextInputComp
+          labelText="아이디"
+          validate={id.error}
+          placeholder="example"
+          onChangeText={mail => setId({ value: mail, error: '' })}
+          keyboardType="email-address"
+          fullWidth
+        />
+        <TextInputComp
+          labelText="비밀번호"
+          validate={password.error}
+          placeholder="* * * * * * *"
+          onChangeText={password => setPassword({ value: password, error: '' })}
+          secureTextEntry
+          fullWidth
+        />
       </S.TextInputForm>
-    </S.Container>
+      <S.SaveIdLine>
+        <Text>아이디 기억하기</Text>
+        <Text>비밀번호를 잊으셨나요?</Text>
+      </S.SaveIdLine>
+      <S.ButtonWrapper>
+        <CustomButton variant="primary" color="white" fullWidth onPress={loginOnPressed}>
+          로그인하기
+        </CustomButton>
+      </S.ButtonWrapper>
+      {/* 개발 중 홈화면으로 가기 위한 버튼  */}
+      <S.ButtonWrapper>
+        <Pressable onPress={tempGoToHome}>
+          <CustomButton variant="primary">홈으로 가기(개발중)</CustomButton>
+        </Pressable>
+      </S.ButtonWrapper>
+      <S.JoinIdLine>
+        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('RegisterScreen')}>
+          <Text>아직 회원이 아니신가요? &nbsp;&nbsp;</Text>
+          <S.ColorText>회원가입</S.ColorText>
+        </TouchableOpacity>
+      </S.JoinIdLine>
+    </S.ScrollView>
   )
 }
 

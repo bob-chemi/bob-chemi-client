@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { ScrollView, TouchableOpacity } from 'react-native'
+import { ScrollView } from 'react-native'
 import { HOMESTART_STEP, Step } from '../PreviewScreen'
 import * as S from '../PreviewScreen.style'
 import Bullets from './Bullets'
-import ButtonStyle from '@/common/components/CustomButton'
+import CustomButton from '@/common/components/CustomButton'
 import { Nav } from '@/types/nav'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 
@@ -34,9 +34,9 @@ const ScrollItem = ({ data, index, scrollRef }: ScrollItemProp) => {
       </S.TextArea>
       <Bullets />
       <S.ButtonWrapView>
-        <TouchableOpacity onPress={() => setScrollIndex(index)}>
-          <ButtonStyle>{data.next ? 'Next' : 'Get Started'}</ButtonStyle>
-        </TouchableOpacity>
+        <CustomButton variant="primary" color="white" fullWidth onPress={() => setScrollIndex(index)}>
+          {data.next ? 'Next' : 'Get Started'}
+        </CustomButton>
       </S.ButtonWrapView>
     </S.Container>
   )

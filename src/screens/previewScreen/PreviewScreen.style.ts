@@ -1,13 +1,13 @@
 import styled from 'styled-components/native'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
-
 export const Container = styled.View`
   flex: 1;
   align-items: center;
+  margin-top: 20px;
 `
 export const ImageArea = styled.View`
+  flex: 2;
   width: ${SCREEN_WIDTH - 48}px;
-  height: 292px;
   background-color: gray;
   border-radius: 12px;
 `
@@ -23,17 +23,19 @@ export const TextArea = styled.View`
 export const BoldText = styled.Text`
   font-size: 24px;
   font-weight: 800;
-  color: #32343e;
+  color: ${({ theme }) => theme.colors.gray500};
   margin-bottom: 20px;
 `
 export const NomalText = styled.Text`
   font-size: 16px;
   font-weight: 400;
-  color: #32343e;
+  color: ${({ theme }) => theme.colors.gray500};
 `
 export const ButtonWrapView = styled.View`
   flex: 1;
   align-items: center;
+  max-height: 62px;
+  margin: 20px 0;
 `
 export const SkipText = styled.Text`
   margin-top: 15px;
