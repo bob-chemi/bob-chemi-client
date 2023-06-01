@@ -31,7 +31,7 @@ export const InputLabel = styled.Text<{ validation?: boolean }>`
   color: #ff7622;
   margin-bottom: 10px;
 `
-export const LoginInput = styled.TextInput<{ validate: string }>`
+export const LoginInput = styled.TextInput<{ validate?: string }>`
   background-color: #f0f5fa;
   width: ${SCREEN_WIDTH - 48}px;
   padding-left: 20px;

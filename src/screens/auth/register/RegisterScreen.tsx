@@ -1,10 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { Button, Text, TouchableOpacity } from 'react-native'
+import PhoneAuthModal from '../components/PhoneAuthModal'
 import * as S from './RegisterScreen.style'
 import CustomButton from '@/common/components/CustomButton'
 import { Nav } from '@/types/nav'
-import { emailValidator, passwordValidator, confirmPwValidator } from '@/utils/validator'
+import { emailValidator, passwordValidator, confirmPwValidator, phoneNumberValidator } from '@/utils/validator'
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -13,6 +14,7 @@ const RegisterScreen = () => {
   const [nickname, setNickname] = useState({ value: '', error: '' })
   const [phoneNumber, setPhoneNumber] = useState({ value: '', error: '' })
   const [buttonDisable, setButtonDisable] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
   const { navigate } = useNavigation<Nav>()
 
   const signUpOnPressed = () => {
@@ -27,7 +29,15 @@ const RegisterScreen = () => {
       return
     }
   }
-
+  const phoneAuthOnPressed = () => {
+    const phoneNumberError = phoneNumberValidator(phoneNumber.value)
+    if (phoneNumberError) {
+      setPhoneNumber({ ...phoneNumber, error: phoneNumberError })
+      return
+    }
+    setModalVisible(true)
+    console.log(phoneNumberError)
+  }
   return (
     <S.Container>
       <S.ScrollView>
@@ -91,8 +101,7 @@ const RegisterScreen = () => {
               placeholder="닉네임"
               secureTextEntry
               placeholderTextColor="#A0A5BA"
-              onChangeText={confirmPw => setConfirmPassword({ value: confirmPw, error: '' })}
-              validate={confirmPassword.error}
+              onChangeText={nickname => setConfirmPassword({ value: nickname, error: '' })}
               autoCapitalize="none"
               keyboardType="visible-password"
             ></S.LoginInput>
@@ -100,19 +109,19 @@ const RegisterScreen = () => {
           <S.InputWrapper>
             <S.LabelWrapper>
               <S.InputLabel>휴대전화 번호</S.InputLabel>
-              <S.InputLabel validation>{confirmPassword.error && confirmPassword.error}</S.InputLabel>
+              <S.InputLabel validation>{phoneNumber.error && phoneNumber.error}</S.InputLabel>
             </S.LabelWrapper>
             <S.LoginInput
               aria-label="phone-number"
               placeholder="01012345678"
               secureTextEntry
               placeholderTextColor="#A0A5BA"
-              onChangeText={confirmPw => setConfirmPassword({ value: confirmPw, error: '' })}
-              validate={confirmPassword.error}
+              onChangeText={phoneNumber => setPhoneNumber({ value: phoneNumber, error: '' })}
+              validate={phoneNumber.error}
               autoCapitalize="none"
               keyboardType="visible-password"
             ></S.LoginInput>
-            <Button title="인증하기"></Button>
+            <Button title="인증하기" onPress={phoneAuthOnPressed}></Button>
           </S.InputWrapper>
 
           <S.SaveIdLine></S.SaveIdLine>
@@ -128,6 +137,7 @@ const RegisterScreen = () => {
           </S.JoinIdLine>
         </S.TextInputForm>
       </S.ScrollView>
+      <PhoneAuthModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </S.Container>
   )
 }

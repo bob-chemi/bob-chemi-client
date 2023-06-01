@@ -14,4 +14,11 @@ const confirmPwValidator = (password: string, confirm: string) => {
   if (password !== confirm) return '비밀번호를 확인해주세요.'
   return ''
 }
-export { emailValidator, passwordValidator, confirmPwValidator }
+const phoneNumberValidator = (phoneNumber: string) => {
+  const number = phoneNumber.trim()
+  if (!number) return '휴대전화 번호를 입력해주세요'
+  if (number.length < 10 || number.length > 11) return '휴대전화 번호를 올바르게 입력해주세요'
+  if (number.includes('-') || number.includes('.')) return '숫자만 입력해주세요'
+  return ''
+}
+export { emailValidator, passwordValidator, confirmPwValidator, phoneNumberValidator }
