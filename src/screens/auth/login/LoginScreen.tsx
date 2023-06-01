@@ -56,7 +56,7 @@ const LoginScreen = () => {
         <Text>비밀번호를 잊으셨나요?</Text>
       </S.SaveIdLine>
       <S.ButtonWrapper>
-        <CustomButton variant="primary" color="white" fullWidth onPress={loginOnPressed}>
+        <CustomButton variant="primary" color="white" fullWidth onPress={loginOnPressed} borderRadius>
           로그인하기
         </CustomButton>
       </S.ButtonWrapper>

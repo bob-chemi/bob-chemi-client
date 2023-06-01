@@ -12,9 +12,10 @@ interface CustomButtonProps {
   width?: number
   fullWidth?: boolean
   onPress?: () => void
+  borderRadius?: boolean
 }
 
-type ButtonViewProp = Pick<CustomButtonProps, 'disabled' | 'variant' | 'width' | 'fullWidth'>
+type ButtonViewProp = Pick<CustomButtonProps, 'disabled' | 'variant' | 'width' | 'fullWidth' | 'borderRadius'>
 
 type ButtonTextProp = Pick<CustomButtonProps, 'color' | 'variant'>
 
@@ -24,7 +25,7 @@ const TouchableButton = styled.TouchableOpacity<ButtonViewProp>`
   background-color: ${({ theme, disabled, variant }) =>
     disabled ? theme.colors['gray200'] : variant && theme.colors[variant]};
   width: ${({ fullWidth, width }) => (fullWidth ? FULL_WIDTH + 'px' : width ? width + 'px' : '50%')};
-  border-radius: 20px;
+  border-radius: ${({ borderRadius }) => (borderRadius ? '20px' : 0)};
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -35,9 +36,25 @@ const ButtonText = styled.Text<ButtonTextProp>`
   font-weight: bold;
 `
 
-const CustomButton = ({ children, disabled, variant, color, width, fullWidth, onPress }: CustomButtonProps) => {
+const CustomButton = ({
+  children,
+  disabled,
+  variant,
+  color,
+  width,
+  fullWidth,
+  onPress,
+  borderRadius,
+}: CustomButtonProps) => {
   return (
-    <TouchableButton disabled={disabled} variant={variant} width={width} fullWidth={fullWidth} onPress={onPress}>
+    <TouchableButton
+      disabled={disabled}
+      variant={variant}
+      width={width}
+      fullWidth={fullWidth}
+      onPress={onPress}
+      borderRadius={borderRadius}
+    >
       <ButtonText color={color}>{children}</ButtonText>
     </TouchableButton>
   )

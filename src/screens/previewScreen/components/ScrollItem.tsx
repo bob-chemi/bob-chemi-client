@@ -34,7 +34,7 @@ const ScrollItem = ({ data, index, scrollRef }: ScrollItemProp) => {
       </S.TextArea>
       <Bullets index={index} />
       <S.ButtonWrapView>
-        <CustomButton variant="primary" color="white" fullWidth onPress={() => setScrollIndex(index)}>
+        <CustomButton variant="primary" color="white" fullWidth onPress={() => setScrollIndex(index)} borderRadius>
           {data.next ? 'Next' : 'Get Started'}
         </CustomButton>
       </S.ButtonWrapView>

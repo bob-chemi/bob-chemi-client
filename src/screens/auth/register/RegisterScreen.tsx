@@ -100,6 +100,7 @@ const RegisterScreen = () => {
           variant="primary"
           color="white"
           fullWidth
+          borderRadius
         >
           회원가입
         </CustomButton>
