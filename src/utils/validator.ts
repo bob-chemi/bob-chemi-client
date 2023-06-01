@@ -1,7 +1,6 @@
-const emailValidator = (email: string) => {
-  const EMAIL_REGEX = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/
-  if (!email) return '아이디가 비었습니다.'
-  if (!EMAIL_REGEX.test(email)) return '이메일 형식의 아이디를 입력해주세요.'
+const idValidator = (id: string) => {
+  if (!id) return '아이디가 비었습니다.'
+  if (id.length < 5 || id.length > 20) return '5~20글자를 입력해주세요'
   return ''
 }
 const passwordValidator = (password: string) => {
@@ -21,4 +20,4 @@ const phoneNumberValidator = (phoneNumber: string) => {
   if (number.includes('-') || number.includes('.')) return '숫자만 입력해주세요'
   return ''
 }
-export { emailValidator, passwordValidator, confirmPwValidator, phoneNumberValidator }
+export { idValidator, passwordValidator, confirmPwValidator, phoneNumberValidator }
