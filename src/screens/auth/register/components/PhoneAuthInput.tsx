@@ -2,6 +2,8 @@ import React from 'react'
 import { TextInputProps } from 'react-native'
 import * as S from './TextInputComp.style'
 import CustomButton from '@/common/components/CustomButton'
+import CustomText from '@/common/components/CustomText'
+
 interface TextInputCompProp extends TextInputProps {
   labelText?: string
   validate: string
@@ -26,6 +28,7 @@ const PhoneAuthInput = ({
   margin,
   onEndEditing,
 }: TextInputCompProp) => {
+  console.log(typeof halfButtonText)
   return (
     <S.InputWrapper>
       {margin ? (
@@ -47,8 +50,8 @@ const PhoneAuthInput = ({
           secureTextEntry={secureTextEntry}
           onEndEditing={onEndEditing}
         />
-        <CustomButton variant="primary" color="white" width={100} onPress={onPress} disabled={disabled}>
-          {halfButtonText}
+        <CustomButton variant="primary" width={100} onPress={onPress} disabled={disabled}>
+          <CustomText variant="white"> {halfButtonText || ''}</CustomText>
         </CustomButton>
       </S.SeprateInput>
     </S.InputWrapper>

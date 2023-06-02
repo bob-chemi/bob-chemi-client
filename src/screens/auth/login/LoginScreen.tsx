@@ -1,9 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { Pressable, Text, TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import * as S from '../Auth.style'
 import TextInputComp from '../register/components/TextInputComp'
 import CustomButton from '@/common/components/CustomButton'
+import CustomText from '@/common/components/CustomText'
 import { Nav } from '@/types/nav'
 import { idValidator, passwordValidator } from '@/utils/validator'
 
@@ -56,15 +57,17 @@ const LoginScreen = () => {
         <Text>비밀번호를 잊으셨나요?</Text>
       </S.SaveIdLine>
       <S.ButtonWrapper>
-        <CustomButton variant="primary" color="white" fullWidth onPress={loginOnPressed} borderRadius>
-          로그인하기
+        <CustomButton variant="primary" fullWidth onPress={loginOnPressed} borderRadius={20}>
+          <CustomText variant="white" fontSize={16} fontWeight={600}>
+            로그인하기
+          </CustomText>
         </CustomButton>
       </S.ButtonWrapper>
       {/* 개발 중 홈화면으로 가기 위한 버튼  */}
       <S.ButtonWrapper>
-        <Pressable onPress={tempGoToHome}>
-          <CustomButton variant="primary">홈으로 가기(개발중)</CustomButton>
-        </Pressable>
+        <CustomButton variant="primary" fullWidth onPress={tempGoToHome} borderRadius={20}>
+          <CustomText variant="white"> 홈으로 가기(개발중)</CustomText>
+        </CustomButton>
       </S.ButtonWrapper>
       <S.JoinIdLine>
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('RegisterScreen')}>

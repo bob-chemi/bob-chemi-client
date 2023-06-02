@@ -5,6 +5,7 @@ import { HOMESTART_STEP, Step } from '../PreviewScreen'
 import * as S from '../PreviewScreen.style'
 import Bullets from './Bullets'
 import CustomButton from '@/common/components/CustomButton'
+import CustomText from '@/common/components/CustomText'
 import LottieAnimation from '@/common/components/LottieAnimation'
 import { Nav } from '@/types/nav'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
@@ -36,8 +37,10 @@ const ScrollItem = ({ data, index, scrollRef }: ScrollItemProp) => {
       </S.TextArea>
       <Bullets index={index} />
       <S.ButtonWrapView>
-        <CustomButton variant="primary" color="white" fullWidth onPress={() => setScrollIndex(index)} borderRadius>
-          {data.next ? 'Next' : 'Get Started'}
+        <CustomButton variant="primary" fullWidth onPress={() => setScrollIndex(index)} borderRadius={20}>
+          <CustomText variant="white" fontSize={16} fontWeight={600}>
+            {data.next ? 'Next' : 'Get Started'}
+          </CustomText>
         </CustomButton>
       </S.ButtonWrapView>
     </S.Container>

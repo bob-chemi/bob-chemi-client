@@ -8,6 +8,7 @@ type Colors = {
   white: string
   black: string
 }
+export type Variant = 'success' | 'primary' | 'gray100' | 'gray200' | 'gray300' | 'gray500' | 'white' | 'black'
 
 export interface ThemeProps {
   colors: Colors

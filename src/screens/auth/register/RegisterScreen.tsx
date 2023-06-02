@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { Text, TouchableOpacity, SafeAreaView } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import * as S from '../Auth.style'
 import { Dropdown } from './components/Dropdown'
 import GenderCheckbox from './components/GenderCheckbox'
@@ -8,6 +8,7 @@ import PhoneAuthInput from './components/PhoneAuthInput'
 import TextInputComp from './components/TextInputComp'
 import useRegisterInput from './hooks/useRegisterInput'
 import CustomButton from '@/common/components/CustomButton'
+import CustomText from '@/common/components/CustomText'
 import { Nav } from '@/types/nav'
 
 const RegisterScreen = () => {
@@ -91,11 +92,12 @@ const RegisterScreen = () => {
         <CustomButton
           disabled={signUpButton.formValidate || signUpButton.verification}
           variant="primary"
-          color="white"
           fullWidth
-          borderRadius
+          borderRadius={20}
         >
-          회원가입
+          <CustomText variant="white" fontSize={16} fontWeight={600}>
+            회원가입
+          </CustomText>
         </CustomButton>
       </S.ButtonWrapper>
       <S.JoinIdLine>
