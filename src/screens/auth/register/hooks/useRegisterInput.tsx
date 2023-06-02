@@ -61,14 +61,19 @@ const useRegisterInput = () => {
       setSignUpButton(prev => ({ ...prev, verification: true }))
     }
   }
+
+  const handleOnChangeText = (inputText: string, label: keyof typeof formData) => {
+    setFormData({ ...formData, [label]: { value: inputText, error: '' } })
+  }
+
   return {
     formData,
-    setFormData,
     setBirthDay,
     phoneAuthButtonVisible,
     signUpButton,
     signUpFieldEndEditing,
     phoneAuthOnPressed,
+    handleOnChangeText,
   }
 }
 

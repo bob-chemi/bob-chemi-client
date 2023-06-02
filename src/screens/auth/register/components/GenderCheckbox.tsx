@@ -1,6 +1,6 @@
 import CheckBox from '@react-native-community/checkbox'
 import React from 'react'
-import { View, Text } from 'react-native'
+import { Text } from 'react-native'
 import styled from 'styled-components/native'
 import * as S from '../components/TextInputComp.style'
 import theme from '@/common/style/theme'
