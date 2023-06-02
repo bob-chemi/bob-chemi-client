@@ -8,8 +8,8 @@ export const Container = styled.View`
 export const ImageArea = styled.View`
   flex: 2;
   width: ${SCREEN_WIDTH - 48}px;
-  background-color: gray;
-  border-radius: 12px;
+  align-items: center;
+  justify-content: center;
 `
 export const TextArea = styled.View`
   flex: 1;
