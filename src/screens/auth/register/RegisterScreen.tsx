@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useEffect } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { Text, TouchableOpacity, SafeAreaView } from 'react-native'
 import * as S from '../Auth.style'
 import { Dropdown } from './components/Dropdown'
 import GenderCheckbox from './components/GenderCheckbox'
@@ -22,9 +22,7 @@ const RegisterScreen = () => {
   } = useRegisterInput()
 
   const { navigate } = useNavigation<Nav>()
-  useEffect(() => {
-    console.log(formData)
-  }, [formData])
+
   return (
     <S.ScrollView>
       <S.TextInputForm>

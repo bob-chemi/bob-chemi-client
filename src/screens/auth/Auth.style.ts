@@ -31,8 +31,8 @@ export const SaveIdLine = styled.View`
 export const JoinIdLine = styled.View`
   flex: 1;
   justify-content: center;
-  padding-top: 24px;
-  padding-bottom: 24px;
+  margin-top: 100px;
+  margin-bottom: 100px;
   align-items: center;
 `
 export const ColorText = styled.Text`
