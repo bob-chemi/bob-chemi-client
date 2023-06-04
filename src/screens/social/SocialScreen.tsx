@@ -1,4 +1,4 @@
-import { Text } from 'react-native'
+import React from 'react'
 import * as S from './SocialScreen.style'
 import WeekDayPicker from './WeekDayPicker'
 import ContentsBox from './ContentsBox'
