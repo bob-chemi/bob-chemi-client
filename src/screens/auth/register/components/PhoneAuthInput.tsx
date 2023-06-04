@@ -28,7 +28,6 @@ const PhoneAuthInput = ({
   margin,
   onEndEditing,
 }: TextInputCompProp) => {
-  console.log(typeof halfButtonText)
   return (
     <S.InputWrapper>
       {margin ? (

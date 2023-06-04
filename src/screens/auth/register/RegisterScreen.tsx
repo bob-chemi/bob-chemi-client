@@ -20,6 +20,7 @@ const RegisterScreen = () => {
     signUpFieldEndEditing,
     phoneAuthOnPressed,
     handleOnChangeText,
+    handleVerificationPressed,
   } = useRegisterInput()
 
   const { navigate } = useNavigation<Nav>()
@@ -78,7 +79,7 @@ const RegisterScreen = () => {
           onChangeText={verification => handleOnChangeText(verification, 'verification')}
           keyboardType="number-pad"
           halfButtonText="인증하기"
-          onPress={phoneAuthOnPressed}
+          onPress={handleVerificationPressed}
           disabled={phoneAuthButtonVisible}
         />
       </S.TextInputForm>
