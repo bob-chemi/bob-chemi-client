@@ -1,8 +1,7 @@
 import CheckBox from '@react-native-community/checkbox'
 import React from 'react'
-import { Text } from 'react-native'
-import styled from 'styled-components/native'
-import * as S from '../components/TextInputComp.style'
+import CustomText from '@/common/components/CustomText'
+import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import theme from '@/common/style/theme'
 interface GenderCheckboxProp {
   selectedGender: {
@@ -16,38 +15,30 @@ const GenderCheckbox = ({ selectedGender, setGender }: GenderCheckboxProp) => {
     setGender(gender)
   }
   return (
-    <S.Label>
-      <LabelContainer>
-        <S.InputLabel>성별</S.InputLabel>
-      </LabelContainer>
-      <Container>
-        <Container>
+    <FlexDirectionWrapper alignItems="center" flex={1}>
+      <FlexDirectionWrapper flex={1}>
+        <CustomText variant="primary">성별</CustomText>
+      </FlexDirectionWrapper>
+      <FlexDirectionWrapper flex={2}>
+        <FlexDirectionWrapper flex={1} alignItems="center">
           <CheckBox
             value={selectedGender.value === 'male'}
             onValueChange={() => handleGenderSelection('male')}
             tintColors={{ true: `${theme.colors.primary}` }}
           />
-          <Text>남자</Text>
-        </Container>
-        <Container>
+          <CustomText variant="gray500">남자</CustomText>
+        </FlexDirectionWrapper>
+        <FlexDirectionWrapper flex={1} alignItems="center">
           <CheckBox
             value={selectedGender.value === 'female'}
             onValueChange={() => handleGenderSelection('female')}
             tintColors={{ true: `${theme.colors.primary}` }}
           />
-          <Text>여자</Text>
-        </Container>
-      </Container>
-    </S.Label>
+          <CustomText variant="gray500">여자</CustomText>
+        </FlexDirectionWrapper>
+      </FlexDirectionWrapper>
+    </FlexDirectionWrapper>
   )
 }
 
 export default GenderCheckbox
-const LabelContainer = styled(S.Label)`
-  flex: 1;
-  justify-content: flex-start;
-`
-const Container = styled(S.Label)`
-  flex: 2;
-  justify-content: flex-start;
-`

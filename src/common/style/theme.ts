@@ -23,6 +23,7 @@ export type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-betwe
 export type FlexDriection = 'row' | 'row-reverse' | 'column' | 'column-reverse'
 export type AlignItems = 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline'
 export interface FlexInterface {
+  flex?: number
   flexDirection?: FlexDriection
   justifyContent?: JustifyContent
   alignItems?: AlignItems

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import * as S from '../Auth.style'
 import { Dropdown } from './components/Dropdown'
 import GenderCheckbox from './components/GenderCheckbox'
@@ -9,8 +9,8 @@ import TextInputComp from './components/TextInputComp'
 import useRegisterInput from './hooks/useRegisterInput'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
+import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import { Nav } from '@/types/nav'
-
 const RegisterScreen = () => {
   const {
     formData,
@@ -101,12 +101,14 @@ const RegisterScreen = () => {
           </CustomText>
         </CustomButton>
       </S.ButtonWrapper>
-      <S.JoinIdLine>
+      <FlexDirectionWrapper justifyContent="center" mt={100} mb={100} alignItems="center">
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('LoginScreen')}>
-          <Text>이미 회원이신가요? &nbsp;&nbsp;</Text>
-          <S.ColorText>로그인하러 가기</S.ColorText>
+          <CustomText variant="gray500">이미 회원이신가요? &nbsp;&nbsp;</CustomText>
+          <CustomText variant="primary" fontWeight={600}>
+            로그인하러 가기
+          </CustomText>
         </TouchableOpacity>
-      </S.JoinIdLine>
+      </FlexDirectionWrapper>
     </S.ScrollView>
   )
 }

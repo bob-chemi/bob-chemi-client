@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/Entypo'
 import * as S from './Dropdown.style'
+import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import theme from '@/common/style/theme'
-
 interface DropdownProp {
   setValue: React.Dispatch<
     React.SetStateAction<{
@@ -16,9 +16,9 @@ interface DropdownProp {
 
 export const Dropdown = ({ setValue }: DropdownProp) => {
   return (
-    <S.Container>
+    <View>
       <S.InputLabel>생년월일</S.InputLabel>
-      <S.RowContainer>
+      <FlexDirectionWrapper>
         {DropDownList.map(data => (
           <SelectDropdown
             key={data.name}
@@ -56,8 +56,8 @@ export const Dropdown = ({ setValue }: DropdownProp) => {
             }}
           />
         ))}
-      </S.RowContainer>
-    </S.Container>
+      </FlexDirectionWrapper>
+    </View>
   )
 }
 

@@ -4,7 +4,7 @@ import type { Variant } from '../style/theme'
 import theme from '../style/theme'
 interface CustomTextProps {
   variant?: Variant
-  fontSize?: 16 | 18 | 20 | 24
+  fontSize?: 16 | 18 | 20 | 22 | 24
   fontWeight?: 400 | 600 | 800
   children: string | string[]
 }
