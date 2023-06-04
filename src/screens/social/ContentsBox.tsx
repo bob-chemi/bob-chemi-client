@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState } from 'react'
 import * as S from './ContensBox.style'
 import { View, Text, StyleSheet } from 'react-native';
@@ -16,5 +15,3 @@ const ContentsBox = ({ socialData }: { socialData: object; }) => {
     </S.ContentsDiv>
   );
 }
-
-export default ContentsBox
