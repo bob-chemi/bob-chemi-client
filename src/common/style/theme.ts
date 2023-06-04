@@ -19,7 +19,26 @@ export type Variant =
   | 'gray500'
   | 'white'
   | 'black'
-
+export type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
+export type FlexDriection = 'row' | 'row-reverse' | 'column' | 'column-reverse'
+export type AlignItems = 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline'
+export interface FlexInterface {
+  flexDirection?: FlexDriection
+  justifyContent?: JustifyContent
+  alignItems?: AlignItems
+}
+export interface PaddingAndMargin {
+  p?: number
+  pl?: number
+  pr?: number
+  pt?: number
+  pb?: number
+  m?: number
+  ml?: number
+  mr?: number
+  mt?: number
+  mb?: number
+}
 export interface ThemeProps {
   colors: Colors
 }
