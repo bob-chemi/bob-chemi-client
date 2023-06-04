@@ -1,3 +1,4 @@
+import React from 'react'
 import { Text } from 'react-native'
 import * as S from './SocialScreen.style'
 import WeekDayPicker from './WeekDayPicker'
