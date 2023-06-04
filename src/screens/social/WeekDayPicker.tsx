@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FlatList, } from 'react-native'
 import * as S from './WeekDayPicker.style'
 
@@ -23,6 +23,10 @@ const WeekDayPicker = () => {
     );
   };
 
+  const getSelectedToday = () => {
+    setSelectedDate(new Date().getDate().toString());
+  }
+
   return (
     <FlatList
       data={weekDates}
@@ -32,7 +36,6 @@ const WeekDayPicker = () => {
     />
   );
 }
-
 
 //이번주 day 배열 가져오기
 const getWeekDates = () => {
