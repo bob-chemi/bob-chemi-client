@@ -17,3 +17,6 @@ const ContentsBox = ({ socialData }: { socialData: object; }) => {
 }
 
 export default ContentsBox
+const ContentsBox = () => {
+  return null
+}

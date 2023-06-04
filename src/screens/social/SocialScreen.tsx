@@ -1,3 +1,4 @@
+import { Text } from 'react-native'
 import * as S from './SocialScreen.style'
 import WeekDayPicker from './WeekDayPicker'
 import ContentsBox from './ContentsBox'
@@ -90,7 +91,7 @@ const SocialScreen = () => {
         </FlatList>
       </S.ContentsContainer>
     </S.Container>
-  );
+  )
 }
 
 export default SocialScreen

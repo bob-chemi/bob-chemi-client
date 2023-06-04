@@ -1,48 +1,25 @@
-import { useNavigation } from '@react-navigation/native'
-import React, { useState } from 'react'
-import { TouchableOpacity } from 'react-native'
+import React, { useRef } from 'react'
+import { ScrollView } from 'react-native'
+import ScrollItem from './components/ScrollItem'
 import * as S from './PreviewScreen.style'
-import ButtonStyle from '@/common/components/CustomButton'
 
 const PreviewScreen = () => {
-  const [steps, setSteps] = useState<number>(0)
-  const navigation = useNavigation()
+  const scrollRef = useRef<ScrollView>(null)
 
-  const handleNext = () => {
-    if (steps === 0) {
-      setSteps(1)
-    } else {
-      navigation.navigate('LoginScreen')
-    }
-  }
-
-  const currentStepData = HOMESTART_STEP[steps]
   return (
     <S.Container>
-      <S.ImageArea></S.ImageArea>
-      <S.TextArea>
-        <S.BoldText>{currentStepData.title}</S.BoldText>
-        <S.NomalText>{currentStepData.desc}</S.NomalText>
-      </S.TextArea>
-      {currentStepData.next ? (
-        <S.ButtonWrapView>
-          <TouchableOpacity onPress={handleNext}>
-            <ButtonStyle>NEXT</ButtonStyle>
-          </TouchableOpacity>
-          <S.SkipText>Skip</S.SkipText>
-        </S.ButtonWrapView>
-      ) : (
-        <TouchableOpacity onPress={handleNext}>
-          <ButtonStyle>GET STARTED</ButtonStyle>
-        </TouchableOpacity>
-      )}
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} pagingEnabled ref={scrollRef}>
+        {HOMESTART_STEP.map((data, index) => (
+          <ScrollItem key={data.title} data={data} index={index} scrollRef={scrollRef} />
+        ))}
+      </ScrollView>
     </S.Container>
   )
 }
 
 export default PreviewScreen
 
-interface Step {
+export interface Step {
   imgPath: string
   title: string
   desc: string

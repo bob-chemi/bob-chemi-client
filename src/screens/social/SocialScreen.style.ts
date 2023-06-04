@@ -26,4 +26,5 @@ export const WeekContainer = styled.View`
 
 export const ContentsContainer = styled.View`
   flex: 1;
+  height: 46px;
 `

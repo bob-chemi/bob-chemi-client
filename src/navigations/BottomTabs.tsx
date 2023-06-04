@@ -1,10 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { View } from 'react-native'
+import LoginScreen from '@/screens/auth/login/LoginScreen'
+import RegisterScreen from '@/screens/auth/register/RegisterScreen'
 import Home from '@/screens/home/Home'
-import LoginScreen from '@/screens/login/LoginScreen'
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
-import RegisterScreen from '@/screens/register/RegisterScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
 
 // 앱의 하단에 존재하는 BottomTab의 param list
@@ -25,7 +25,7 @@ const Settings = () => {
 }
 const BottomTabs = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="PreviewScreen" component={PreviewScreen} />
       <Tab.Screen name="LoginScreen" component={LoginScreen} />
