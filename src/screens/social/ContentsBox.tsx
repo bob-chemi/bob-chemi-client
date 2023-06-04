@@ -15,8 +15,3 @@ const ContentsBox = ({ socialData }: { socialData: object; }) => {
     </S.ContentsDiv>
   );
 }
-
-export default ContentsBox
-const ContentsBox = () => {
-  return null
-}
