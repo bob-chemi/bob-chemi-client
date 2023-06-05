@@ -4,18 +4,16 @@ import { View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import theme from '@/common/style/theme'
 import Home from '@/screens/home/Home'
+import FindUser from '@/screens/matching/FindUser'
 import SocialScreen from '@/screens/social/SocialScreen'
 
 // 앱의 하단에 존재하는 BottomTab의 param list
-type TabParamList = {
+export type TabParamList = {
   Home: undefined
   Chat: undefined
   Matching: undefined
   Social: undefined
   Profile: undefined
-  PreviewScreen: undefined
-  LoginScreen: undefined
-  RegisterScreen: undefined
 }
 
 const Tab = createBottomTabNavigator<TabParamList>()
@@ -53,6 +51,7 @@ const Settings = () => {
 const BottomTabs = () => {
   return (
     <Tab.Navigator
+      initialRouteName="Matching"
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: theme.colors.primary,
@@ -66,7 +65,7 @@ const BottomTabs = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Chat" component={Settings} />
-      <Tab.Screen name="Matching" component={Settings} />
+      <Tab.Screen name="Matching" component={FindUser} />
       <Tab.Screen name="Social" component={SocialScreen} />
       <Tab.Screen name="Profile" component={Settings} />
     </Tab.Navigator>

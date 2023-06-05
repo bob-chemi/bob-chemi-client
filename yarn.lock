@@ -1457,6 +1457,11 @@
     "@nodelib/fs.scandir" "2.1.5"
     "fastq" "^1.6.0"
 
+"@ptomasroos/react-native-multi-slider@^2.2.2":
+  "integrity" "sha512-HWyCnRD3Z3SbHK2FLWYmBBqd1B4iXipeKv1+AK0FoY/CElEDTEixHE8hN60TsqxalPrznn798LE2Q4tHuCiyaA=="
+  "resolved" "https://registry.npmjs.org/@ptomasroos/react-native-multi-slider/-/react-native-multi-slider-2.2.2.tgz"
+  "version" "2.2.2"
+
 "@react-native-community/checkbox@^0.5.15":
   "integrity" "sha512-cdg/P4pF8CXd5+6MBIl2luihFTzjfIcKIEVRnF1wgoNoItRVQlyulWYJEPvL2OmdAYTaBsZTXUIdcOkGqpxLZg=="
   "resolved" "https://registry.npmjs.org/@react-native-community/checkbox/-/checkbox-0.5.15.tgz"
@@ -1976,6 +1981,14 @@
   "integrity" "sha512-ZxX+dU/yoQc0jTk+/NWttkiuXceJyN5FpOSqDl0WynN5GDzxwH7OMruQ47qcY8llo2RD3irjvzJ9BwC8gDiq0A=="
   "resolved" "https://registry.npmjs.org/@types/react-native-dotenv/-/react-native-dotenv-0.2.0.tgz"
   "version" "0.2.0"
+
+"@types/react-native-multi-slider@^0.3.2":
+  "integrity" "sha512-bXxBHtDr5DGJUBadlzHmo5MikFaWCMKuPXcHaL1yNdYtGU2IdI0WqUEA48Mgr6cHDg08/DYtDQEEmdYEfk+RLw=="
+  "resolved" "https://registry.npmjs.org/@types/react-native-multi-slider/-/react-native-multi-slider-0.3.2.tgz"
+  "version" "0.3.2"
+  dependencies:
+    "@types/react" "*"
+    "@types/react-native" "*"
 
 "@types/react-native-star-rating@^1.1.2":
   "integrity" "sha512-0DmEOvK++dZs8nDIWgeJ3JEAHZx4yT7U2Yyo5FFjvHIIQN7eBPjQ3aF/NGwtfijcmRmSBKfsroqPeMzCsEMw4w=="

@@ -9,8 +9,13 @@ type Colors = {
   black: string
 }
 
+interface Padding {
+  default: string
+}
+
 export interface ThemeProps {
   colors: Colors
+  paddings: Padding
 }
 
 const colors: Colors = {
@@ -24,8 +29,13 @@ const colors: Colors = {
   black: '#000000',
 }
 
+const paddings: Padding = {
+  default: '24px',
+}
+
 const theme: ThemeProps = {
   colors,
+  paddings,
 }
 
 export default theme
