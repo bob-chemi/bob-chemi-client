@@ -5,7 +5,6 @@ import { ThemeProvider } from 'styled-components/native'
 import theme from '@/common/style/theme'
 import usePermissions from '@/hooks/usePermissions'
 import RootNavigation from '@/navigations/RootNavigation'
-
 enableLatestRenderer()
 
 const App = () => {

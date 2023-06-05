@@ -4,6 +4,8 @@ import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 const FULL_WIDTH = SCREEN_WIDTH - 48
 export const InputWrapper = styled.View`
   margin-top: 20px;
+  justify-content: center;
+  position: relative;
 `
 export const Label = styled.View`
   flex-direction: row;
@@ -29,4 +31,9 @@ export const SeprateInput = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
+`
+export const TogglePasswordButton = styled.TouchableOpacity`
+  position: absolute;
+  top: 50%;
+  right: 10px;
 `

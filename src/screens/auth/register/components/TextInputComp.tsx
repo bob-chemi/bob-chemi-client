@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { TextInputProps } from 'react-native'
+import Icon from 'react-native-vector-icons/Feather'
 import * as S from './TextInputComp.style'
 export interface TextInputCompProp extends TextInputProps {
   labelText: string
@@ -18,6 +19,10 @@ const TextInputComp = ({
   fullWidth,
   onEndEditing,
 }: TextInputCompProp) => {
+  const [showPassword, setShowPassword] = useState(false)
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
   return (
     <S.InputWrapper>
       <S.Label>
@@ -32,10 +37,15 @@ const TextInputComp = ({
         validate={validate}
         autoCapitalize="none"
         keyboardType={keyboardType}
-        secureTextEntry={secureTextEntry}
+        secureTextEntry={secureTextEntry && !showPassword}
         fullWidth={fullWidth}
         onEndEditing={onEndEditing}
       />
+      {secureTextEntry && (
+        <S.TogglePasswordButton onPress={toggleShowPassword}>
+          <Icon name={showPassword ? 'eye-off' : 'eye'} size={25} />
+        </S.TogglePasswordButton>
+      )}
     </S.InputWrapper>
   )
 }
