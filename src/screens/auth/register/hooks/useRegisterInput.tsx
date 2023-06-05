@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { request } from '@/api/request'
+import { authRequest } from '@/api/authRequest'
+import { calculateAge } from '@/utils/calculateAge'
 import { idValidator, passwordValidator, confirmPwValidator, phoneNumberValidator } from '@/utils/validator'
-const { phoneVerificationAPI } = request
+const { userSMS, userVerificationCode, userSignUp } = authRequest
 const useRegisterInput = () => {
   const [formData, setFormData] = useState({
     id: { value: '', error: '' },
@@ -16,12 +17,13 @@ const useRegisterInput = () => {
   const [phoneAuthButtonVisible, setPhoneAuthButtonVisible] = useState(true)
   const [signUpButton, setSignUpButton] = useState({ formValidate: true, verification: true })
 
+  const { id, password, confirmPassword, phoneNumber, verification } = formData
+  const idError = idValidator(id.value)
+  const passwordError = passwordValidator(password.value)
+  const confirmError = confirmPwValidator(password.value, confirmPassword.value)
+  const phoneNumberError = phoneNumberValidator(phoneNumber.value)
+
   const signUpFieldEndEditing = () => {
-    const { id, password, confirmPassword, phoneNumber } = formData
-    const idError = idValidator(id.value)
-    const passwordError = passwordValidator(password.value)
-    const confirmError = confirmPwValidator(password.value, confirmPassword.value)
-    const phoneNumberError = phoneNumberValidator(phoneNumber.value)
     if (idError || passwordError || confirmError || phoneNumberError) {
       setFormData({
         ...formData,
@@ -38,8 +40,6 @@ const useRegisterInput = () => {
   }
 
   const phoneAuthOnPressed = async () => {
-    const { phoneNumber } = formData
-    const phoneNumberError = phoneNumberValidator(phoneNumber.value)
     if (phoneNumberError) {
       setFormData({
         ...formData,
@@ -48,27 +48,50 @@ const useRegisterInput = () => {
       setPhoneAuthButtonVisible(true)
       return
     }
-    const number = await phoneVerificationAPI(phoneNumber.value)
-    fetchPhoneVerification(number)
-    setPhoneAuthButtonVisible(false)
+    const responseCode = await userSMS(phoneNumber.value)
+    if (responseCode) {
+      setPhoneAuthButtonVisible(false)
+    }
   }
 
-  const fetchPhoneVerification = (number: string | ErrorConstructor) => {
-    const { verification } = formData
-    if (number === verification.value) {
+  const handleVerificationPressed = async () => {
+    if (!verification.value) {
+      return
+    }
+    const isCodeValid = await userVerificationCode(phoneNumber.value, verification.value)
+
+    if (isCodeValid) {
       setSignUpButton(prev => ({ ...prev, verification: false }))
     } else {
       setSignUpButton(prev => ({ ...prev, verification: true }))
     }
   }
+
+  const handleOnChangeText = (inputText: string, label: keyof typeof formData) => {
+    setFormData({ ...formData, [label]: { value: inputText, error: '' } })
+  }
+  const requestSignupOnPress = async () => {
+    const userData = {
+      id: formData.id.value,
+      password: formData.password.value,
+      phone: formData.phoneNumber.value,
+      name: '',
+      nickname: formData.nickname.value,
+      gender: formData.gender.value as 'Male' | 'Female',
+      age: calculateAge(birthDay.year, birthDay.month, birthDay.day),
+    }
+    const response = await userSignUp(userData)
+  }
   return {
     formData,
-    setFormData,
     setBirthDay,
     phoneAuthButtonVisible,
     signUpButton,
     signUpFieldEndEditing,
     phoneAuthOnPressed,
+    handleOnChangeText,
+    handleVerificationPressed,
+    requestSignupOnPress,
   }
 }
 

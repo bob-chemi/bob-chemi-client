@@ -1,25 +1,33 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { Pressable, Text, TouchableOpacity } from 'react-native'
+import { Text, TouchableOpacity } from 'react-native'
 import * as S from '../Auth.style'
 import TextInputComp from '../register/components/TextInputComp'
+import { authRequest } from '@/api/authRequest'
 import CustomButton from '@/common/components/CustomButton'
+import CustomText from '@/common/components/CustomText'
+import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import { Nav } from '@/types/nav'
 import { idValidator, passwordValidator } from '@/utils/validator'
-
 const LoginScreen = () => {
   const [id, setId] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const { navigate } = useNavigation<Nav>()
   const navigation = useNavigation()
-
-  const loginOnPressed = () => {
+  const { userLogin } = authRequest
+  const loginOnPressed = async () => {
     const idError = idValidator(id.value)
     const passwordError = passwordValidator(password.value)
     if (idError || passwordError) {
       setId({ ...id, error: idError })
       setPassword({ ...password, error: passwordError })
       return
+    } else {
+      const userData = {
+        id: id.value,
+        password: password.value,
+      }
+      const response = await userLogin(userData)
     }
   }
 
@@ -51,27 +59,31 @@ const LoginScreen = () => {
           fullWidth
         />
       </S.TextInputForm>
-      <S.SaveIdLine>
+      <FlexDirectionWrapper mt={24} mb={24} flexDirection="row" justifyContent="space-between">
         <Text>아이디 기억하기</Text>
         <Text>비밀번호를 잊으셨나요?</Text>
-      </S.SaveIdLine>
+      </FlexDirectionWrapper>
       <S.ButtonWrapper>
-        <CustomButton variant="primary" color="white" fullWidth onPress={loginOnPressed}>
-          로그인하기
+        <CustomButton variant="primary" fullWidth onPress={loginOnPressed} borderRadius={20}>
+          <CustomText variant="white" fontSize={16} fontWeight={600}>
+            로그인하기
+          </CustomText>
         </CustomButton>
       </S.ButtonWrapper>
       {/* 개발 중 홈화면으로 가기 위한 버튼  */}
       <S.ButtonWrapper>
-        <Pressable onPress={tempGoToHome}>
-          <CustomButton variant="primary">홈으로 가기(개발중)</CustomButton>
-        </Pressable>
+        <CustomButton variant="primary" fullWidth onPress={tempGoToHome} borderRadius={20}>
+          <CustomText variant="white"> 홈으로 가기(개발중)</CustomText>
+        </CustomButton>
       </S.ButtonWrapper>
-      <S.JoinIdLine>
+      <FlexDirectionWrapper justifyContent="center" mt={100} mb={100} alignItems="center">
         <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('RegisterScreen')}>
-          <Text>아직 회원이 아니신가요? &nbsp;&nbsp;</Text>
-          <S.ColorText>회원가입</S.ColorText>
+          <CustomText variant="gray500">아직 회원이 아니신가요? &nbsp;&nbsp;</CustomText>
+          <CustomText fontWeight={600} variant="primary">
+            회원가입
+          </CustomText>
         </TouchableOpacity>
-      </S.JoinIdLine>
+      </FlexDirectionWrapper>
     </S.ScrollView>
   )
 }

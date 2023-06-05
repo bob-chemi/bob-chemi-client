@@ -6,7 +6,6 @@ import theme from '@/common/style/theme'
 import Home from '@/screens/home/Home'
 import FindUser from '@/screens/matching/FindUser'
 import SocialScreen from '@/screens/social/SocialScreen'
-
 // 앱의 하단에 존재하는 BottomTab의 param list
 export type TabParamList = {
   Home: undefined
@@ -67,7 +66,7 @@ const BottomTabs = () => {
       <Tab.Screen name="Chat" component={Settings} />
       <Tab.Screen name="Matching" component={FindUser} />
       <Tab.Screen name="Social" component={SocialScreen} />
-      <Tab.Screen name="Profile" component={Settings} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   )
 }
