@@ -54,7 +54,7 @@ const useRegisterInput = () => {
     }
   }
 
-  const handleVerificationPressed = async () => {
+  const smsVerificatinOnPressed = async () => {
     if (!verification.value) {
       return
     }
@@ -67,8 +67,8 @@ const useRegisterInput = () => {
     }
   }
 
-  const handleOnChangeText = (inputText: string, label: keyof typeof formData) => {
-    setFormData({ ...formData, [label]: { value: inputText, error: '' } })
+  const handleOnChangeText = (inputText: string, field: keyof typeof formData) => {
+    setFormData({ ...formData, [field]: { value: inputText, error: '' } })
   }
   const requestSignupOnPress = async () => {
     const userData = {
@@ -90,7 +90,7 @@ const useRegisterInput = () => {
     signUpFieldEndEditing,
     phoneAuthOnPressed,
     handleOnChangeText,
-    handleVerificationPressed,
+    smsVerificatinOnPressed,
     requestSignupOnPress,
   }
 }

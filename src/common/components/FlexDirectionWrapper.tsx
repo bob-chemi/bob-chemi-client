@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { FlexInterface, PaddingAndMargin } from '../style/theme'
+import { FlexInterface, PaddingAndMargin, Variant } from '../style/theme'
 interface FlexWrapperProps {
   children: React.ReactNode
 }
@@ -11,11 +11,11 @@ const FlexDirectionWrapper = ({ children, ...props }: FlexWrapperProps & Contain
 export default FlexDirectionWrapper
 
 interface ContainerProps extends FlexInterface, PaddingAndMargin {
-  backgroundColor?: string
+  backgroundColor?: Variant
 }
 
 const Container = styled.View<ContainerProps>`
-  padding: ${({ p }) => (p ? `${p}px` : '0px')};
+  padding: ${({ p }) => (typeof p === 'number' ? `${p}px` : '0px')};
   padding-left: ${({ pl }) => (pl ? `${pl}px` : '0px')};
   padding-right: ${({ pr }) => (pr ? `${pr}px` : '0px')};
   padding-top: ${({ pt }) => (pt ? `${pt}px` : '0px')};
@@ -29,5 +29,6 @@ const Container = styled.View<ContainerProps>`
   flex-direction: ${({ flexDirection }) => (flexDirection ? flexDirection : 'row')};
   justify-content: ${({ justifyContent }) => (justifyContent ? justifyContent : 'flex-start')};
   align-items: ${({ alignItems }) => (alignItems ? alignItems : 'stretch')};
-  background-color: ${({ backgroundColor }) => (backgroundColor ? backgroundColor : 'transparent')};
+  background-color: ${({ backgroundColor, theme }) =>
+    backgroundColor ? theme.colors[backgroundColor] : 'transparent'};
 `

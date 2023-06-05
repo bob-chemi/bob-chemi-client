@@ -20,7 +20,7 @@ const RegisterScreen = () => {
     signUpFieldEndEditing,
     phoneAuthOnPressed,
     handleOnChangeText,
-    handleVerificationPressed,
+    smsVerificatinOnPressed,
     requestSignupOnPress,
   } = useRegisterInput()
 
@@ -33,7 +33,7 @@ const RegisterScreen = () => {
           labelText="아이디"
           validate={formData.id.error}
           placeholder="5~20글자를 입력해주세요"
-          onChangeText={mail => handleOnChangeText(mail, 'id')}
+          onChangeText={id => handleOnChangeText(id, 'id')}
           keyboardType="email-address"
           fullWidth
           onEndEditing={() => signUpFieldEndEditing()}
@@ -80,7 +80,7 @@ const RegisterScreen = () => {
           onChangeText={verification => handleOnChangeText(verification, 'verification')}
           keyboardType="number-pad"
           halfButtonText="인증하기"
-          onPress={handleVerificationPressed}
+          onPress={smsVerificatinOnPressed}
           disabled={phoneAuthButtonVisible}
         />
       </S.TextInputForm>
