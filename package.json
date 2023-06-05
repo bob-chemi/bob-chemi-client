@@ -40,6 +40,7 @@
     "react-native-screens": "^3.20.0",
     "react-native-select-dropdown": "^3.3.3",
     "react-native-star-rating": "^1.1.0",
+    "react-native-svg": "^13.9.0",
     "react-native-vector-icons": "^9.2.0",
     "react-query": "^3.39.3",
     "recoil": "^0.7.7",
@@ -72,6 +73,7 @@
     "metro-react-native-babel-preset": "0.73.9",
     "pod-install": "0.1.38",
     "prettier": "^2.4.1",
+    "react-native-svg-transformer": "^1.0.0",
     "react-test-renderer": "18.2.0",
     "typescript": "4.8.4"
   },
