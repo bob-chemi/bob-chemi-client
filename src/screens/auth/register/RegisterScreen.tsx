@@ -21,6 +21,7 @@ const RegisterScreen = () => {
     phoneAuthOnPressed,
     handleOnChangeText,
     handleVerificationPressed,
+    requestSignupOnPress,
   } = useRegisterInput()
 
   const { navigate } = useNavigation<Nav>()
@@ -95,6 +96,7 @@ const RegisterScreen = () => {
           variant="primary"
           fullWidth
           borderRadius={20}
+          onPress={requestSignupOnPress}
         >
           <CustomText variant="white" fontSize={16} fontWeight={600}>
             회원가입

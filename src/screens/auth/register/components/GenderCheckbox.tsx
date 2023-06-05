@@ -22,16 +22,16 @@ const GenderCheckbox = ({ selectedGender, setGender }: GenderCheckboxProp) => {
       <FlexDirectionWrapper flex={2}>
         <FlexDirectionWrapper flex={1} alignItems="center">
           <CheckBox
-            value={selectedGender.value === 'male'}
-            onValueChange={() => handleGenderSelection('male')}
+            value={selectedGender.value === 'Male'}
+            onValueChange={() => handleGenderSelection('Male')}
             tintColors={{ true: `${theme.colors.primary}` }}
           />
           <CustomText variant="gray500">남자</CustomText>
         </FlexDirectionWrapper>
         <FlexDirectionWrapper flex={1} alignItems="center">
           <CheckBox
-            value={selectedGender.value === 'female'}
-            onValueChange={() => handleGenderSelection('female')}
+            value={selectedGender.value === 'Female'}
+            onValueChange={() => handleGenderSelection('Female')}
             tintColors={{ true: `${theme.colors.primary}` }}
           />
           <CustomText variant="gray500">여자</CustomText>

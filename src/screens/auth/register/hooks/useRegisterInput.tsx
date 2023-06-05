@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { authRequest } from '@/api/authRequest'
+import { calculateAge } from '@/utils/calculateAge'
 import { idValidator, passwordValidator, confirmPwValidator, phoneNumberValidator } from '@/utils/validator'
-const { userSMS, userVerificationCode } = authRequest
+const { userSMS, userVerificationCode, userSignUp } = authRequest
 const useRegisterInput = () => {
   const [formData, setFormData] = useState({
     id: { value: '', error: '' },
@@ -69,7 +70,18 @@ const useRegisterInput = () => {
   const handleOnChangeText = (inputText: string, label: keyof typeof formData) => {
     setFormData({ ...formData, [label]: { value: inputText, error: '' } })
   }
-
+  const requestSignupOnPress = async () => {
+    const userData = {
+      id: formData.id.value,
+      password: formData.password.value,
+      phone: formData.phoneNumber.value,
+      name: '',
+      nickname: formData.nickname.value,
+      gender: formData.gender.value as 'Male' | 'Female',
+      age: calculateAge(birthDay.year, birthDay.month, birthDay.day),
+    }
+    const response = await userSignUp(userData)
+  }
   return {
     formData,
     setBirthDay,
@@ -79,6 +91,7 @@ const useRegisterInput = () => {
     phoneAuthOnPressed,
     handleOnChangeText,
     handleVerificationPressed,
+    requestSignupOnPress,
   }
 }
 

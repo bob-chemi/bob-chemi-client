@@ -2,12 +2,12 @@
 import { AxiosResponse } from 'axios'
 import { requestData } from './constansts'
 export const authRequest = {
-  userLogin: async (loginData: { email: string; password: string }) => {
+  userLogin: async (loginData: { id: string; password: string }) => {
     const { data } = await requestData('/auth/login', 'post', loginData)
     return data
   },
   userSignUp: async (userData: {
-    email: string
+    id: string
     password: string
     phone: string
     name: string

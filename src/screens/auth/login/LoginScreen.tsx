@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import * as S from '../Auth.style'
 import TextInputComp from '../register/components/TextInputComp'
+import { authRequest } from '@/api/authRequest'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
@@ -13,14 +14,20 @@ const LoginScreen = () => {
   const [password, setPassword] = useState({ value: '', error: '' })
   const { navigate } = useNavigation<Nav>()
   const navigation = useNavigation()
-
-  const loginOnPressed = () => {
+  const { userLogin } = authRequest
+  const loginOnPressed = async () => {
     const idError = idValidator(id.value)
     const passwordError = passwordValidator(password.value)
     if (idError || passwordError) {
       setId({ ...id, error: idError })
       setPassword({ ...password, error: passwordError })
       return
+    } else {
+      const userData = {
+        id: id.value,
+        password: password.value,
+      }
+      const response = await userLogin(userData)
     }
   }
 
