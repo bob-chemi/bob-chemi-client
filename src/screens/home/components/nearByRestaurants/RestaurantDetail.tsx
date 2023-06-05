@@ -1,14 +1,15 @@
+import StarEmpty from '@assets/icons/starEmpty.svg'
+import StarFilled from '@assets/icons/starFilled.svg'
 import { GOOGLE_MAPS_API_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
-import type { NativeStackScreenProps } from '@react-navigation/native-stack'
+import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import React, { useEffect, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, Pressable } from 'react-native'
 import { Linking } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import StarRating from 'react-native-star-rating'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
 import ReviewCard, { Review } from './ReviewCard'
 import FlatListSeparator from '@/common/components/FlatListSeparator'
@@ -19,6 +20,8 @@ import * as S from '@/screens/home/components/nearByRestaurants/RestaurantDetail
 // TODO: TIL
 type RestaurantDetailProps = NativeStackScreenProps<SliderParamList, 'RestaurantsDetail'>
 
+type RestaurantDetailNavigationProp = NativeStackNavigationProp<SliderParamList, 'RestaurantsDetail'>
+
 interface PhotoOfApi {
   width: number
   height: number
@@ -26,10 +29,21 @@ interface PhotoOfApi {
   photo_reference: string
 }
 
+// 헤더 오른쪽에 있는 즐겨찾기 기능의 별 아이콘
+const FavoriteElement = () => {
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  const toggleFavorite = () => {
+    setIsFavorite(prev => !prev)
+  }
+
+  return <Pressable onPress={toggleFavorite}>{isFavorite ? <StarFilled /> : <StarEmpty />}</Pressable>
+}
+
 const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   // Constants
   const { item } = route.params
-  const navigation = useNavigation()
+  const navigation = useNavigation<RestaurantDetailNavigationProp>()
   const day = dayjs().day()
 
   // States
@@ -108,11 +122,12 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   }
 
   // Effects
-  // 헤더 타이틀 설정
+  // 헤더 타이틀 설정, 헤더 오른쪽에 즐겨찾기 컴포넌트 추가
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
       headerTitle: item && item.name ? item.name : '상세보기',
+      headerRight: () => <FavoriteElement />,
     })
   }, [navigation, item])
 

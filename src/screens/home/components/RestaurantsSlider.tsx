@@ -1,3 +1,4 @@
+import SliderHandler from '@assets/icons/sliderHandler.svg'
 import React, { Dispatch, ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react'
 import { Animated, Dimensions, FlatList, Pressable, Text, View } from 'react-native'
 import SlidingUpPanel from 'rn-sliding-up-panel'
@@ -17,9 +18,11 @@ const Layout = styled.View`
 `
 
 const Handler = styled.View`
-  height: 40px;
-  background-color: lightpink;
+  height: 20px;
+  background-color: white;
   width: 100%;
+  justify-content: center;
+  align-items: center;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 `
@@ -69,7 +72,7 @@ const RestaurantsSlider = forwardRef(
         <Layout>
           <Handler>
             <Pressable onPress={controlSliderShowing}>
-              <Text>핸들러</Text>
+              <SliderHandler />
             </Pressable>
           </Handler>
 

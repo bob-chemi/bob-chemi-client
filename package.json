@@ -17,11 +17,13 @@
     "LocationWhenInUse"
   ],
   "dependencies": {
+    "@ptomasroos/react-native-multi-slider": "^2.2.2",
     "@react-native-community/checkbox": "^0.5.15",
     "@react-native-community/geolocation": "^3.0.6",
     "@react-navigation/bottom-tabs": "^6.5.7",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "@types/react-native-multi-slider": "^0.3.2",
     "@types/react-native-star-rating": "^1.1.2",
     "@types/react-native-vector-icons": "^6.4.13",
     "axios": "^1.4.0",

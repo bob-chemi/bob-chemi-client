@@ -45,7 +45,6 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
         followsUserLocation
         showsMyLocationButton
         zoomControlEnabled
-        showsScale
         initialRegion={{
           ...currentLocation,
           latitudeDelta: 0.0461,
