@@ -1,9 +1,13 @@
 import React from 'react'
 import * as S from './SocialScreen.style'
-import WeekDayPicker from './WeekDayPicker'
-import ContentsBox from './ContentsBox'
+import WeekDayPicker from './components/WeekDayPicker'
+import ContentsBox from './components/ContentsBox'
 import axios from 'axios';
 import { FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import theme from '@/common/style/theme'
+import { useNavigation } from '@react-navigation/native'
+import { Nav } from '@/types/nav'
 
 const getSocialList = () => { //소모임 리스트 GET 요청
   axios.get('https://api.example.com') //url 수정 필요
@@ -75,6 +79,8 @@ const renderContentsItem = ({ item }: { item: object }) => {
 }
 
 const SocialScreen = () => {
+  const { navigate } = useNavigation<Nav>()
+
   return (
     <S.Container>
       <S.BlockTop>
@@ -90,6 +96,7 @@ const SocialScreen = () => {
           numColumns={2}>
         </FlatList>
       </S.ContentsContainer>
+      <S.CreateButton onPress={() => navigate('CreateSocial')}><Icon name="pencil" color={theme.colors.white} size={30}></Icon></S.CreateButton>
     </S.Container>
   )
 }

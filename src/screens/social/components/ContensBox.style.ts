@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '@/utils/getScreenSize'
+import theme from '@/common/style/theme'
 
 export const ContentsDiv = styled.View`
   margin: 10px;
@@ -10,7 +11,7 @@ export const ContentsDiv = styled.View`
 export const SocialImage = styled.View`
   width: 100%;
   height: 70%;
-  backgroundColor: rgba(0,0,0,.5);
+  backgroundColor: ${theme.colors.gray400};
   alignSelf: center;
 `
 
@@ -23,5 +24,5 @@ export const TextMain = styled.Text`
 export const TextSub = styled.Text`
   fontSize: 12px;
   fontWeight: 600;
-  color: rgba(0,0,0,.5);
+  color: ${theme.colors.gray400};
 `

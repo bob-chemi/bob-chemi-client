@@ -1,6 +1,7 @@
 type Colors = {
   primary: string
   gray500: string
+  gray400: string
   gray300: string
   gray200: string
   gray100: string
@@ -16,6 +17,7 @@ export interface ThemeProps {
 const colors: Colors = {
   primary: '#ff7622',
   gray500: '#32343e',
+  gray400: '#84858C',
   gray300: '#98a8b8',
   gray200: '#c8d3de',
   gray100: '#e8eff5',

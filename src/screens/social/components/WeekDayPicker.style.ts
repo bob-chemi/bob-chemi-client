@@ -1,24 +1,26 @@
 import styled from 'styled-components/native'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
+import theme from '@/common/style/theme'
 
 export const TextDay = styled.Text`
-  color: rgba(0, 0, 0, 0.5);
+  color: ${theme.colors.gray400};
   font-size: 15px;
   font-weight: 600;
-  textalign: center;
+  textAlign: center;
 `
 
 export const TextDate = styled.Text<{ isSelected: boolean }>`
   color: #000;
   font-size: 18px;
   font-weight: 600;
-  textalign: center;
-  backgroundcolor: ${props => (props.isSelected ? 'rgba(255,100,30,1)' : 'transparent')};
+  textAlign: center;
+  backgroundColor: ${props => (props.isSelected ? theme.colors.primary : 'transparent')};
   border-radius: 20px;
   width: 35px;
 `
 
 export const DateBtn = styled.TouchableOpacity`
-  alignitems: center;
+  align-items: center;
+  justify-content: center;
   width: ${(SCREEN_WIDTH - 40) / 7}px;
 `
