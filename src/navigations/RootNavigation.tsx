@@ -15,7 +15,7 @@ const RootNavigation = () => {
   return (
     <RootNativeStack.Navigator screenOptions={{ headerShown: false }}>
       {/** BottomTabs 안에 앱의 하단에서 쓸 Screen들이 존재 */}
-      {/* <RootNativeStack.Screen name="Stack" component={StackNav} /> */}
+      <RootNativeStack.Screen name="Stack" component={StackNav} />
       <RootNativeStack.Screen name="Tab" component={BottomTabs} />
     </RootNativeStack.Navigator>
   )
