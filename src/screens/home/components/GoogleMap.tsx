@@ -1,9 +1,11 @@
 import { useNavigation } from '@react-navigation/native'
 import { useRef, useState } from 'react'
+import { View } from 'react-native'
 import MapView, { Marker, Region } from 'react-native-maps'
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import * as S from './GoogleMap.style'
 import RestaurantsSlider from './RestaurantsSlider'
+import RestaurantNormalIcon from '@/assets/icons/restaurantNormal.svg'
 
 interface GoogleMapProps {
   currentLocation: Region
@@ -60,7 +62,11 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
                 description={restaurant.vicinity}
                 coordinate={{ latitude: lat ? lat : 0, longitude: lng ? lng : 0 }}
                 onPress={() => showRestaurantDetail(restaurant)}
-              />
+              >
+                <View>
+                  <RestaurantNormalIcon width={30} height={30} />
+                </View>
+              </Marker>
             )
           })}
       </MapView>
