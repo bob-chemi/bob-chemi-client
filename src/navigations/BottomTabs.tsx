@@ -1,10 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-
+import { RouteProp } from '@react-navigation/native'
 import { View } from 'react-native'
-import LoginScreen from '@/screens/auth/login/LoginScreen'
-import RegisterScreen from '@/screens/auth/register/RegisterScreen'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import theme from '@/common/style/theme'
 import Home from '@/screens/home/Home'
-import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
 
 // 앱의 하단에 존재하는 BottomTab의 param list
@@ -20,16 +19,52 @@ type TabParamList = {
 }
 
 const Tab = createBottomTabNavigator<TabParamList>()
+
+// 탭 바 아이콘 String 반환 함수
+const getTabBarIcon = (route: RouteProp<TabParamList, keyof TabParamList>, focused: boolean) => {
+  let iconName
+
+  switch (route.name) {
+    case 'Home':
+      iconName = focused ? 'home' : 'home-outline' // focused 상태에 따라 아이콘 변경
+      break
+    case 'Chat':
+      iconName = focused ? 'message' : 'message-outline'
+      break
+    case 'Matching':
+      iconName = focused ? 'heart' : 'heart-outline'
+      break
+    case 'Social':
+      iconName = focused ? 'account-group' : 'account-group-outline'
+      break
+    case 'Profile':
+      iconName = focused ? 'account' : 'account-outline'
+      break
+    default:
+      iconName = 'ban'
+  }
+
+  return iconName
+}
+
 const Settings = () => {
   return <View></View>
 }
 const BottomTabs = () => {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarShowLabel: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          const iconName = getTabBarIcon(route, focused)
+
+          return <Icon name={iconName} color={color} size={size} />
+        },
+      })}
+    >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="PreviewScreen" component={PreviewScreen} />
-      <Tab.Screen name="LoginScreen" component={LoginScreen} />
-      <Tab.Screen name="RegisterScreen" component={RegisterScreen} />
       <Tab.Screen name="Chat" component={Settings} />
       <Tab.Screen name="Matching" component={Settings} />
       <Tab.Screen name="Social" component={SocialScreen} />
