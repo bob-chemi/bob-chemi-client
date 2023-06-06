@@ -7,7 +7,6 @@ export const Container = styled.View`
   padding-top: 15px;
   paddingHorizontal: 20px;
   height: ${SCREEN_HEIGHT}px;
-  align-items: center;
 `
 
 export const BlockTop = styled.View`
@@ -91,20 +90,4 @@ export const DateBtn = styled.TouchableOpacity`
   align-items: center;
   justify-content: center;
   width: ${(SCREEN_WIDTH - 40) / 7}px;
-`
-
-/* PostSocialScreen */
-export const PostBtn = styled.TouchableOpacity`
-  margin-top: 20px;
-  backgroundColor: ${theme.colors.primary};
-  width: 80px;
-  padding: 5px;
-  border-radius: 10px;
-  align-items: center;
-`
-
-export const PostBtnText = styled.Text`
-  font-weight: 600;
-  font-size: 15px;
-  color: white;
 `

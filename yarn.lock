@@ -1624,13 +1624,6 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
-"@react-native-community/datetimepicker@^7.1.0":
-  version "7.1.0"
-  resolved "https://registry.npmjs.org/@react-native-community/datetimepicker/-/datetimepicker-7.1.0.tgz"
-  integrity sha512-bXK1/UnutKgJMbHKcbh6TQN3GmzOWROo6Hc9z6tfVG6KIwq5MrdvxZTFJA97PB6xwW8p3v9ddkaSfkFa1pelPA==
-  dependencies:
-    invariant "^2.2.4"
-
 "@react-native-community/eslint-config@^3.2.0":
   version "3.2.0"
   resolved "https://registry.npmjs.org/@react-native-community/eslint-config/-/eslint-config-3.2.0.tgz"
@@ -1659,11 +1652,6 @@
   version "3.0.6"
   resolved "https://registry.npmjs.org/@react-native-community/geolocation/-/geolocation-3.0.6.tgz"
   integrity sha512-+iidKFgw1HxCJSHVnlywAKu6uerdpDAKTXLRnlsUdhgqtgTiIixb496Z267iPVFmIO1bp4lOU6UiwzmvcyXdbg==
-
-"@react-native-picker/picker@^2.4.10":
-  version "2.4.10"
-  resolved "https://registry.npmjs.org/@react-native-picker/picker/-/picker-2.4.10.tgz"
-  integrity sha512-EvAlHmPEPOwvbP6Pjg/gtDV3XJzIjIxr10fXFNlX5r9HeHw582G1Zt2o8FLyB718nOttgj8HYUTGxvhu4N65sQ==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -6832,11 +6820,6 @@ react-native-gradle-plugin@^0.71.18:
   resolved "https://registry.npmjs.org/react-native-gradle-plugin/-/react-native-gradle-plugin-0.71.18.tgz"
   integrity sha512-7F6bD7B8Xsn3JllxcwHhFcsl9aHIig47+3eN4IHFNqfLhZr++3ElDrcqfMzugM+niWbaMi7bJ0kAkAL8eCpdWg==
 
-react-native-image-picker@^5.4.0:
-  version "5.4.0"
-  resolved "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-5.4.0.tgz"
-  integrity sha512-qtLroIqpHADaR0/XJBD7E0boq+AAVT6wXvY4+pzrHjx12Lx2BhpFZH0rlWc/HIqeWBhZckAIpZ0ndapiGEMdYg==
-
 react-native-maps@^1.7.1:
   version "1.7.1"
   resolved "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.7.1.tgz"
@@ -6902,7 +6885,7 @@ react-native-vector-icons@^9.2.0:
     prop-types "^15.7.2"
     yargs "^16.1.1"
 
-react-native@*, "react-native@>= 0.62", "react-native@>= 0.64.3", react-native@>=0.47, react-native@>=0.57, react-native@>=0.60.0, react-native@>=0.63.3, react-native@0.71.8:
+react-native@*, "react-native@>= 0.62", "react-native@>= 0.64.3", react-native@>=0.47, react-native@>=0.60.0, react-native@>=0.63.3, react-native@0.71.8:
   version "0.71.8"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.71.8.tgz"
   integrity sha512-ftMAuhpgTkbHU9brrqsEyxcNrpYvXKeATY+if22Nfhhg1zW+6wn95w9otwTnA3xHkljPCbng8mUhmmERjGEl7g==
@@ -6973,7 +6956,7 @@ react-test-renderer@18.2.0:
     react-shallow-renderer "^16.15.0"
     scheduler "^0.23.0"
 
-react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17 || ^18", react@^18.2.0, "react@>= 16.8.0", "react@>= 17.0.1", react@>=16, react@>=16.13.1, react@>=16.8, react@>=16.x, react@>=17.0.0, react@18.2.0:
+react@*, "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^17 || ^18", react@^18.2.0, "react@>= 16.8.0", "react@>= 17.0.1", react@>=16.13.1, react@>=16.8, react@>=16.x, react@>=17.0.0, react@18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
