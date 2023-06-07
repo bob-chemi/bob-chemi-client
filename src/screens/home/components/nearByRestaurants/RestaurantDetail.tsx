@@ -5,16 +5,19 @@ import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
 import axios from 'axios'
 import dayjs from 'dayjs'
+import haversineDistance from 'haversine-distance'
 import React, { useEffect, useState } from 'react'
 import { FlatList, Pressable } from 'react-native'
 import { Linking } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import StarRating from 'react-native-star-rating'
+import { useRecoilValue } from 'recoil'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
 import ReviewCard, { Review } from './ReviewCard'
 import FlatListSeparator from '@/common/components/FlatListSeparator'
 import LoadingSpinner from '@/common/components/LoadingSpinner'
 import theme from '@/common/style/theme'
+import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
 import * as S from '@/screens/home/components/nearByRestaurants/RestaurantDetail.style'
 
 // TODO: TIL
@@ -42,7 +45,7 @@ const FavoriteElement = () => {
 
 const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   // Constants
-  const { item } = route.params
+  const { item, distance, fetchDetailInfo } = route.params
   const navigation = useNavigation<RestaurantDetailNavigationProp>()
   const day = dayjs().day()
 
@@ -53,6 +56,10 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   const [openNow, setOpenNow] = useState<boolean | null>(false)
   const [operationHours, setOperationHours] = useState<string[]>([])
   const [showOperationHoursMore, setShowOperationHoursMore] = useState<boolean>(false)
+  const [distanceFromCurrentLocation, setDistanceFromCurrentLocation] = useState<number>(0)
+
+  // Recoils
+  const currentLocation = useRecoilValue(currentLocationAtom)
 
   // Functions
   const renderImages = ({ item }: { item: any }) => {
@@ -80,10 +87,9 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   }
 
   const getDetailInfo = async () => {
-    console.log('getDetailInfo 실행되었음')
     // detailInfo가 존재하면 API 호출하지 않음
     if (detailInfo) return
-    console.log('API 실행됨')
+
     // 상세 정보 API 호출해서 사진 Refs 가져오기
     const detailReqUrl = 'https://maps.googleapis.com/maps/api/place/details/json'
     try {
@@ -96,7 +102,7 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
       })
       if (detailRestaurantInfo.status === 200 && detailRestaurantInfo.data.status === 'OK') {
         const detailInfo = detailRestaurantInfo.data.result
-        console.log(detailInfo)
+        // console.log(detailInfo)
         const imageRefs = detailInfo.photos ? detailInfo.photos : null
         const imageUrls = getImages(imageRefs)
         // 영업중인지 확인
@@ -106,8 +112,20 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
             : false
           : null
         const operationHours = detailInfo.current_opening_hours ? detailInfo.current_opening_hours.weekday_text : []
+        // 거리를 확인
+        const currentLocationObj = {
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+        }
+        const restaurantLocationObj = {
+          latitude: detailInfo.geometry.location.lat,
+          longitude: detailInfo.geometry.location.lng,
+        }
+        const distance = Math.floor(haversineDistance(currentLocationObj, restaurantLocationObj))
+
         setOperationHours(operationHours)
         setOpenNow(openNow)
+        setDistanceFromCurrentLocation(distance)
         setImages(imageUrls)
         setDetailInfo(detailRestaurantInfo.data.result)
         setIsLoading(false)
@@ -115,6 +133,32 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const modifyDetailInfo = () => {
+    const detailInfo = item
+    const imageRefs = detailInfo.photos ? detailInfo.photos : null
+    const imageUrls = getImages(imageRefs)
+    // 영업중인지 확인
+    const openNow = detailInfo.current_opening_hours ? (detailInfo.current_opening_hours.open_now ? true : false) : null
+    const operationHours = detailInfo.current_opening_hours ? detailInfo.current_opening_hours.weekday_text : []
+    // 거리를 확인
+    const currentLocationObj = {
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+    }
+    const restaurantLocationObj = {
+      latitude: detailInfo.geometry.location.lat,
+      longitude: detailInfo.geometry.location.lng,
+    }
+    const distance = Math.floor(haversineDistance(currentLocationObj, restaurantLocationObj))
+
+    setOperationHours(operationHours)
+    setOpenNow(openNow)
+    setDistanceFromCurrentLocation(distance)
+    setImages(imageUrls)
+    setDetailInfo(detailInfo)
+    setIsLoading(false)
   }
 
   const toggleShowOperationHoursMore = () => {
@@ -126,22 +170,24 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      headerTitle: item && item.name ? item.name : '상세보기',
+      headerTitle: item && item.name ? item.name : detailInfo && detailInfo.name ? detailInfo.name : '상세보기',
       headerRight: () => <FavoriteElement />,
     })
-  }, [navigation, item])
+  }, [navigation, item, detailInfo])
 
   // 장소 상세정보 불러오기
   useEffect(() => {
-    if (item) {
+    if (item && fetchDetailInfo) {
       getDetailInfo()
+    } else if (item && !fetchDetailInfo) {
+      modifyDetailInfo()
     }
-  }, [item])
+  }, [item, fetchDetailInfo])
 
   // 디버깅
   useEffect(() => {
-    console.log(detailInfo)
-  }, [detailInfo])
+    // console.log(detailInfo)
+  }, [detailInfo, fetchDetailInfo])
 
   return (
     <>
@@ -159,8 +205,20 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
           <S.RestaurantInfo>
             <S.Location>
               <S.IconComponent name="map-marker-outline" size={20} />
-              <S.Text>{detailInfo.formatted_address ? detailInfo.formatted_address : '주소 정보 없음'}</S.Text>
+              <S.Text>{detailInfo.formatted_address ? detailInfo.formatted_address : '주소 정보 없음'} </S.Text>
             </S.Location>
+            {distance ? (
+              <S.Distance>
+                <S.IconComponent name="map-marker-distance" size={20} />
+                <S.Text>{distance}m</S.Text>
+              </S.Distance>
+            ) : distanceFromCurrentLocation ? (
+              <S.Distance>
+                <S.IconComponent name="map-marker-distance" size={20} />
+                <S.Text>{distanceFromCurrentLocation}m</S.Text>
+              </S.Distance>
+            ) : null}
+
             <S.OperationHoursCol>
               <S.IconComponent name="clock-outline" size={20} />
               <S.OperationHours>

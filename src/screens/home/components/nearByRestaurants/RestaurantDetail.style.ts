@@ -26,6 +26,8 @@ export const IconComponent = styled(Icon)`
 
 export const Location = styled(RestaurantInfoRow)``
 
+export const Distance = styled(RestaurantInfoRow)``
+
 interface TextProps extends Text {
   color?: string
   variant?: 'success' | 'primary' | 'gray100' | 'gray200' | 'gray300'

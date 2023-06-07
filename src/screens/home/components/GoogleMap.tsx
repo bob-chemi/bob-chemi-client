@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import MapView, { Marker, Region } from 'react-native-maps'
 import SlidingUpPanel from 'rn-sliding-up-panel'
+import AutoCompleteSearchBar from './AutoCompleteSearchBar'
 import * as S from './GoogleMap.style'
 import RestaurantsSlider from './RestaurantsSlider'
 import RestaurantNormalIcon from '@/assets/icons/restaurantNormal.svg'
@@ -17,8 +18,10 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
   const navigation = useNavigation()
   //States
   const [sliderShowing, setSliderShowing] = useState(false)
-
+  // AutoCompleteSearchBar 에서 검색한 식당 정보
+  const [searchedRestaurant, setSearchedRestaurant] = useState<any>(null)
   // Refs
+  const mapViewRef = useRef<MapView>(null)
   const restaurantSliderRef = useRef<SlidingUpPanel>(null)
 
   // Functions
@@ -28,9 +31,28 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
       restaurantSliderRef.current.show()
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      navigation.navigate('RestaurantsDetail', { item: restaurant })
+      navigation.navigate('RestaurantsDetail', { item: restaurant, fetchDetailInfo: true })
     }
   }
+
+  // Effects
+  // 검색한 식당이 있으면 해당 식당으로 이동
+  useEffect(() => {
+    if (searchedRestaurant) {
+      console.log('검색한 식당 좌표', searchedRestaurant.geometry.location)
+      if (mapViewRef && mapViewRef.current) {
+        mapViewRef.current.animateToRegion(
+          {
+            latitude: searchedRestaurant.geometry.location.lat,
+            longitude: searchedRestaurant.geometry.location.lng,
+            latitudeDelta: 0.02,
+            longitudeDelta: 0.02,
+          },
+          1000
+        )
+      }
+    }
+  }, [searchedRestaurant])
 
   // 디버깅
   // useEffect(() => {
@@ -39,8 +61,17 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
 
   return (
     <S.Layout>
+      {!sliderShowing && (
+        <AutoCompleteSearchBar
+          currentLocation={currentLocation}
+          sliderPanelRef={restaurantSliderRef}
+          setSearchedRestaurant={setSearchedRestaurant}
+        />
+      )}
+
       <MapView
         style={{ flex: 1 }}
+        ref={mapViewRef}
         showsUserLocation
         followsUserLocation
         showsMyLocationButton
@@ -68,6 +99,21 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
               </Marker>
             )
           })}
+        {searchedRestaurant && (
+          <Marker
+            title={searchedRestaurant.name}
+            description={searchedRestaurant.vicinity}
+            coordinate={{
+              latitude: searchedRestaurant.geometry.location.lat,
+              longitude: searchedRestaurant.geometry.location.lng,
+            }}
+            onPress={() => showRestaurantDetail(searchedRestaurant)}
+          >
+            <View>
+              <RestaurantNormalIcon width={30} height={30} />
+            </View>
+          </Marker>
+        )}
       </MapView>
       <RestaurantsSlider
         nearByRestaurants={nearByRestaurants}
