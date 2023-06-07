@@ -42,7 +42,7 @@ const FavoriteElement = () => {
 
 const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   // Constants
-  const { item } = route.params
+  const { item, distance } = route.params
   const navigation = useNavigation<RestaurantDetailNavigationProp>()
   const day = dayjs().day()
 
@@ -158,8 +158,15 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
           <S.RestaurantInfo>
             <S.Location>
               <S.IconComponent name="map-marker-outline" size={20} />
-              <S.Text>{detailInfo.formatted_address ? detailInfo.formatted_address : '주소 정보 없음'}</S.Text>
+              <S.Text>{detailInfo.formatted_address ? detailInfo.formatted_address : '주소 정보 없음'} </S.Text>
             </S.Location>
+            {distance && (
+              <S.Distance>
+                <S.IconComponent name="map-marker-distance" size={20} />
+                <S.Text>{distance}m</S.Text>
+              </S.Distance>
+            )}
+
             <S.OperationHoursCol>
               <S.IconComponent name="clock-outline" size={20} />
               <S.OperationHours>

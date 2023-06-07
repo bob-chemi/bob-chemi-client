@@ -6,18 +6,14 @@ import { ActivityIndicator, View } from 'react-native'
 import { Region } from 'react-native-maps'
 import { useRecoilState } from 'recoil'
 import GoogleMap from './components/GoogleMap'
+import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
 import { nearByRestaurantsAtom } from '@/recoil/atoms/nearByRestaurantsAtom'
 import * as S from '@/screens/home/Home.style'
 
 const Home = () => {
   // States
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [currentLocation, setCurrentLocation] = useState<Region>({
-    latitude: 37.5665,
-    longitude: 126.978,
-    latitudeDelta: 0.0461,
-    longitudeDelta: 0.0211,
-  })
+  const [currentLocation, setCurrentLocation] = useRecoilState(currentLocationAtom)
   // FIXME: 작업 후 타입 추가
   const [nearByRestaurants, setNearByRestaurants] = useRecoilState(nearByRestaurantsAtom)
 

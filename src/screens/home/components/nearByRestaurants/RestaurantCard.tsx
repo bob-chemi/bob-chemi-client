@@ -1,11 +1,14 @@
 import { GOOGLE_MAPS_API_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import haversineDistance from 'haversine-distance'
 import React, { useEffect, useState } from 'react'
 import { Text, Pressable, TextProps } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import { useRecoilValue } from 'recoil'
 import styled from 'styled-components/native'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
+import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
 
 const CardLayout = styled.View`
   width: 100%;
@@ -70,6 +73,8 @@ const Address = styled.Text`
   color: #c4c0c0;
 `
 
+const Distance = styled.Text``
+
 interface OperationHoursProps extends TextProps {
   isOpen: 'open' | 'close' | 'unknown'
 }
@@ -99,6 +104,10 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
   // States
   const [image, setImage] = useState<any[]>([])
   const [isOpen, setIsOpen] = useState<'open' | 'close' | 'unknown'>('open')
+  const [distanceFromCurrentLocation, setDistanceFromCurrentLocation] = useState<number | null>(null)
+
+  // Recoils
+  const currentLocation = useRecoilValue(currentLocationAtom)
 
   // FUNCTIONS
   const getImage = () => {
@@ -112,21 +121,19 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
 
   const goToDetailPage = () => {
     console.log('goToDetailPage', item)
-    navigation.navigate('RestaurantsDetail', { item })
+    navigation.navigate('RestaurantsDetail', { item, distance: distanceFromCurrentLocation })
   }
 
   // EFFECTS
   useEffect(() => {
     if (item) {
-      // FIXME: API 사용량 때문에 주석처리
-      // getImages()
-      // console.log('카드 컴포넌트', item)
       getImage()
     }
   }, [])
 
   useEffect(() => {
     if (!item) return
+    // 오픈 시간 핸들링
     let openState: 'open' | 'close' | 'unknown' = 'unknown'
     if ('opening_hours' in item && item.opening_hours.open_now) {
       openState = 'open'
@@ -135,6 +142,16 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
     }
 
     setIsOpen(openState)
+
+    // 현재 위치에서 거리 계산
+    if (currentLocation) {
+      const { latitude: currentLat, longitude: currentLng } = currentLocation
+      const { lat: itemLat, lng: itemLng } = item.geometry.location
+      const currentLocationObj = { latitude: currentLat, longitude: currentLng }
+      const itemLocationObj = { latitude: itemLat, longitude: itemLng }
+      const distance = Math.floor(haversineDistance(currentLocationObj, itemLocationObj))
+      setDistanceFromCurrentLocation(distance)
+    }
   }, [item])
 
   return (
@@ -162,6 +179,7 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
           </RatingRow>
           <AddressAndOperationCol>
             <Address>{item.vicinity ? item.vicinity : '주소 정보 없음'}</Address>
+            {distanceFromCurrentLocation && <Distance>{distanceFromCurrentLocation}m</Distance>}
             <Operation isOpen={isOpen}>
               {item && item.opening_hours
                 ? item.opening_hours.open_now
