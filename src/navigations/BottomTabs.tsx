@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import theme from '@/common/style/theme'
 import Home from '@/screens/home/Home'
 import FindUser from '@/screens/matching/FindUser'
+import ProfileScreen from '@/screens/profile/ProfileScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
 // 앱의 하단에 존재하는 BottomTab의 param list
 export type TabParamList = {
