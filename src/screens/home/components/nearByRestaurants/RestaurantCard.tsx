@@ -121,7 +121,7 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
 
   const goToDetailPage = () => {
     console.log('goToDetailPage', item)
-    navigation.navigate('RestaurantsDetail', { item, distance: distanceFromCurrentLocation })
+    navigation.navigate('RestaurantsDetail', { item, distance: distanceFromCurrentLocation, fetchDetailInfo: true })
   }
 
   // EFFECTS

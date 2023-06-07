@@ -16,7 +16,7 @@ const Layout = styled.View`
 `
 
 const Handler = styled.View`
-  height: 20px;
+  height: 30px;
   background-color: white;
   width: 100%;
   justify-content: center;
@@ -72,7 +72,7 @@ const RestaurantsSlider = forwardRef(
     return (
       <SlidingUpPanel
         ref={ref}
-        draggableRange={{ top: 600, bottom: 40 }}
+        draggableRange={{ top: 600, bottom: 30 }}
         height={600}
         showBackdrop={false}
         friction={0.5}

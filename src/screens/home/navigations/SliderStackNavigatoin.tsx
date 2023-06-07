@@ -4,7 +4,7 @@ import RestaurantDetail from '../components/nearByRestaurants/RestaurantDetail'
 
 export type SliderParamList = {
   Restaurants: undefined
-  RestaurantsDetail: { item: any; distance: number | null }
+  RestaurantsDetail: { item: any; distance: number | null; fetchDetailInfo: boolean }
 }
 
 const SliderStack = createNativeStackNavigator<SliderParamList>()

@@ -18,6 +18,8 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
   const navigation = useNavigation()
   //States
   const [sliderShowing, setSliderShowing] = useState(false)
+  // AutoCompleteSearchBar 에서 검색한 식당 정보
+  const [searchedRestaurant, setSearchedRestaurant] = useState<any>(null)
   // Refs
   const restaurantSliderRef = useRef<SlidingUpPanel>(null)
 
@@ -28,7 +30,7 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
       restaurantSliderRef.current.show()
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      navigation.navigate('RestaurantsDetail', { item: restaurant })
+      navigation.navigate('RestaurantsDetail', { item: restaurant, fetchDetailInfo: true })
     }
   }
 

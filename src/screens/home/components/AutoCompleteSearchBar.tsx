@@ -16,12 +16,12 @@ const AutoCompleteSearchBar = ({ currentLocation, sliderPanelRef }: AutoComplete
 
   // Functions
   const onPress = (data: any, details: any) => {
-    console.log(details)
+    console.log('검색창 디테일', details)
     if (sliderPanelRef && sliderPanelRef.current) {
       sliderPanelRef.current.show()
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
-      navigation.navigate('RestaurantsDetail', { item: details })
+      navigation.navigate('RestaurantsDetail', { item: details, fetchDetailInfo: false })
     }
   }
 
@@ -32,11 +32,14 @@ const AutoCompleteSearchBar = ({ currentLocation, sliderPanelRef }: AutoComplete
         onPress={onPress}
         debounce={400}
         enablePoweredByContainer={false}
+        fetchDetails
         query={{
           key: GOOGLE_MAPS_API_KEY,
           language: 'ko',
           location: `${currentLocation.latitude},${currentLocation.longitude}`,
           radius: 2000,
+          components: 'country:kr',
+          types: 'restaurant|cafe|bakery|bar|food',
         }}
       />
     </S.SearchBarLayout>
