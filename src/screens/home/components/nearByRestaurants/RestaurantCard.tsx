@@ -98,7 +98,6 @@ interface RestaurantCardProps {
 
 const RestaurantCard = ({ item }: RestaurantCardProps) => {
   // Navigations
-  // TODO: TIL에 추가
   const navigation = useNavigation<NativeStackNavigationProp<SliderParamList>>()
 
   // States

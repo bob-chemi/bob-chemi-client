@@ -102,7 +102,7 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
       })
       if (detailRestaurantInfo.status === 200 && detailRestaurantInfo.data.status === 'OK') {
         const detailInfo = detailRestaurantInfo.data.result
-        console.log(detailInfo)
+        // console.log(detailInfo)
         const imageRefs = detailInfo.photos ? detailInfo.photos : null
         const imageUrls = getImages(imageRefs)
         // 영업중인지 확인
@@ -186,7 +186,7 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
 
   // 디버깅
   useEffect(() => {
-    console.log(detailInfo)
+    // console.log(detailInfo)
   }, [detailInfo, fetchDetailInfo])
 
   return (
