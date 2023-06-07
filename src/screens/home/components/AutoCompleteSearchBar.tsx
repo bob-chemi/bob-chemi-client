@@ -1,9 +1,11 @@
 import { GOOGLE_MAPS_API_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { Dispatch, RefObject } from 'react'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { Region } from 'react-native-maps'
 import SlidingUpPanel from 'rn-sliding-up-panel'
+import { SliderParamList } from '../navigations/SliderStackNavigatoin'
 import * as S from './AutoCompleteSearchBar.style'
 
 interface AutoCompleteSearchBarProps {
@@ -12,12 +14,14 @@ interface AutoCompleteSearchBarProps {
   setSearchedRestaurant: Dispatch<any>
 }
 
+type NavigationProp = NativeStackNavigationProp<SliderParamList, 'RestaurantsDetail'>
+
 const AutoCompleteSearchBar = ({
   currentLocation,
   sliderPanelRef,
   setSearchedRestaurant,
 }: AutoCompleteSearchBarProps) => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp>()
 
   // Functions
   const onPress = (data: any, details: any) => {
@@ -25,8 +29,6 @@ const AutoCompleteSearchBar = ({
     setSearchedRestaurant(details)
     if (sliderPanelRef && sliderPanelRef.current) {
       sliderPanelRef.current.show()
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
       navigation.navigate('RestaurantsDetail', { item: details, fetchDetailInfo: false })
     }
   }

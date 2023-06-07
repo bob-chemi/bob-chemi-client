@@ -5,7 +5,15 @@ import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
 import PostSocialScreen from '@/screens/social/PostSocialScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
 
-const Stack = createNativeStackNavigator()
+export type StackParamList = {
+  PreviewScreen: undefined
+  LoginScreen: undefined
+  RegisterScreen: undefined
+  SocialScreen: undefined
+  PostSocialScreen: undefined
+}
+
+const Stack = createNativeStackNavigator<StackParamList>()
 
 const StackNav = () => {
   return (

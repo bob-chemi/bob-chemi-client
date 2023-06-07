@@ -1,8 +1,10 @@
 import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import MapView, { Marker, Region } from 'react-native-maps'
 import SlidingUpPanel from 'rn-sliding-up-panel'
+import { SliderParamList } from '../navigations/SliderStackNavigatoin'
 import AutoCompleteSearchBar from './AutoCompleteSearchBar'
 import * as S from './GoogleMap.style'
 import RestaurantsSlider from './RestaurantsSlider'
@@ -13,9 +15,11 @@ interface GoogleMapProps {
   nearByRestaurants: any[]
 }
 
+type NavigationProp = NativeStackNavigationProp<SliderParamList, 'RestaurantsDetail'>
+
 const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
   // Navigation
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp>()
   //States
   const [sliderShowing, setSliderShowing] = useState(false)
   // AutoCompleteSearchBar 에서 검색한 식당 정보
@@ -29,8 +33,6 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
     // console.log(restaurant)
     if (restaurantSliderRef.current) {
       restaurantSliderRef.current.show()
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
       navigation.navigate('RestaurantsDetail', { item: restaurant, fetchDetailInfo: true })
     }
   }

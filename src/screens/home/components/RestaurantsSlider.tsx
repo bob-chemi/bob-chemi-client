@@ -1,10 +1,9 @@
 import SliderHandler from '@assets/icons/sliderHandler.svg'
 import React, { Dispatch, ForwardedRef, forwardRef } from 'react'
-import { Dimensions, PanResponderGestureState, Pressable, View } from 'react-native'
+import { Pressable, View } from 'react-native'
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import styled from 'styled-components/native'
 import SliderStackNavigation from '../navigations/SliderStackNavigatoin'
-import RestaurantCard from './nearByRestaurants/RestaurantCard'
 
 const Layout = styled.View`
   flex: 1;
