@@ -12,6 +12,8 @@ export default FlexDirectionWrapper
 
 interface ContainerProps extends FlexInterface, PaddingAndMargin {
   backgroundColor?: Variant
+  height?: number
+  width?: number
 }
 
 const Container = styled.View<ContainerProps>`
@@ -31,4 +33,6 @@ const Container = styled.View<ContainerProps>`
   align-items: ${({ alignItems }) => (alignItems ? alignItems : 'stretch')};
   background-color: ${({ backgroundColor, theme }) =>
     backgroundColor ? theme.colors[backgroundColor] : 'transparent'};
+  height: ${({ height }) => (height ? `${height}px` : 'auto')};
+  width: ${({ width }) => (width ? `${width}px` : 'auto')};
 `

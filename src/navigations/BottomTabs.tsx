@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import { View } from 'react-native'
+import ProfileStackNav from './ProfileStackNav'
 import LoginScreen from '@/screens/auth/login/LoginScreen'
 import RegisterScreen from '@/screens/auth/register/RegisterScreen'
 import Home from '@/screens/home/Home'
@@ -17,6 +18,7 @@ type TabParamList = {
   PreviewScreen: undefined
   LoginScreen: undefined
   RegisterScreen: undefined
+  ProfileStackNav: undefined
 }
 
 const Tab = createBottomTabNavigator<TabParamList>()
@@ -33,7 +35,7 @@ const BottomTabs = () => {
       <Tab.Screen name="Chat" component={Settings} />
       <Tab.Screen name="Matching" component={Settings} />
       <Tab.Screen name="Social" component={SocialScreen} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="ProfileStackNav" component={ProfileStackNav} />
     </Tab.Navigator>
   )
 }

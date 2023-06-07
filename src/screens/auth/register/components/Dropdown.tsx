@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import SelectDropdown from 'react-native-select-dropdown'
 import Icon from 'react-native-vector-icons/Entypo'
 import * as S from './Dropdown.style'
@@ -16,7 +16,7 @@ interface DropdownProp {
 
 export const Dropdown = ({ setValue }: DropdownProp) => {
   return (
-    <View>
+    <>
       <S.InputLabel>생년월일</S.InputLabel>
       <FlexDirectionWrapper>
         {DropDownList.map(data => (
@@ -57,7 +57,7 @@ export const Dropdown = ({ setValue }: DropdownProp) => {
           />
         ))}
       </FlexDirectionWrapper>
-    </View>
+    </>
   )
 }
 
