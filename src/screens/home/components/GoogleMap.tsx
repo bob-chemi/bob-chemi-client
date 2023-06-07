@@ -1,8 +1,6 @@
-import { GOOGLE_MAPS_API_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
 import { useRef, useState } from 'react'
 import { View } from 'react-native'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import MapView, { Marker, Region } from 'react-native-maps'
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import AutoCompleteSearchBar from './AutoCompleteSearchBar'
@@ -20,7 +18,6 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
   const navigation = useNavigation()
   //States
   const [sliderShowing, setSliderShowing] = useState(false)
-
   // Refs
   const restaurantSliderRef = useRef<SlidingUpPanel>(null)
 
@@ -42,7 +39,9 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
 
   return (
     <S.Layout>
-      {!sliderShowing && <AutoCompleteSearchBar currentLocation={currentLocation} />}
+      {!sliderShowing && (
+        <AutoCompleteSearchBar currentLocation={currentLocation} sliderPanelRef={restaurantSliderRef} />
+      )}
 
       <MapView
         style={{ flex: 1 }}

@@ -80,7 +80,6 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   }
 
   const getDetailInfo = async () => {
-    console.log('getDetailInfo 실행되었음')
     // detailInfo가 존재하면 API 호출하지 않음
     if (detailInfo) return
     console.log('API 실행됨')
