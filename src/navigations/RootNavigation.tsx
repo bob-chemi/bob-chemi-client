@@ -1,12 +1,13 @@
+import { NavigatorScreenParams } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import StackNav from './StackNav'
-import BottomTabs from '@/navigations/BottomTabs'
+import BottomTabs, { TabParamList } from '@/navigations/BottomTabs'
 
 // 앱의 최상단에 존재하는 RootNativeStack의 param list
 // 앱 기능이 추가되어 새로운 Stack이 필요할때마다 추가
-type RootNativeStackParamList = {
-  Tab: undefined
+export type RootNativeStackParamList = {
   Stack: undefined
+  Tab: NavigatorScreenParams<TabParamList>
 }
 
 const RootNativeStack = createNativeStackNavigator<RootNativeStackParamList>()

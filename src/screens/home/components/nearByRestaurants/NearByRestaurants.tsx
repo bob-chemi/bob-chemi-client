@@ -1,6 +1,6 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect } from 'react'
-import { View, Text, FlatList } from 'react-native'
+import React from 'react'
+import { View, FlatList } from 'react-native'
 import { useRecoilValue } from 'recoil'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
 import RestaurantCard from './RestaurantCard'

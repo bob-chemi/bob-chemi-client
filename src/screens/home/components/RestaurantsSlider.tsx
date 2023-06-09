@@ -1,11 +1,9 @@
-import React, { Dispatch, ForwardedRef, forwardRef, useEffect, useRef, useState } from 'react'
-import { Animated, Dimensions, FlatList, Pressable, Text, View } from 'react-native'
+import SliderHandler from '@assets/icons/sliderHandler.svg'
+import React, { Dispatch, ForwardedRef, forwardRef } from 'react'
+import { Pressable, View } from 'react-native'
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import styled from 'styled-components/native'
 import SliderStackNavigation from '../navigations/SliderStackNavigatoin'
-import RestaurantCard from './nearByRestaurants/RestaurantCard'
-
-const { height } = Dimensions.get('window')
 
 const Layout = styled.View`
   flex: 1;
@@ -17,9 +15,11 @@ const Layout = styled.View`
 `
 
 const Handler = styled.View`
-  height: 40px;
-  background-color: lightpink;
+  height: 30px;
+  background-color: white;
   width: 100%;
+  justify-content: center;
+  align-items: center;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 `
@@ -34,18 +34,19 @@ const RestaurantsSlider = forwardRef(
     // Constants
 
     // States
+    const [sliderCurrentPosition, setSliderCurrentPosition] = React.useState(0)
 
     // Refs
 
     // Functions
-    const renderRestaurantCard = ({ item, index }: { item: any; index: number }) => {
-      return <RestaurantCard item={item} index={index} />
-    }
 
     const controlSliderShowing = () => {
       if (typeof ref === 'object' && ref?.current) {
-        console.log(ref.current)
-        ref.current.show()
+        if (sliderCurrentPosition === 0) {
+          ref.current.show()
+        } else if (sliderCurrentPosition === 600) {
+          ref.current.hide()
+        }
       }
     }
 
@@ -54,22 +55,34 @@ const RestaurantsSlider = forwardRef(
       setSliderShowing(false)
     }
 
+    const handleSliderShowing = (position: number) => {
+      console.log(position)
+      if (position === 0) {
+        setSliderCurrentPosition(0)
+        setSliderShowing(false)
+      } else if (position === 600) {
+        setSliderCurrentPosition(600)
+        setSliderShowing(true)
+      }
+    }
+
     // 디버깅
 
     return (
       <SlidingUpPanel
         ref={ref}
-        draggableRange={{ top: 600, bottom: 40 }}
+        draggableRange={{ top: 600, bottom: 30 }}
         height={600}
         showBackdrop={false}
         friction={0.5}
         snappingPoints={[0, 600]}
         onBottomReached={onBottomReached}
+        onMomentumDragEnd={handleSliderShowing}
       >
         <Layout>
           <Handler>
             <Pressable onPress={controlSliderShowing}>
-              <Text>핸들러</Text>
+              <SliderHandler />
             </Pressable>
           </Handler>
 

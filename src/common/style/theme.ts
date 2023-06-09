@@ -9,6 +9,11 @@ type Colors = {
   white: string
   black: string
 }
+
+interface Padding {
+  default: string
+}
+
 export type Variant =
   | 'success'
   | 'primary'
@@ -28,6 +33,7 @@ export interface FlexInterface {
   justifyContent?: JustifyContent
   alignItems?: AlignItems
 }
+
 export interface PaddingAndMargin {
   p?: number
   pl?: number
@@ -40,8 +46,10 @@ export interface PaddingAndMargin {
   mt?: number
   mb?: number
 }
+
 export interface ThemeProps {
   colors: Colors
+  paddings: Padding
 }
 
 const colors: Colors = {
@@ -56,8 +64,13 @@ const colors: Colors = {
   black: '#000000',
 }
 
+const paddings: Padding = {
+  default: '24px',
+}
+
 const theme: ThemeProps = {
   colors,
+  paddings,
 }
 
 export default theme

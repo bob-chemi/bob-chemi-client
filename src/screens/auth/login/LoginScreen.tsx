@@ -1,4 +1,6 @@
-import { useNavigation } from '@react-navigation/native'
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import * as S from '../Auth.style'
@@ -7,13 +9,21 @@ import { authRequest } from '@/api/authRequest'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
+import { TabParamList } from '@/navigations/BottomTabs'
+import { RootNativeStackParamList } from '@/navigations/RootNavigation'
 import { Nav } from '@/types/nav'
 import { idValidator, passwordValidator } from '@/utils/validator'
+
+type NavigationProp = CompositeNavigationProp<
+  NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
+  BottomTabNavigationProp<TabParamList, 'Home'>
+>
+
 const LoginScreen = () => {
   const [id, setId] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const { navigate } = useNavigation<Nav>()
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp>()
   const { userLogin } = authRequest
   const loginOnPressed = async () => {
     const idError = idValidator(id.value)
@@ -34,8 +44,6 @@ const LoginScreen = () => {
   // 개발 중 로그인 버튼 클릭시 홈으로 이동
   // FIXME: 로그인 기능 구현 후 로그인 성공시 홈으로 이동으로 수정
   const tempGoToHome = () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
     navigation.navigate('Tab', { screen: 'Home' })
   }
 
