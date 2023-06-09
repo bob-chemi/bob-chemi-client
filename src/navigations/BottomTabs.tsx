@@ -6,7 +6,7 @@ import theme from '@/common/style/theme'
 import Home from '@/screens/home/Home'
 import FindUser from '@/screens/matching/FindUser'
 import ProfileScreen from '@/screens/profile/ProfileScreen'
-import SocialScreen from '@/screens/social/group/GroupScreen'
+import SocialScreen from '@/screens/social/SocialScreen'
 // 앱의 하단에 존재하는 BottomTab의 param list
 export type TabParamList = {
   Home: undefined
