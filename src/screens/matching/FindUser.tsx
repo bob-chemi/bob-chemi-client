@@ -1,20 +1,25 @@
 import MultiSlider, { LabelProps } from '@ptomasroos/react-native-multi-slider'
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { CompositeScreenProps } from '@react-navigation/native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import GenderCard from '@screens/matching/components/GenderCard'
 import React, { useState } from 'react'
-import FindingUserModal from './components/modals/FindingUserModal'
 import * as S from './FindUser.style'
-import ModalBase from '@/common/components/ModalBase'
 import theme from '@/common/style/theme'
-import { useModal } from '@/hooks/useModal'
 import { TabParamList } from '@/navigations/BottomTabs'
+import { StackParamList } from '@/navigations/StackNav'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 
 interface CustomSliderLabelProps {
   e: LabelProps
 }
 
-type FindUserScreenProps = BottomTabScreenProps<TabParamList, 'Matching'>
+// type FindUserScreenProps = BottomTabScreenProps<TabParamList, 'Matching'>
+
+type FindUserScreenProps = CompositeScreenProps<
+  BottomTabScreenProps<TabParamList, 'Matching'>,
+  NativeStackScreenProps<StackParamList>
+>
 
 type Gender = 'woman' | 'man' | null
 
@@ -41,9 +46,6 @@ const FindUser = ({ navigation, route }: FindUserScreenProps) => {
   const [gender, setGender] = useState<Gender>(null)
   const [ageRange, setAgeRange] = useState<[number, number]>([10, 60])
 
-  // Hooks
-  const { openModal } = useModal()
-
   // Refs
 
   // Functions
@@ -57,7 +59,7 @@ const FindUser = ({ navigation, route }: FindUserScreenProps) => {
   }
 
   const handleFindButtonPress = () => {
-    openModal({ content: <FindingUserModal /> })
+    navigation.navigate('ChatRoom')
   }
 
   // Effects

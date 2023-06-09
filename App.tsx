@@ -16,8 +16,8 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <NavigationContainer>
           <RootNavigation />
-          <ModalBase />
         </NavigationContainer>
+        <ModalBase />
       </ThemeProvider>
     </RecoilRoot>
   )
