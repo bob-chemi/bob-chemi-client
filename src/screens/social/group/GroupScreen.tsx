@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
-import * as S from './SocialScreen.style'
+import * as S from './GroupScreen.style'
 import WeekDayPicker from './components/WeekDayPicker'
 import ContentsBox from './components/ContentsBox'
 import axios from 'axios';

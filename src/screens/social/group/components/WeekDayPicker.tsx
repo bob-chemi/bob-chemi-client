@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { FlatList, } from 'react-native'
-import * as S from '../SocialScreen.style'
+import * as S from '../GroupScreen.style'
 
 const WeekDayPicker = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().getDate().toString());

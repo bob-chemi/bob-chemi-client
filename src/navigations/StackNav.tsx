@@ -2,8 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import LoginScreen from '@/screens/auth/login/LoginScreen'
 import RegisterScreen from '@/screens/auth/register/RegisterScreen'
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
-import PostSocialScreen from '@/screens/social/PostSocialScreen'
-import SocialScreen from '@/screens/social/SocialScreen'
+import PostSocialScreen from '@/screens/social/group/PostGroupScreen'
+import SocialScreen from '@/screens/social/group/GroupScreen'
 
 export type StackParamList = {
   PreviewScreen: undefined

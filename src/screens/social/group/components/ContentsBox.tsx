@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import * as S from '../SocialScreen.style'
+import * as S from '../GroupScreen.style'
 import { View, } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import theme from '@/common/style/theme'
