@@ -4,9 +4,10 @@ import theme from '@/common/style/theme'
 
 export const Container = styled.View`
   flex: 1;
-  padding-top: 10px;
-  height: ${SCREEN_HEIGHT}px;  
-  justify-content: space-between; 
+  padding-top: 15px;
+  paddingHorizontal: 20px;
+  height: ${SCREEN_HEIGHT}px;
+  align-items: center;
 `
 
 export const BlockTop = styled.View`
@@ -22,11 +23,12 @@ export const Title = styled.Text`
 `
 
 export const WeekContainer = styled.View`
-  height: 50px;  
+  height: 50px;
 `
 
 export const ContentsContainer = styled.View`
   flex: 1;
+  height: 46px;
 `
 
 export const CreateButton = styled.TouchableOpacity`
@@ -43,9 +45,9 @@ export const CreateButton = styled.TouchableOpacity`
 
 /* ContentsBox */
 export const ContentsDiv = styled.View`
-  marginVertical: 7px;  
-  width: ${(SCREEN_WIDTH - 70) / 2}px;
-  height: ${(SCREEN_WIDTH - 70) / 2}px;
+  margin: 10px;
+  width: ${(SCREEN_WIDTH - 80) / 2}px;
+  height: ${(SCREEN_WIDTH - 80) / 2}px;
 `
 
 export const SocialImage = styled.View`
@@ -87,17 +89,11 @@ export const TextDate = styled.Text<{ isSelected: boolean }>`
 
 export const DateBtn = styled.TouchableOpacity`
   align-items: center;
+  justify-content: center;
+  width: ${(SCREEN_WIDTH - 40) / 7}px;
 `
 
 /* PostSocialScreen */
-export const PostContainer = styled.View`
-  flex: 1;
-  padding-top: ${({ theme }) => theme.paddings.default};
-  paddingHorizontal: ${({ theme }) => theme.paddings.default};  
-  height: ${SCREEN_HEIGHT}px;
-  align-items: center;
-`
-
 export const PostBtn = styled.TouchableOpacity`
   margin-top: 20px;
   backgroundColor: ${theme.colors.primary};

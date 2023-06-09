@@ -6,7 +6,7 @@ import PostedTimeComp from './post/PostedTimeComp';
 import PostedLocationComp from './post/PostedLocationComp';
 import PostedImgComp from './post/PostedImgComp';
 
-const PostGroupScreen = () => {
+const PostSocialScreen = () => {
   const [image, setImage] = useState('');
   const [title, setTitle] = useState('');
   const [location, setLocation] = useState('');
@@ -14,7 +14,7 @@ const PostGroupScreen = () => {
   const [content, setContent] = useState('');
 
   return (
-    <S.PostContainer>
+    <S.Container>
       <S.BlockTop>
         <S.Title>소모임 생성</S.Title>
       </S.BlockTop>
@@ -26,7 +26,7 @@ const PostGroupScreen = () => {
         <PostedTextComp headTitle='내용' height={300} isContent={true}></PostedTextComp>
       </View>
       <S.PostBtn><S.PostBtnText>등록</S.PostBtnText></S.PostBtn>
-    </S.PostContainer>
+    </S.Container>
   )
 }
-export default PostGroupScreen
+export default PostSocialScreen

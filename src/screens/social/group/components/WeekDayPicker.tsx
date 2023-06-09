@@ -34,7 +34,6 @@ const WeekDayPicker = () => {
       renderItem={renderDateItem}
       keyExtractor={(item) => item}
       numColumns={7}
-      columnWrapperStyle={{ justifyContent: 'space-between' }}
     />
   );
 }

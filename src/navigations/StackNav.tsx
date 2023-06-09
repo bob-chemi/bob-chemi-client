@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import LoginScreen from '@/screens/auth/login/LoginScreen'
 import RegisterScreen from '@/screens/auth/register/RegisterScreen'
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
-import PostGroupScreen from '@/screens/social/group/PostGroupScreen'
+import PostSocialScreen from '@/screens/social/group/PostGroupScreen'
 import SocialScreen from '@/screens/social/group/GroupScreen'
 
 export type StackParamList = {
@@ -10,7 +10,7 @@ export type StackParamList = {
   LoginScreen: undefined
   RegisterScreen: undefined
   SocialScreen: undefined
-  PostGroupScreen: undefined
+  PostSocialScreen: undefined
 }
 
 const Stack = createNativeStackNavigator<StackParamList>()
@@ -21,7 +21,8 @@ const StackNav = () => {
       <Stack.Screen name="PreviewScreen" component={PreviewScreen} />
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-      <Stack.Screen name="PostGroupScreen" component={PostGroupScreen} />
+      <Stack.Screen name="SocialScreen" component={SocialScreen} />
+      <Stack.Screen name="PostSocialScreen" component={PostSocialScreen} />
     </Stack.Navigator>
   )
 }
