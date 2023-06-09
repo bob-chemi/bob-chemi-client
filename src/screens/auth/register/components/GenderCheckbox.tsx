@@ -9,13 +9,14 @@ interface GenderCheckboxProp {
     error: string
   }
   setGender: (val: string) => void
+  validate?: string
 }
-const GenderCheckbox = ({ selectedGender, setGender }: GenderCheckboxProp) => {
+const GenderCheckbox = ({ selectedGender, setGender, validate }: GenderCheckboxProp) => {
   const handleGenderSelection = (gender: string) => {
     setGender(gender)
   }
   return (
-    <FlexDirectionWrapper alignItems="center" flex={1}>
+    <FlexDirectionWrapper alignItems="center" flex={1} border={validate && `1px solid ${theme.colors.primary}`}>
       <FlexDirectionWrapper flex={1}>
         <CustomText variant="primary">성별</CustomText>
       </FlexDirectionWrapper>

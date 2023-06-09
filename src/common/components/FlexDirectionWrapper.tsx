@@ -14,6 +14,7 @@ interface ContainerProps extends FlexInterface, PaddingAndMargin {
   backgroundColor?: Variant
   height?: number
   width?: number
+  border?: string
 }
 
 const Container = styled.View<ContainerProps>`
@@ -35,4 +36,5 @@ const Container = styled.View<ContainerProps>`
     backgroundColor ? theme.colors[backgroundColor] : 'transparent'};
   height: ${({ height }) => (height ? `${height}px` : 'auto')};
   width: ${({ width }) => (width ? `${width}px` : 'auto')};
+  border: ${({ border }) => (border ? border : 'none')};
 `

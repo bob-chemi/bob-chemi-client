@@ -12,12 +12,16 @@ interface DropdownProp {
       day: number
     }>
   >
+  validate?: string
 }
 
-export const Dropdown = ({ setValue }: DropdownProp) => {
+export const Dropdown = ({ setValue, validate }: DropdownProp) => {
   return (
     <>
-      <S.InputLabel>생년월일</S.InputLabel>
+      <S.Label>
+        <S.InputLabel>생년 월일</S.InputLabel>
+        <S.InputLabel>{validate}</S.InputLabel>
+      </S.Label>
       <FlexDirectionWrapper>
         {DropDownList.map(data => (
           <SelectDropdown
@@ -39,7 +43,10 @@ export const Dropdown = ({ setValue }: DropdownProp) => {
               }
             }}
             defaultButtonText={data.name}
-            buttonStyle={styles.dropdownBtnStyle}
+            buttonStyle={{
+              ...styles.dropdownBtnStyle,
+              borderColor: validate ? theme.colors.primary : theme.colors.gray300,
+            }}
             dropdownIconPosition={'right'}
             renderDropdownIcon={isOpened => {
               return <Icon name={isOpened ? 'chevron-up' : 'chevron-down'} color={theme.colors.gray500} size={18} />
@@ -82,7 +89,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: `${theme.colors.gray300}`,
     flex: 1,
   },
   btnTxtStyle: { color: `${theme.colors.gray500}`, textAlign: 'left', fontSize: 14 },
