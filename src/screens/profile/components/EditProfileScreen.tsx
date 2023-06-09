@@ -1,13 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { SafeAreaView, ScrollView } from 'react-native'
-import styled from 'styled-components/native'
-import { Dropdown } from '../auth/register/components/Dropdown'
-import TextInputComp from '../auth/register/components/TextInputComp'
+import { Dropdown } from '../../auth/register/components/Dropdown'
+import TextInputComp from '../../auth/register/components/TextInputComp'
+import * as S from './EditProfileScreen.style'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
-import theme from '@/common/style/theme'
 import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 type ProfieScreenProp = NativeStackScreenProps<ProfileStackParamList, 'EditProfileScreen'>
 
@@ -35,7 +34,7 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
           pb={24}
         >
           <FlexDirectionWrapper alignItems="center">
-            <ProfileImage />
+            <S.ProfileImage />
           </FlexDirectionWrapper>
           <FlexDirectionWrapper height={100}>
             <TextInputComp
@@ -64,10 +63,7 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
               fullWidth
             />
           </FlexDirectionWrapper>
-          <FlexDirectionWrapper mt={20} height={100} flexDirection="column" alignItems="flex-start">
-            <Dropdown setValue={setAge} />
-          </FlexDirectionWrapper>
-          <ImageArea>
+          <S.ImageArea>
             <CustomButton
               variant="gray300"
               width={170}
@@ -80,7 +76,7 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
             <CustomButton variant="primary" width={170} height={40} borderRadius={10}>
               <CustomText variant="white">저장</CustomText>
             </CustomButton>
-          </ImageArea>
+          </S.ImageArea>
         </FlexDirectionWrapper>
       </ScrollView>
     </SafeAreaView>
@@ -88,28 +84,3 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
 }
 
 export default EditProfileScreen
-
-const ImageArea = styled.View`
-  flex: 1;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`
-
-const ProfileImage = styled.View`
-  height: 250px;
-  width: 250px;
-  background-color: ${theme.colors.primary};
-  border-radius: 100;
-`
-{
-  /* <FlexDirectionWrapper
-flexDirection="column"
-alignItems="center"
-justifyContent="center"
-pl={24}
-pr={24}
-backgroundColor="white"
-flex={1}
-> */
-}
