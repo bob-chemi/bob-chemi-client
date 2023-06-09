@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import * as S from './PostedComponent.style'
+import { area } from "../../../model/area"
 import { Picker } from '@react-native-picker/picker';
 import { StyleSheet } from 'react-native'
 import theme from '@/common/style/theme'
-import { area } from '../model/area';
 
 const PostedLocationComp = () => {
   const [selectedRegion, setSelectedRegion] = useState("서울특별시");

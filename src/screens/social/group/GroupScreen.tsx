@@ -83,7 +83,6 @@ const GroupScreen = () => {
   const NavToCreate = () => {
     navigate('PostGroupScreen');
   }
-
   return (
     <S.Container>
       {/* <S.BlockTop>

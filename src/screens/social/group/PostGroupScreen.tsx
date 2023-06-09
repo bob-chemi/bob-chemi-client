@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Text, TextInput, View } from 'react-native'
 import * as S from './GroupScreen.style'
-import PostedTextComp from './post/PostedTextComp';
-import PostedTimeComp from './post/PostedTimeComp';
-import PostedLocationComp from './post/PostedLocationComp';
-import PostedImgComp from './post/PostedImgComp';
+import PostedTextComp from './components/post/PostedTextComp';
+import PostedTimeComp from './components/post/PostedTimeComp';
+import PostedLocationComp from './components/post/PostedLocationComp';
+import PostedImgComp from './components/post/PostedImgComp';
 
 const PostGroupScreen = () => {
   const [image, setImage] = useState('');

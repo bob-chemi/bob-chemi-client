@@ -11,13 +11,13 @@ const SocialScreen = () => {
     if (activeTab === 'group') {
       return (
         <S.TabViewContainer>
-          <GroupScreen></GroupScreen>
+          <GroupScreen />
         </S.TabViewContainer>
       );
     } else if (activeTab === 'foodie') {
       return (
         <S.TabViewContainer>
-          <FoodieScreen></FoodieScreen>
+          <FoodieScreen />
         </S.TabViewContainer>
       );
     }
@@ -25,7 +25,7 @@ const SocialScreen = () => {
 
   return (
     <S.Container>
-      <S.TabArea style={{ flexDirection: 'row', justifyContent: 'flex-start', marginTop: 20 }}>
+      <S.TabArea>
         <TouchableOpacity
           onPress={() => setActiveTab('group')}
           style={{ marginRight: 20 }}>
