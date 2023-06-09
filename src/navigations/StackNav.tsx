@@ -4,7 +4,7 @@ import RegisterScreen from '@/screens/auth/register/RegisterScreen'
 import ChatRoom from '@/screens/chat/ChatRoom'
 import IntroduceMatchingScreen from '@/screens/matching/components/IntroduceMatchingScreen'
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
-import PostSocialScreen from '@/screens/social/PostSocialScreen'
+import PostGroupScreen from '@/screens/social/group/PostGroupScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
 
 export type StackParamList = {
@@ -12,7 +12,7 @@ export type StackParamList = {
   LoginScreen: undefined
   RegisterScreen: undefined
   SocialScreen: undefined
-  PostSocialScreen: undefined
+  PostGroupScreen: undefined
   ChatRoom: undefined
   IntroduceMatching: undefined
 }
@@ -26,7 +26,7 @@ const StackNav = () => {
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
       <Stack.Screen name="SocialScreen" component={SocialScreen} />
-      <Stack.Screen name="PostSocialScreen" component={PostSocialScreen} />
+      <Stack.Screen name="PostGroupScreen" component={PostGroupScreen} />
       <Stack.Screen name="ChatRoom" component={ChatRoom} />
       <Stack.Screen name="IntroduceMatching" component={IntroduceMatchingScreen} />
     </Stack.Navigator>
