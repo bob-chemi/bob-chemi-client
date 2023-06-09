@@ -78,17 +78,17 @@ const renderContentsItem = ({ item }: { item: object }) => {
   )
 }
 
-const SocialScreen = () => {
+const GroupScreen = () => {
   const { navigate } = useNavigation<Nav>()
   const NavToCreate = () => {
-    navigate('PostSocialScreen');
+    navigate('PostGroupScreen');
   }
 
   return (
     <S.Container>
-      <S.BlockTop>
+      {/* <S.BlockTop>
         <S.Title>소모임</S.Title>
-      </S.BlockTop>
+      </S.BlockTop> */}
       <S.WeekContainer>
         <WeekDayPicker></WeekDayPicker>
       </S.WeekContainer>
@@ -96,7 +96,8 @@ const SocialScreen = () => {
         <FlatList
           data={ContentsData}
           renderItem={renderContentsItem}
-          numColumns={2}>
+          numColumns={2}
+          columnWrapperStyle={{ justifyContent: 'space-between' }}>
         </FlatList>
       </S.ContentsContainer>
       <S.CreateButton onPress={NavToCreate}><Icon name="pencil" color={theme.colors.white} size={30}></Icon></S.CreateButton>
@@ -104,4 +105,4 @@ const SocialScreen = () => {
   )
 }
 
-export default SocialScreen
+export default GroupScreen
