@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { RouteProp } from '@react-navigation/native'
 import { View } from 'react-native'
-import { Icon } from 'react-native-vector-icons/Icon'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import ProfileStackNav from './ProfileStackNav'
 import theme from '@/common/style/theme'
 import Home from '@/screens/home/Home'
@@ -62,7 +62,6 @@ const BottomTabs = () => {
         tabBarShowLabel: false,
         tabBarIcon: ({ focused, color, size }) => {
           const iconName = getTabBarIcon(route, focused)
-
           return <Icon name={iconName} color={color} size={size} />
         },
       })}
@@ -71,7 +70,7 @@ const BottomTabs = () => {
       <Tab.Screen name="Chat" component={Settings} />
       <Tab.Screen name="Matching" component={FindUser} />
       <Tab.Screen name="Social" component={SocialScreen} />
-      <Tab.Screen name="ProfileStackNav" component={ProfileStackNav} />
+      <Tab.Screen name="Profile" component={ProfileStackNav} />
     </Tab.Navigator>
   )
 }
