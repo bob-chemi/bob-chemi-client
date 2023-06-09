@@ -44,7 +44,8 @@ const LoginScreen = () => {
   // 개발 중 로그인 버튼 클릭시 홈으로 이동
   // FIXME: 로그인 기능 구현 후 로그인 성공시 홈으로 이동으로 수정
   const tempGoToHome = () => {
-    navigation.navigate('Tab', { screen: 'Home' })
+    // FIXME: 매칭 개발 이후 Home으로 수정
+    navigation.navigate('Tab', { screen: 'Matching' })
   }
 
   return (

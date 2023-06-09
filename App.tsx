@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { enableLatestRenderer } from 'react-native-maps'
 import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'styled-components/native'
+import ModalBase from '@/common/components/ModalBase'
 import theme from '@/common/style/theme'
 import usePermissions from '@/hooks/usePermissions'
 import RootNavigation from '@/navigations/RootNavigation'
@@ -15,6 +16,7 @@ const App = () => {
       <ThemeProvider theme={theme}>
         <NavigationContainer>
           <RootNavigation />
+          <ModalBase />
         </NavigationContainer>
       </ThemeProvider>
     </RecoilRoot>

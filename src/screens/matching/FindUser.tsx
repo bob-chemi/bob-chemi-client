@@ -1,18 +1,26 @@
-import MultiSlider from '@ptomasroos/react-native-multi-slider'
+import MultiSlider, { LabelProps } from '@ptomasroos/react-native-multi-slider'
 import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import GenderCard from '@screens/matching/components/GenderCard'
-import React from 'react'
-import { Text } from 'react-native'
+import React, { useState } from 'react'
+import FindingUserModal from './components/modals/FindingUserModal'
 import * as S from './FindUser.style'
-import CustomButton from '@/common/components/CustomButton'
+import ModalBase from '@/common/components/ModalBase'
 import theme from '@/common/style/theme'
+import { useModal } from '@/hooks/useModal'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 
+interface CustomSliderLabelProps {
+  e: LabelProps
+}
+
 type FindUserScreenProps = BottomTabScreenProps<TabParamList, 'Matching'>
 
-const CustomSliderLabel = (e: any) => {
+type Gender = 'woman' | 'man' | null
+
+const CustomSliderLabel = ({ e }: CustomSliderLabelProps) => {
   const { oneMarkerLeftPosition, oneMarkerValue, twoMarkerLeftPosition, twoMarkerValue } = e
+
   return (
     <S.SliderLabelLayout>
       <S.SliderLabelWrapper left={oneMarkerLeftPosition}>
@@ -29,6 +37,31 @@ const FindUser = ({ navigation, route }: FindUserScreenProps) => {
   // Constants
   const sliderValues = [10, 60]
 
+  // States
+  const [gender, setGender] = useState<Gender>(null)
+  const [ageRange, setAgeRange] = useState<[number, number]>([10, 60])
+
+  // Hooks
+  const { openModal } = useModal()
+
+  // Refs
+
+  // Functions
+  const handleGenderPress = (pressedGender: Gender) => {
+    console.log('wow')
+    if (gender === null) {
+      setGender(pressedGender)
+    } else {
+      setGender(pressedGender)
+    }
+  }
+
+  const handleFindButtonPress = () => {
+    openModal({ content: <FindingUserModal /> })
+  }
+
+  // Effects
+
   return (
     <S.FindUserLayout>
       <S.Header>
@@ -37,8 +70,8 @@ const FindUser = ({ navigation, route }: FindUserScreenProps) => {
       <S.GenderArea>
         <S.SubTitle>성별</S.SubTitle>
         <S.CardWrapper>
-          <GenderCard gender="woman" />
-          <GenderCard gender="man" />
+          <GenderCard gender="woman" onPress={() => handleGenderPress('woman')} selected={gender === 'woman'} />
+          <GenderCard gender="man" onPress={() => handleGenderPress('man')} selected={gender === 'man'} />
         </S.CardWrapper>
       </S.GenderArea>
       <S.AgeArea>
@@ -50,7 +83,7 @@ const FindUser = ({ navigation, route }: FindUserScreenProps) => {
           max={60}
           snapped
           sliderLength={SCREEN_WIDTH - 72}
-          customLabel={e => CustomSliderLabel(e)}
+          customLabel={e => <CustomSliderLabel e={e} />}
           enableLabel
           containerStyle={{
             width: SCREEN_WIDTH - 48,
@@ -61,10 +94,11 @@ const FindUser = ({ navigation, route }: FindUserScreenProps) => {
           markerStyle={{ backgroundColor: theme.colors.primary, width: 20, height: 20, borderRadius: 10 }}
           trackStyle={{ backgroundColor: theme.colors.gray300 }}
           selectedStyle={{ backgroundColor: theme.colors.primary }}
+          onValuesChange={values => setAgeRange(values as [number, number])}
         />
       </S.AgeArea>
       <S.ButtonArea>
-        <S.FindUserButton color={theme.colors.primary} title="매칭 찾기" />
+        <S.FindUserButton onPress={handleFindButtonPress} color={theme.colors.primary} title="매칭 찾기" />
       </S.ButtonArea>
     </S.FindUserLayout>
   )

@@ -1,7 +1,6 @@
 import { ViewProps } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
-import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 
 export const FindUserLayout = styled(SafeAreaView)`
   flex: 1;
