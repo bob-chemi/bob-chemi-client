@@ -69,3 +69,22 @@ export const LottieText = styled.Text`
   font-size: 20px;
   font-weight: bold;
 `
+
+export const AskWrapper = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  border-width: 1px;
+  border: 1px solid ${({ theme }) => theme.colors.primary};
+  padding: 20px;
+`
+
+interface AskTextProps extends TextProps {
+  underline?: boolean
+}
+
+export const AskText = styled.Text<AskTextProps>`
+  font-size: 16px;
+  color: ${({ theme }) => theme.colors.primary};
+  text-decoration: ${({ underline }) => (underline ? 'underline' : 'none')};
+`
