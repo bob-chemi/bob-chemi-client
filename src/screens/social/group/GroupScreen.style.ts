@@ -25,18 +25,6 @@ export const TabText = styled.Text<{ isActive: boolean }>`
   justify-content: space-between; 
 `
 
-export const BlockTop = styled.View`
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-`
-
-export const Title = styled.Text`
-  color: rgba(0,0,0,1);
-  font-size: 20px;
-  font-weight: 600;
-`
-
 export const WeekContainer = styled.View`
   height: 50px;  
 `
@@ -58,13 +46,13 @@ export const CreateButton = styled.TouchableOpacity`
 `
 
 /* ContentsBox */
-export const ContentsDiv = styled.View`
+export const ContentsDiv = styled.TouchableOpacity`
   marginVertical: 7px;  
   width: ${(SCREEN_WIDTH - 70) / 2}px;
   height: ${(SCREEN_WIDTH - 70) / 2}px;
 `
 
-export const SocialImage = styled.View`
+export const GroupImage = styled.View`
   width: 100%;
   height: 70%;
   backgroundColor: ${theme.colors.gray400};
