@@ -5,20 +5,20 @@ import { View, } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import theme from '@/common/style/theme'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
-import { GroupParamList } from '../../navigations/GroupNav';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Group } from '../../data/Group';
+import { StackParamList } from '@/navigations/StackNav';
 
 const ContentsBox = ({ GroupData }: { GroupData: Group; }) => {
-  const navigation = useNavigation<NativeStackNavigationProp<GroupParamList>>()
+  const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
 
-  const handleGroupPress = (id: number) => {
-    navigation.navigate('GroupDetail', { groupId: id });
+  const handleGroupPress = (group: Group) => {
+    navigation.navigate('GroupDetailScreen', { group });
   };
 
   return (
-    <S.ContentsDiv onPress={() => handleGroupPress(GroupData.id)}>
-      <S.GroupImage></S.GroupImage>
+    <S.ContentsDiv onPress={() => handleGroupPress(GroupData)}>
+      <S.GroupImage source={GroupData.imgsource}></S.GroupImage>
       <S.TextMain>{GroupData.title}</S.TextMain>
       <View style={{ flexDirection: 'row' }}>
         <Icon name="account" color={theme.colors.gray400} size={15}></Icon>

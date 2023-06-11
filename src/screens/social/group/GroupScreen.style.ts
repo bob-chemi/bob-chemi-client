@@ -52,17 +52,17 @@ export const ContentsDiv = styled.TouchableOpacity`
   height: ${(SCREEN_WIDTH - 70) / 2}px;
 `
 
-export const GroupImage = styled.View`
+export const GroupImage = styled.Image`
   width: 100%;
   height: 70%;
-  backgroundColor: ${theme.colors.gray400};
   alignSelf: center;
+  resize-mode: contain;
 `
 
 export const TextMain = styled.Text`
   fontSize: 15px;
   fontWeight: 800;
-  color: rgba(0,0,0,1);
+  color: ${theme.colors.black};
 `
 
 export const TextSub = styled.Text`
@@ -93,7 +93,7 @@ export const DateBtn = styled.TouchableOpacity`
   align-items: center;
 `
 
-/* PostSocialScreen */
+/* PostGroupScreen */
 export const PostContainer = styled.View`
   flex: 1;
   padding-top: ${({ theme }) => theme.paddings.default};
@@ -102,17 +102,83 @@ export const PostContainer = styled.View`
   align-items: center;
 `
 
-export const PostBtn = styled.TouchableOpacity`
-  margin-top: 20px;
+export const Btn = styled.TouchableOpacity`
+  margin-top: 40px;
   backgroundColor: ${theme.colors.primary};
-  width: 80px;
+  width: 50%;
   padding: 5px;
   border-radius: 10px;
   align-items: center;
 `
 
-export const PostBtnText = styled.Text`
+export const BtnText = styled.Text`
   font-weight: 600;
   font-size: 15px;
-  color: white;
+  color: ${theme.colors.white};
+`
+
+/* GroupDetailScreen */
+export const TitleArea = styled.View`
+  height: 80px;
+  width: 100%;
+  paddingHorizontal: ${({ theme }) => theme.paddings.default};  
+  justify-content: center;
+  border-bottom-width: 1px;
+  border-bottom-color: ${theme.colors.gray200};
+`
+
+export const TitleText = styled.Text`
+  color: ${theme.colors.black};
+  font-size: 20px;
+  font-weight: 600;
+`
+
+export const SubTitleText = styled.Text`
+  color: ${theme.colors.gray400};
+  font-size: 15px;
+  font-weight: 500;
+`
+
+export const GroupDetailArea = styled.View`
+  flex: 1;
+  height: ${SCREEN_HEIGHT - 80}px;
+  padding: ${({ theme }) => theme.paddings.default};      
+`
+export const GroupDetailImage = styled.Image`
+  width: 100%;
+  height: 200px;
+  resize-mode: contain;
+`
+
+export const ChipSetArea = styled.View`
+  flexDirection: row;
+  width: 100%;
+  height: 20px;
+  marginVertical: 10px;  
+`
+
+export const Chip = styled.Text`
+  color: ${theme.colors.white};
+  font-size: 13px;
+  font-weight: 600;
+  textAlign: center;
+  backgroundColor: ${theme.colors.primary};
+  border-radius: 20px;
+  paddingHorizontal: 5px;
+  marginHorizontal: 3px;
+`
+
+export const ContextArea = styled.View`
+  width: 100%;
+  height: 300px;
+  paddingVertical: 5px;
+  paddingHorizontal: 10px;
+  border-width: 1px;
+  border-color: ${theme.colors.gray200};
+  borderRadius: 5px;
+`
+
+export const ContextText = styled.Text`
+  textAlignVertical: top;
+  color: ${theme.colors.gray500};
 `

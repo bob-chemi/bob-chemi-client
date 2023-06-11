@@ -45,7 +45,7 @@ const PostGroupScreen = () => {
         <PostedTextComp headTitle='제목' height={35} isContent={false}></PostedTextComp>
         <PostedTextComp headTitle='내용' height={300} isContent={true}></PostedTextComp>
       </View>
-      <S.PostBtn><S.PostBtnText>등록</S.PostBtnText></S.PostBtn>
+      <S.Btn><S.BtnText>등록</S.BtnText></S.Btn>
     </S.PostContainer>
   )
 }
