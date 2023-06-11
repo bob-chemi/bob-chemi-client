@@ -1,6 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
+
 import Icon from 'react-native-vector-icons/AntDesign'
 import * as S from './ProfileScreen.style'
 import CustomButton from '@/common/components/CustomButton'
@@ -67,6 +68,7 @@ const ProfileScreen = ({ navigation }: ProfieScreenProp) => {
         flexDirection="row"
         justifyContent="space-between"
         mb={10}
+        onPress={() => navigation.navigate('EditProfileScreen')}
       >
         <FlexDirectionWrapper alignItems="center" pl={20}>
           <Icon
