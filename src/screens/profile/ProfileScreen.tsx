@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
-
 import Icon from 'react-native-vector-icons/AntDesign'
 import * as S from './ProfileScreen.style'
 import CustomButton from '@/common/components/CustomButton'
@@ -60,7 +59,30 @@ const ProfileScreen = ({ navigation }: ProfieScreenProp) => {
           />
         </S.TempBackground>
       </S.ChemistryStatus>
-
+      <CustomButton
+        variant="gray200"
+        fullWidth
+        height={80}
+        borderRadius={20}
+        flexDirection="row"
+        justifyContent="space-between"
+        mb={10}
+      >
+        <FlexDirectionWrapper alignItems="center" pl={20}>
+          <Icon
+            name="form"
+            size={18}
+            style={{ backgroundColor: '#fff', borderRadius: 50, padding: 10, marginRight: 10 }}
+            color={theme.colors.primary}
+          />
+          <CustomText variant="gray500" fontWeight={600}>
+            밥케미 후기
+          </CustomText>
+        </FlexDirectionWrapper>
+        <FlexDirectionWrapper pr={20}>
+          <Icon name="right" size={20} />
+        </FlexDirectionWrapper>
+      </CustomButton>
       <CustomButton
         variant="gray200"
         fullWidth
