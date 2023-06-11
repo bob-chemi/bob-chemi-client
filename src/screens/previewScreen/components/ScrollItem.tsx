@@ -1,3 +1,4 @@
+import Logo from '@assets/BobChemi.svg'
 import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import { ScrollView } from 'react-native'
@@ -28,9 +29,7 @@ const ScrollItem = ({ data, index, scrollRef }: ScrollItemProp) => {
   }
   return (
     <S.Container key={data.desc}>
-      <S.ImageArea>
-        <LottieAnimation />
-      </S.ImageArea>
+      <S.ImageArea>{!index ? <Logo /> : <LottieAnimation />}</S.ImageArea>
       <S.TextArea>
         <S.BoldText>{data.title}</S.BoldText>
         <S.NomalText>{data.desc}</S.NomalText>
