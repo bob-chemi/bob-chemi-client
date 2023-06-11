@@ -4,18 +4,27 @@ import * as S from '../GroupScreen.style'
 import { View, } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import theme from '@/common/style/theme'
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Group } from '../../data/Group';
+import { StackParamList } from '@/navigations/StackNav';
 
-const ContentsBox = ({ socialData }: { socialData: object; }) => {
+const ContentsBox = ({ GroupData }: { GroupData: Group; }) => {
+  const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
+
+  const handleGroupPress = (group: Group) => {
+    navigation.navigate('GroupDetailScreen', { group });
+  };
+
   return (
-    <S.ContentsDiv>
-      <S.SocialImage></S.SocialImage>
-      <S.TextMain>{socialData.title}</S.TextMain>
+    <S.ContentsDiv onPress={() => handleGroupPress(GroupData)}>
+      <S.GroupImage source={GroupData.imgsource}></S.GroupImage>
+      <S.TextMain>{GroupData.title}</S.TextMain>
       <View style={{ flexDirection: 'row' }}>
-        {/* <Text>{"[Icon]"}</Text> */}
         <Icon name="account" color={theme.colors.gray400} size={15}></Icon>
-        <S.TextSub>{`${socialData.people}명`}</S.TextSub>
+        <S.TextSub>{`${GroupData.people}명`}</S.TextSub>
       </View>
-      <S.TextSub>{`${socialData.location} | ${socialData.time}`}</S.TextSub>
+      <S.TextSub>{`${GroupData.location} | ${GroupData.time}`}</S.TextSub>
     </S.ContentsDiv>
   );
 }

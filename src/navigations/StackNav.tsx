@@ -7,6 +7,8 @@ import IntroduceMatchingScreen from '@/screens/matching/components/IntroduceMatc
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
 import PostGroupScreen from '@/screens/social/group/PostGroupScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
+import GroupDetailScreen from '@/screens/social/group/GroupDetailScreen'
+import { Group } from '@/screens/social/data/Group'
 
 export type StackParamList = {
   PreviewScreen: undefined
@@ -17,6 +19,7 @@ export type StackParamList = {
   ChatRoom: undefined
   IntroduceMatching: undefined
   ChemiRating: undefined
+  GroupDetailScreen: { group: Group }
 }
 
 const Stack = createNativeStackNavigator<StackParamList>()
@@ -32,6 +35,7 @@ const StackNav = () => {
       <Stack.Screen name="ChatRoom" component={ChatRoom} />
       <Stack.Screen name="IntroduceMatching" component={IntroduceMatchingScreen} />
       <Stack.Screen name="ChemiRating" component={ChemiRatingScreen} />
+      <Stack.Screen name="GroupDetailScreen" component={GroupDetailScreen} />
     </Stack.Navigator>
   )
 }
