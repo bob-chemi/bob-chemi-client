@@ -1,7 +1,15 @@
 import { useState } from 'react'
 import { authRequest } from '@/api/authRequest'
 import { calculateAge } from '@/utils/calculateAge'
-import { idValidator, passwordValidator, confirmPwValidator, phoneNumberValidator } from '@/utils/validator'
+import {
+  idValidator,
+  passwordValidator,
+  confirmPwValidator,
+  phoneNumberValidator,
+  nickNameValidator,
+  genderValidator,
+  birthDayValidator,
+} from '@/utils/validator'
 const { userSMS, userVerificationCode, userSignUp } = authRequest
 const useRegisterInput = () => {
   const [formData, setFormData] = useState({
@@ -17,20 +25,25 @@ const useRegisterInput = () => {
   const [phoneAuthButtonVisible, setPhoneAuthButtonVisible] = useState(true)
   const [signUpButton, setSignUpButton] = useState({ formValidate: true, verification: true })
 
-  const { id, password, confirmPassword, phoneNumber, verification } = formData
+  const { id, password, confirmPassword, phoneNumber, nickname, verification, gender } = formData
+
   const idError = idValidator(id.value)
   const passwordError = passwordValidator(password.value)
   const confirmError = confirmPwValidator(password.value, confirmPassword.value)
   const phoneNumberError = phoneNumberValidator(phoneNumber.value)
-
+  const nickNameError = nickNameValidator(nickname.value)
+  const genderError = genderValidator(gender.value)
+  const birthDayError = birthDayValidator(birthDay)
   const signUpFieldEndEditing = () => {
-    if (idError || passwordError || confirmError || phoneNumberError) {
+    if (idError || passwordError || confirmError || phoneNumberError || nickNameError || genderError || birthDayError) {
       setFormData({
         ...formData,
         id: { ...id, error: idError },
         password: { ...password, error: passwordError },
         confirmPassword: { ...confirmPassword, error: confirmError },
         phoneNumber: { ...phoneNumber, error: phoneNumberError },
+        nickname: { ...nickname, error: nickNameError },
+        gender: { ...gender, error: genderError },
       })
 
       return
@@ -92,6 +105,7 @@ const useRegisterInput = () => {
     handleOnChangeText,
     smsVerificatinOnPressed,
     requestSignupOnPress,
+    birthDayError,
   }
 }
 

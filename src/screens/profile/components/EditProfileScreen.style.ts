@@ -14,4 +14,21 @@ export const ProfileImage = styled.View`
   width: 200px;
   background-color: ${theme.colors.primary};
   border-radius: 150;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+`
+export const Img = styled.Image`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`
+export const EditIconButton = styled.Pressable`
+  position: absolute;
+  padding: 10px;
+  background-color: ${theme.colors.white};
+  border-radius: 50;
+  right: 0;
+  bottom: 0;
+  border: 1px solid ${theme.colors.gray400};
 `

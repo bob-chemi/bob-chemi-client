@@ -22,6 +22,7 @@ const RegisterScreen = () => {
     handleOnChangeText,
     smsVerificatinOnPressed,
     requestSignupOnPress,
+    birthDayError,
   } = useRegisterInput()
 
   const { navigate } = useNavigation<Nav>()
@@ -62,11 +63,12 @@ const RegisterScreen = () => {
           placeholder="닉네임"
           onChangeText={nickname => handleOnChangeText(nickname, 'nickname')}
           fullWidth
+          onEndEditing={() => signUpFieldEndEditing()}
         />
         <PhoneAuthInput
           labelText="휴대전화 번호"
           validate={formData.phoneNumber.error}
-          placeholder="01012345678"
+          placeholder="숫자만 입력해주세요"
           onChangeText={phoneNumber => handleOnChangeText(phoneNumber, 'phoneNumber')}
           keyboardType="number-pad"
           halfButtonText={phoneAuthButtonVisible ? '인증번호 발송' : '다시 보내기'}
@@ -85,10 +87,14 @@ const RegisterScreen = () => {
         />
       </S.TextInputForm>
       <S.ButtonWrapper>
-        <Dropdown setValue={setBirthDay} />
+        <Dropdown setValue={setBirthDay} validate={birthDayError} />
       </S.ButtonWrapper>
       <S.ButtonWrapper>
-        <GenderCheckbox selectedGender={formData.gender} setGender={gender => handleOnChangeText(gender, 'gender')} />
+        <GenderCheckbox
+          validate={formData.gender.error}
+          selectedGender={formData.gender}
+          setGender={gender => handleOnChangeText(gender, 'gender')}
+        />
       </S.ButtonWrapper>
       <S.ButtonWrapper>
         <CustomButton
