@@ -25,11 +25,11 @@ export type Variant =
   | 'white'
   | 'black'
 export type JustifyContent = 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly'
-export type FlexDriection = 'row' | 'row-reverse' | 'column' | 'column-reverse'
+export type FlexDirection = 'row' | 'row-reverse' | 'column' | 'column-reverse'
 export type AlignItems = 'center' | 'flex-start' | 'flex-end' | 'stretch' | 'baseline'
 export interface FlexInterface {
   flex?: number
-  flexDirection?: FlexDriection
+  flexDirection?: FlexDirection
   justifyContent?: JustifyContent
   alignItems?: AlignItems
 }
