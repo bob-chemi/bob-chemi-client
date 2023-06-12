@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, SafeAreaView, ScrollView } from 'react-native'
 import { ImagePickerResponse, launchCamera, launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker'
 import Icon from 'react-native-vector-icons/Entypo'
@@ -10,6 +10,7 @@ import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 import { nickNameValidator, passwordValidator, confirmPwValidator } from '@/utils/validator'
+
 type ProfieScreenProp = NativeStackScreenProps<ProfileStackParamList, 'EditProfileScreen'>
 interface ImageData {
   uri: string | undefined
@@ -58,7 +59,7 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
       } else if (response.errorCode) {
         console.log('ImagePicker Error:', response.errorCode, response.errorMessage)
       } else if (response.assets && response.assets.length > 0) {
-        const imageData: ImageData = { uri: response.assets[0].uri! }
+        const imageData: ImageData = { uri: response.assets[0].uri }
         setImageData(imageData)
       }
     })
@@ -75,11 +76,15 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
       } else if (response.errorCode) {
         console.log('ImagePicker Error:', response.errorCode, response.errorMessage)
       } else if (response.assets && response.assets.length > 0) {
-        const imageData: ImageData = { uri: response.assets[0].uri! }
+        const imageData: ImageData = { uri: 'data:image/jpeg;base64' + response.assets[0].uri }
+
         setImageData(imageData)
       }
     })
   }
+  useEffect(() => {
+    console.log(imageData)
+  }, [imageData])
   const handleSave = () => {
     // onSave(nickname, password, age)
   }

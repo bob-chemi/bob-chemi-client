@@ -9,13 +9,13 @@ export const TempBackground = styled.View`
   width: 100%;
   height: 10px;
   background-color: ${theme.colors.gray200};
-  border-radius: 20;
+  border-radius: 20px;
   overflow: hidden;
 `
 
 export const ProfileStatus = styled.View`
   background-color: ${theme.colors.gray200};
-  border-radius: 20;
+  border-radius: 20px;
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
@@ -24,7 +24,7 @@ export const ProfileStatus = styled.View`
 `
 export const ProfileImage = styled.View`
   background-color: ${theme.colors.primary};
-  border-radius: 100;
+  border-radius: 100px;
   height: 100px;
   width: 100px;
 `
