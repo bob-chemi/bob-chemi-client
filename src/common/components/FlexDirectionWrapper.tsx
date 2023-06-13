@@ -15,10 +15,11 @@ interface ContainerProps extends FlexInterface, PaddingAndMargin {
   height?: number
   width?: number
   border?: string
+  borderRadius?: string | number
 }
 
 const Container = styled.View<ContainerProps>`
-  padding: ${({ p }) => (typeof p === 'number' ? `${p}px` : '0px')};
+  padding: ${({ p }) => (p ? `${p}px` : '0px')};
   padding-left: ${({ pl }) => (pl ? `${pl}px` : '0px')};
   padding-right: ${({ pr }) => (pr ? `${pr}px` : '0px')};
   padding-top: ${({ pt }) => (pt ? `${pt}px` : '0px')};

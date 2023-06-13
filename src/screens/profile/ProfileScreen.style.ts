@@ -1,9 +1,10 @@
 import styled from 'styled-components/native'
 import theme from '@/common/style/theme'
 
-export const Container = styled.View`
+export const Container = styled.ScrollView`
   flex: 1;
-  padding: 24px;
+  padding: 0 24px;
+  margin: 20px 0;
 `
 export const TempBackground = styled.View`
   width: 100%;
@@ -32,4 +33,5 @@ export const ProfileImage = styled.View`
 export const ChemistryStatus = styled.View`
   flex: 1;
   justify-content: center;
+  margin: 40px 0;
 `

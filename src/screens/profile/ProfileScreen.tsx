@@ -1,8 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
-
 import Icon from 'react-native-vector-icons/AntDesign'
+import ChemiReview from './components/ChemiReview'
 import * as S from './ProfileScreen.style'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
@@ -47,7 +47,7 @@ const ProfileScreen = ({ navigation }: ProfieScreenProp) => {
         <CustomText fontSize={20} fontWeight={600} variant="primary">
           케미지수
         </CustomText>
-        <FlexDirectionWrapper justifyContent="space-between" m={5}>
+        <FlexDirectionWrapper justifyContent="space-between" mt={10} mb={10}>
           <CustomText>첫 온도 36.5&#8451;</CustomText>
 
           <CustomText fontSize={20} fontWeight={600} variant="primary">
@@ -60,6 +60,16 @@ const ProfileScreen = ({ navigation }: ProfieScreenProp) => {
           />
         </S.TempBackground>
       </S.ChemistryStatus>
+      <FlexDirectionWrapper flexDirection="column" mb={20}>
+        <FlexDirectionWrapper mb={20}>
+          <CustomText variant="primary" fontSize={20} fontWeight={600}>
+            받은 매너 평가
+          </CustomText>
+        </FlexDirectionWrapper>
+        {chemiReviewList.map(item => (
+          <ChemiReview key={item.reviewTxt} review={item} />
+        ))}
+      </FlexDirectionWrapper>
       <CustomButton
         variant="gray200"
         fullWidth
@@ -78,7 +88,7 @@ const ProfileScreen = ({ navigation }: ProfieScreenProp) => {
             color={theme.colors.primary}
           />
           <CustomText variant="gray500" fontWeight={600}>
-            밥케미 후기
+            소모임
           </CustomText>
         </FlexDirectionWrapper>
         <FlexDirectionWrapper pr={20}>
@@ -139,3 +149,15 @@ const ProfileScreen = ({ navigation }: ProfieScreenProp) => {
 }
 
 export default ProfileScreen
+
+export type ChemiReviewListType = {
+  iconName: string
+  reviewTxt: string
+  reviewCount: number
+}
+const chemiReviewList: ChemiReviewListType[] = [
+  { iconName: 'users', reviewTxt: '최고에요', reviewCount: 26 },
+  { iconName: 'users', reviewTxt: '좋아요', reviewCount: 22 },
+  { iconName: 'users', reviewTxt: '아쉬워요', reviewCount: 16 },
+  { iconName: 'users', reviewTxt: '별로에요', reviewCount: 56 },
+]

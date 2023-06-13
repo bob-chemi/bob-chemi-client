@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Alert, SafeAreaView, ScrollView } from 'react-native'
 import { ImagePickerResponse, launchCamera, launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker'
 import Icon from 'react-native-vector-icons/Entypo'
@@ -82,9 +82,7 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
       }
     })
   }
-  useEffect(() => {
-    console.log(imageData)
-  }, [imageData])
+
   const handleSave = () => {
     // onSave(nickname, password, age)
   }
@@ -103,7 +101,7 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
           pb={24}
         >
           <FlexDirectionWrapper alignItems="center">
-            <S.ProfileImage>{imageData && <S.Img source={{ uri: imageData.uri }} />}</S.ProfileImage>
+            <S.ProfileImage>{imageData.uri && <S.Img source={{ uri: imageData.uri }} />}</S.ProfileImage>
             <S.EditIconButton aria-label="사진선택" onPress={() => handleSelectImage()}>
               <Icon name="edit" size={25}></Icon>
             </S.EditIconButton>
