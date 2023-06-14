@@ -1,7 +1,8 @@
+import CheckBox from '@react-native-community/checkbox'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import * as S from '../Auth.style'
 import TextInputComp from '../register/components/TextInputComp'
@@ -9,11 +10,12 @@ import { authRequest } from '@/api/authRequest'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
+import theme from '@/common/style/theme'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation'
-import { Nav } from '@/types/nav'
+import { setStorage, getStorage, removeStorage } from '@/utils/storage'
 import { idValidator, passwordValidator } from '@/utils/validator'
-
+export const REMEMBER_ID_KEY = '@remember_id'
 type NavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
   BottomTabNavigationProp<TabParamList, 'Home'>
@@ -22,7 +24,7 @@ type NavigationProp = CompositeNavigationProp<
 const LoginScreen = () => {
   const [id, setId] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
-  const { navigate } = useNavigation<Nav>()
+  const [rememberID, setRememberID] = useState(false)
   const navigation = useNavigation<NavigationProp>()
   const { userLogin } = authRequest
   const loginOnPressed = async () => {
@@ -37,9 +39,30 @@ const LoginScreen = () => {
         id: id.value,
         password: password.value,
       }
-      const response = await userLogin(userData)
+      const loginSuccessResponse = await userLogin(userData)
+
+      if (rememberID) {
+        const newRememberID = { rememberID, userID: id.value }
+        await setStorage(newRememberID, REMEMBER_ID_KEY)
+      } else {
+        await removeStorage(REMEMBER_ID_KEY)
+      }
     }
   }
+  const handleRememberID = () => {
+    setRememberID(prev => !prev)
+  }
+  const getData = useCallback(async () => {
+    const storageData = await getStorage(REMEMBER_ID_KEY)
+    if (storageData && storageData.rememberID) {
+      setId({ value: storageData.userID, error: '' })
+      setRememberID(storageData.rememberID)
+    }
+  }, [])
+
+  useEffect(() => {
+    getData()
+  }, [])
 
   // 개발 중 로그인 버튼 클릭시 홈으로 이동
   // FIXME: 로그인 기능 구현 후 로그인 성공시 홈으로 이동으로 수정
@@ -52,6 +75,7 @@ const LoginScreen = () => {
     <S.ScrollView>
       <S.TextInputForm>
         <TextInputComp
+          value={id.value}
           labelText="아이디"
           validate={id.error}
           placeholder="example"
@@ -68,9 +92,16 @@ const LoginScreen = () => {
           fullWidth
         />
       </S.TextInputForm>
-      <FlexDirectionWrapper mt={24} mb={24} flexDirection="row" justifyContent="space-between">
-        <Text>아이디 기억하기</Text>
-        <Text>비밀번호를 잊으셨나요?</Text>
+      <FlexDirectionWrapper mt={24} mb={24} flexDirection="row" justifyContent="space-between" alignItems="center">
+        <FlexDirectionWrapper flexDirection="row" alignItems="center">
+          <CheckBox
+            value={rememberID === true}
+            onValueChange={() => handleRememberID()}
+            tintColors={{ true: `${theme.colors.primary}` }}
+          />
+          <Text style={{ marginBottom: 5 }}>아이디 기억하기</Text>
+        </FlexDirectionWrapper>
+        <Text style={{ marginBottom: 5 }}>비밀번호를 잊으셨나요?</Text>
       </FlexDirectionWrapper>
       <S.ButtonWrapper>
         <CustomButton variant="primary" fullWidth onPress={loginOnPressed} borderRadius={20}>
@@ -86,7 +117,7 @@ const LoginScreen = () => {
         </CustomButton>
       </S.ButtonWrapper>
       <FlexDirectionWrapper justifyContent="center" mt={100} mb={100} alignItems="center">
-        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigate('RegisterScreen')}>
+        <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => navigation.navigate('RegisterScreen')}>
           <CustomText variant="gray500">아직 회원이 아니신가요? &nbsp;&nbsp;</CustomText>
           <CustomText fontWeight={600} variant="primary">
             회원가입

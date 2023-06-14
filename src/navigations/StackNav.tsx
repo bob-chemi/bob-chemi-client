@@ -5,10 +5,10 @@ import ChatRoom from '@/screens/chat/ChatRoom'
 import ChemiRatingScreen from '@/screens/chemiRating/ChemiRatingScreen'
 import IntroduceMatchingScreen from '@/screens/matching/components/IntroduceMatchingScreen'
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
+import { Group } from '@/screens/social/data/Group'
+import GroupDetailScreen from '@/screens/social/group/GroupDetailScreen'
 import PostGroupScreen from '@/screens/social/group/PostGroupScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
-import GroupDetailScreen from '@/screens/social/group/GroupDetailScreen'
-import { Group } from '@/screens/social/data/Group'
 
 export type StackParamList = {
   PreviewScreen: undefined

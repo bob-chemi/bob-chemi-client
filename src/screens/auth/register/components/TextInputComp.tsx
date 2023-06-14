@@ -8,6 +8,7 @@ export interface TextInputCompProp extends TextInputProps {
   onChangeText: (text: string) => void
   fullWidth?: boolean
   onEndEditing?: () => void
+  value?: string
 }
 const TextInputComp = ({
   labelText,
@@ -18,11 +19,13 @@ const TextInputComp = ({
   secureTextEntry,
   fullWidth,
   onEndEditing,
+  value,
 }: TextInputCompProp) => {
   const [showPassword, setShowPassword] = useState(false)
   const toggleShowPassword = () => {
     setShowPassword(!showPassword)
   }
+
   return (
     <S.InputWrapper>
       <S.Label>
@@ -40,6 +43,7 @@ const TextInputComp = ({
         secureTextEntry={secureTextEntry && !showPassword}
         fullWidth={fullWidth}
         onEndEditing={onEndEditing}
+        value={value && value}
       />
       {secureTextEntry && (
         <S.TogglePasswordButton onPress={toggleShowPassword}>

@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React from 'react'
 import { TouchableOpacity } from 'react-native'
 import * as S from '../Auth.style'
@@ -10,7 +11,10 @@ import useRegisterInput from './hooks/useRegisterInput'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
-import { Nav } from '@/types/nav'
+import { StackParamList } from '@/navigations/StackNav'
+
+type NavigationProp = NativeStackNavigationProp<StackParamList, 'LoginScreen'>
+
 const RegisterScreen = () => {
   const {
     formData,
@@ -25,7 +29,7 @@ const RegisterScreen = () => {
     birthDayError,
   } = useRegisterInput()
 
-  const { navigate } = useNavigation<Nav>()
+  const { navigate } = useNavigation<NavigationProp>()
 
   return (
     <S.ScrollView>
