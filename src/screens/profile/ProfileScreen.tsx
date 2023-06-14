@@ -1,18 +1,13 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
-import Icon from 'react-native-vector-icons/AntDesign'
 import ChemiReview from './components/ChemiReview'
+import ProfileButton from './components/ProfileButton'
 import * as S from './ProfileScreen.style'
-import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import theme from '@/common/style/theme'
-import type { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 
-type ProfieScreenProp = NativeStackScreenProps<ProfileStackParamList, 'ProfileScreen'>
-
-const ProfileScreen = ({ navigation }: ProfieScreenProp) => {
+const ProfileScreen = () => {
   const rangeValue = useRef(new Animated.Value(0)).current
 
   const width = rangeValue.interpolate({
@@ -70,80 +65,9 @@ const ProfileScreen = ({ navigation }: ProfieScreenProp) => {
           <ChemiReview key={item.reviewTxt} review={item} />
         ))}
       </FlexDirectionWrapper>
-      <CustomButton
-        variant="gray200"
-        fullWidth
-        height={80}
-        borderRadius={20}
-        flexDirection="row"
-        justifyContent="space-between"
-        mb={10}
-        onPress={() => navigation.navigate('EditProfileScreen')}
-      >
-        <FlexDirectionWrapper alignItems="center" pl={20}>
-          <Icon
-            name="form"
-            size={18}
-            style={{ backgroundColor: '#fff', borderRadius: 50, padding: 10, marginRight: 10 }}
-            color={theme.colors.primary}
-          />
-          <CustomText variant="gray500" fontWeight={600}>
-            소모임
-          </CustomText>
-        </FlexDirectionWrapper>
-        <FlexDirectionWrapper pr={20}>
-          <Icon name="right" size={20} />
-        </FlexDirectionWrapper>
-      </CustomButton>
-      <CustomButton
-        variant="gray200"
-        fullWidth
-        height={80}
-        borderRadius={20}
-        flexDirection="row"
-        justifyContent="space-between"
-        mb={10}
-        onPress={() => navigation.navigate('EditProfileScreen')}
-      >
-        <FlexDirectionWrapper alignItems="center" pl={20}>
-          <Icon
-            name="user"
-            size={18}
-            style={{ backgroundColor: '#fff', borderRadius: 50, padding: 10, marginRight: 10 }}
-            color={theme.colors.primary}
-          />
-          <CustomText variant="gray500" fontWeight={600}>
-            프로필 수정
-          </CustomText>
-        </FlexDirectionWrapper>
-        <FlexDirectionWrapper pr={20}>
-          <Icon name="right" size={20} />
-        </FlexDirectionWrapper>
-      </CustomButton>
-
-      <CustomButton
-        variant="gray200"
-        fullWidth
-        height={80}
-        borderRadius={20}
-        flexDirection="row"
-        justifyContent="space-between"
-      >
-        <FlexDirectionWrapper alignItems="center" pl={20}>
-          <Icon
-            name="logout"
-            size={18}
-            style={{ backgroundColor: '#fff', borderRadius: 50, padding: 10, marginRight: 10 }}
-            color={'#FB4A59'}
-          />
-          <CustomText variant="gray500" fontWeight={600}>
-            로그 아웃
-          </CustomText>
-        </FlexDirectionWrapper>
-        <FlexDirectionWrapper pr={20}>
-          <Icon name="right" size={20} />
-        </FlexDirectionWrapper>
-      </CustomButton>
+      {profileButtonList.map(button => (
+        <ProfileButton key={button.buttonTxt} buttonProps={button} />
+      ))}
     </S.Container>
   )
 }
@@ -160,4 +84,15 @@ const chemiReviewList: ChemiReviewListType[] = [
   { iconName: 'users', reviewTxt: '좋아요', reviewCount: 22 },
   { iconName: 'users', reviewTxt: '아쉬워요', reviewCount: 16 },
   { iconName: 'users', reviewTxt: '별로에요', reviewCount: 56 },
+]
+export type ProfileButtonListType = {
+  iconName: string
+  buttonTxt: string
+  rightIcon: string
+  path?: 'MyGroupScreen' | 'EditProfileScreen'
+}
+const profileButtonList: ProfileButtonListType[] = [
+  { iconName: 'form', buttonTxt: '나의 소모임', rightIcon: 'right', path: 'MyGroupScreen' },
+  { iconName: 'user', buttonTxt: '프로필 수정', rightIcon: 'right', path: 'EditProfileScreen' },
+  { iconName: 'logout', buttonTxt: '로그 아웃', rightIcon: 'right' },
 ]

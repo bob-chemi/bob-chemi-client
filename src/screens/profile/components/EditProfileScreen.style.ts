@@ -13,7 +13,7 @@ export const ProfileImage = styled.View`
   height: 200px;
   width: 200px;
   background-color: ${theme.colors.primary};
-  border-radius: 150;
+  border-radius: 150px;
   overflow: hidden;
   justify-content: center;
   align-items: center;
@@ -27,7 +27,7 @@ export const EditIconButton = styled.Pressable`
   position: absolute;
   padding: 10px;
   background-color: ${theme.colors.white};
-  border-radius: 50;
+  border-radius: 50px;
   right: 0;
   bottom: 0;
   border: 1px solid ${theme.colors.gray400};
