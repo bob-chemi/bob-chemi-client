@@ -11,7 +11,9 @@ import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 import { nickNameValidator, passwordValidator, confirmPwValidator } from '@/utils/validator'
 
+
 type ProfieScreenProp = NativeStackScreenProps<ProfileStackParamList, 'EditProfileScreen'>
+ 
 interface ImageData {
   uri: string | undefined
 }
@@ -83,6 +85,63 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
     })
   }
 
+  const handleSelectImage = () => {
+    const options = {
+      title: '이미지 첨부',
+      message: '이미지를 가져올 방법을 선택해주세요',
+      buttons: [
+        {
+          text: '앨범에서 가져오기',
+          onPress: () => selectFromAlbum(),
+          style: 'default' as const,
+        },
+        {
+          text: '사진 찍기',
+          onPress: () => selectFromCamera(),
+          style: 'default' as const,
+        },
+        {
+          text: '취소',
+          style: 'cancel' as const,
+        },
+      ],
+    }
+    Alert.alert(options.title, options.message, options.buttons)
+  }
+  const selectFromCamera = () => {
+    const options: ImageLibraryOptions = {
+      mediaType: 'photo',
+      quality: 1,
+    }
+
+    launchCamera(options, (response: ImagePickerResponse) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error:', response.errorCode, response.errorMessage)
+      } else if (response.assets && response.assets.length > 0) {
+        const imageData: ImageData = { uri: response.assets[0].uri! }
+        setImageData(imageData)
+      }
+    })
+  }
+  const selectFromAlbum = () => {
+    const options: ImageLibraryOptions = {
+      mediaType: 'photo',
+      quality: 1,
+    }
+
+    launchImageLibrary(options, (response: ImagePickerResponse) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+      } else if (response.errorCode) {
+        console.log('ImagePicker Error:', response.errorCode, response.errorMessage)
+      } else if (response.assets && response.assets.length > 0) {
+        const imageData: ImageData = { uri: response.assets[0].uri! }
+        setImageData(imageData)
+      }
+    })
+  }
   const handleSave = () => {
     // onSave(nickname, password, age)
   }
