@@ -1,4 +1,4 @@
-export interface User {
+export type User = {
   id: string
   email: string
   phone: string
@@ -6,4 +6,4 @@ export interface User {
   name: string
   gender: 'Male' | 'Femail'
   age: number
-}
+} | null
