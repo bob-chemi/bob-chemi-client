@@ -3,7 +3,8 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useEffect, useState, useCallback } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import { Alert, Text, TouchableOpacity } from 'react-native'
+import { useSetRecoilState } from 'recoil'
 import * as S from '../Auth.style'
 import TextInputComp from '../register/components/TextInputComp'
 import { authRequest } from '@/api/authRequest'
@@ -13,8 +14,10 @@ import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import theme from '@/common/style/theme'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation'
+import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
 import { setStorage, getStorage, removeStorage } from '@/utils/storage'
 import { idValidator, passwordValidator } from '@/utils/validator'
+
 export const REMEMBER_ID_KEY = '@remember_id'
 type NavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
@@ -22,11 +25,14 @@ type NavigationProp = CompositeNavigationProp<
 >
 
 const LoginScreen = () => {
+  const setUserAtom = useSetRecoilState(userStatesAtom)
   const [id, setId] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
   const [rememberID, setRememberID] = useState(false)
+  const [isLoggingIn, setIsLoggingIn] = useState(false)
   const navigation = useNavigation<NavigationProp>()
   const { userLogin } = authRequest
+
   const loginOnPressed = async () => {
     const idError = idValidator(id.value)
     const passwordError = passwordValidator(password.value)
@@ -39,13 +45,28 @@ const LoginScreen = () => {
         email: id.value,
         password: password.value,
       }
-      const loginSuccessResponse = await userLogin(userData)
+
       if (rememberID) {
         const newRememberID = { rememberID, userID: id.value }
         await setStorage(newRememberID, REMEMBER_ID_KEY)
       } else {
         await removeStorage(REMEMBER_ID_KEY)
       }
+
+      try {
+        setIsLoggingIn(true)
+        const loginSuccessResponse = await userLogin(userData)
+        if (loginSuccessResponse) {
+          setUserAtom(loginSuccessResponse)
+          navigation.navigate('Tab', { screen: 'Home' })
+        }
+      } catch (error: any) {
+        setIsLoggingIn(false)
+        const { msg } = error
+        Alert.alert('로그인 실패', msg ? msg : '로그인에 실패했습니다.')
+      }
+
+      // 로그인 완료시 홈으로
     }
   }
   const handleRememberID = () => {
@@ -103,9 +124,9 @@ const LoginScreen = () => {
         <Text style={{ marginBottom: 5 }}>비밀번호를 잊으셨나요?</Text>
       </FlexDirectionWrapper>
       <S.ButtonWrapper>
-        <CustomButton variant="primary" fullWidth onPress={loginOnPressed} borderRadius={20}>
+        <CustomButton variant="primary" loading={isLoggingIn} fullWidth onPress={loginOnPressed} borderRadius={20}>
           <CustomText variant="white" fontSize={16} fontWeight={600}>
-            로그인하기
+            {isLoggingIn ? '로그인 중...' : '로그인'}
           </CustomText>
         </CustomButton>
       </S.ButtonWrapper>

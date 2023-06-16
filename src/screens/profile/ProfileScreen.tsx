@@ -1,14 +1,28 @@
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
+import { useSetRecoilState } from 'recoil'
 import ChemiReview from './components/ChemiReview'
 import ProfileButton from './components/ProfileButton'
 import * as S from './ProfileScreen.style'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import theme from '@/common/style/theme'
-import { Colors } from '@/common/style/theme'
-import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
+import { TabParamList } from '@/navigations/BottomTabs'
+import { RootNativeStackParamList } from '@/navigations/RootNavigation'
+import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
+
+type NavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<TabParamList, 'Profile'>,
+  NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>
+>
+
 const ProfileScreen = () => {
+  const navigation = useNavigation<NavigationProp>()
+
+  const setUserAtom = useSetRecoilState(userStatesAtom)
   const rangeValue = useRef(new Animated.Value(0)).current
 
   const width = rangeValue.interpolate({
@@ -23,6 +37,13 @@ const ProfileScreen = () => {
       useNativeDriver: false,
     }).start()
   }
+
+  const signOut = () => {
+    console.log('signOut')
+    setUserAtom(null)
+    navigation.navigate('Stack')
+  }
+
   useEffect(() => {
     load()
   }, [])
@@ -90,11 +111,10 @@ export type ProfileButtonListType = {
   iconName: string
   buttonTxt: string
   rightIcon: string
-  iconColor: keyof Colors
-  path?: keyof ProfileStackParamList
+  path?: 'MyGroupScreen' | 'EditProfileScreen' | 'Stack'
 }
 const profileButtonList: ProfileButtonListType[] = [
-  { iconName: 'form', iconColor: 'success', buttonTxt: '나의 소모임', rightIcon: 'right', path: 'MyGroupScreen' },
-  { iconName: 'user', iconColor: 'primary', buttonTxt: '프로필 수정', rightIcon: 'right', path: 'EditProfileScreen' },
-  { iconName: 'logout', iconColor: 'warning', buttonTxt: '로그 아웃', rightIcon: 'right' },
+  { iconName: 'form', buttonTxt: '나의 소모임', rightIcon: 'right', path: 'MyGroupScreen' },
+  { iconName: 'user', buttonTxt: '프로필 수정', rightIcon: 'right', path: 'EditProfileScreen' },
+  { iconName: 'logout', buttonTxt: '로그 아웃', rightIcon: 'right', path: 'Stack' },
 ]

@@ -8,6 +8,7 @@ interface CustomButtonProps {
   children?: React.ReactNode
   disabled?: boolean
   onPress?: () => void
+  loading?: boolean
 }
 
 interface ButtonStyleProps extends FlexInterface, PaddingAndMargin {
@@ -16,13 +17,14 @@ interface ButtonStyleProps extends FlexInterface, PaddingAndMargin {
   fullWidth?: boolean
   borderRadius?: number
   height?: number
+  loading?: boolean
 }
 
 const FULL_WIDTH = SCREEN_WIDTH - 48
 
-const CustomButton = ({ children, disabled, onPress, ...props }: CustomButtonProps & ButtonStyleProps) => {
+const CustomButton = ({ loading, children, disabled, onPress, ...props }: CustomButtonProps & ButtonStyleProps) => {
   return (
-    <TouchableButton disabled={disabled} onPress={onPress} {...props}>
+    <TouchableButton loading={loading} disabled={disabled} onPress={onPress} {...props}>
       {typeof children === 'string' ? <Text>{children}</Text> : <>{children}</>}
     </TouchableButton>
   )
@@ -31,8 +33,8 @@ const CustomButton = ({ children, disabled, onPress, ...props }: CustomButtonPro
 export default CustomButton
 
 const TouchableButton = styled.TouchableOpacity<ButtonStyleProps>`
-  background-color: ${({ theme, disabled, variant }) =>
-    disabled ? theme.colors['gray200'] : variant && theme.colors[variant]};
+  background-color: ${({ theme, disabled, variant, loading }) =>
+    loading ? theme.colors.success : disabled ? theme.colors['gray200'] : variant && theme.colors[variant]};
   width: ${({ fullWidth, width }) => (fullWidth ? FULL_WIDTH + 'px' : width ? width + 'px' : '50%')};
   border-radius: ${({ borderRadius }) => (borderRadius ? borderRadius + 'px' : '0px')};
   justify-content: ${({ justifyContent }) => justifyContent || 'center'};
@@ -49,4 +51,5 @@ const TouchableButton = styled.TouchableOpacity<ButtonStyleProps>`
   margin-bottom: ${({ mb }) => (mb ? `${mb}px` : '0px')};
   margin-left: ${({ ml }) => (ml ? `${ml}px` : '0px')};
   margin-right: ${({ mr }) => (mr ? `${mr}px` : '0px')};
+  transition: background-color 1s ease-in-out;
 `

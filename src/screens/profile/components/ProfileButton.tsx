@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React from 'react'
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -8,10 +8,14 @@ import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import theme from '@/common/style/theme'
 import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
+import { RootNativeStackParamList } from '@/navigations/RootNavigation'
 interface ProfileButtonProps {
   buttonProps: ProfileButtonListType
 }
-type ProfieScreenProp = NativeStackNavigationProp<ProfileStackParamList>
+type ProfieScreenProp = CompositeNavigationProp<
+  NativeStackNavigationProp<ProfileStackParamList, 'ProfileScreen'>,
+  NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>
+>
 
 const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
   const navigation = useNavigation<ProfieScreenProp>()
@@ -25,7 +29,11 @@ const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
       flexDirection="row"
       justifyContent="space-between"
       mb={10}
-      onPress={() => buttonProps.path && navigation.navigate(buttonProps.path)}
+      onPress={() =>
+        buttonProps.path !== 'Stack'
+          ? buttonProps.path && navigation.navigate(buttonProps.path)
+          : buttonProps.path && navigation.navigate('Stack')
+      }
     >
       <FlexDirectionWrapper alignItems="center" pl={20}>
         <Icon

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { useEffect, useState } from 'react'
 import { authRequest } from '@/api/authRequest'
 import { calculateAge } from '@/utils/calculateAge'
 import {
@@ -12,6 +13,8 @@ import {
 } from '@/utils/validator'
 const { userSMS, userVerificationCode, userSignUp } = authRequest
 const useRegisterInput = () => {
+  const navigation = useNavigation()
+
   const [formData, setFormData] = useState({
     id: { value: '', error: '' },
     password: { value: '', error: '' },
@@ -34,6 +37,7 @@ const useRegisterInput = () => {
   const nickNameError = nickNameValidator(nickname.value)
   const genderError = genderValidator(gender.value)
   const birthDayError = birthDayValidator(birthDay)
+
   const signUpFieldEndEditing = () => {
     if (idError || passwordError || confirmError || phoneNumberError || nickNameError || genderError || birthDayError) {
       setFormData({
@@ -45,11 +49,7 @@ const useRegisterInput = () => {
         nickname: { ...nickname, error: nickNameError },
         gender: { ...gender, error: genderError },
       })
-
-      return
     }
-    const hasErrors = Object.values(formData).some(field => field.error)
-    setSignUpButton(prev => ({ ...prev, formValidate: hasErrors }))
   }
 
   const phoneAuthOnPressed = async () => {
@@ -72,7 +72,7 @@ const useRegisterInput = () => {
       return
     }
     const isCodeValid = await userVerificationCode(phoneNumber.value, verification.value)
-
+    console.log(isCodeValid)
     if (isCodeValid) {
       setSignUpButton(prev => ({ ...prev, verification: false }))
     } else {
@@ -93,8 +93,22 @@ const useRegisterInput = () => {
       gender: formData.gender.value as 'Male' | 'Female',
       age: calculateAge(birthDay.year, birthDay.month, birthDay.day),
     }
+
     const response = await userSignUp(userData)
+    if (response) {
+      console.log('회원가입 성공')
+      console.log(response)
+      navigation.goBack()
+    } else {
+      console.log('회원가입 실패')
+    }
   }
+
+  useEffect(() => {
+    const hasErrors = Object.values(formData).some(field => field.error)
+    setSignUpButton(prev => ({ ...prev, formValidate: hasErrors }))
+  }, [formData])
+
   return {
     formData,
     setBirthDay,
