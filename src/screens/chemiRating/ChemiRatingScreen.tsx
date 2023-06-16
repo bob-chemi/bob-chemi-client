@@ -2,6 +2,7 @@ import DefaultDegreeIcon from '@assets/icons/defaultDegree.svg'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useState } from 'react'
+import { Slider } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as S from './ChemiRating.style'
 import theme from '@/common/style/theme'
@@ -9,15 +10,18 @@ import { StackParamList } from '@/navigations/StackNav'
 
 type ChemiRatingScreenProps = NativeStackScreenProps<StackParamList, 'ChemiRating'>
 
+type SliderValue = 4 | 3 | 2 | 1
+type ChemiValue = 2 | 1 | -1 | -2
+
 interface CustomLabelProps {
-  sliderValue: number
+  sliderValue: SliderValue
 }
 
 const CustomLabel = ({ sliderValue }: CustomLabelProps) => {
   return (
     <S.CustomLabel>
       <S.CustomLabelRow>
-        {sliderValue >= 75 ? (
+        {sliderValue === 4 ? (
           <S.CustomLabelIcon name="triangle" color={theme.colors.success} size={18} />
         ) : (
           <S.CustomLabelEmpty />
@@ -25,7 +29,7 @@ const CustomLabel = ({ sliderValue }: CustomLabelProps) => {
         <S.CustomLabelText>최고예요</S.CustomLabelText>
       </S.CustomLabelRow>
       <S.CustomLabelRow>
-        {sliderValue >= 50 && sliderValue < 75 ? (
+        {sliderValue === 3 ? (
           <S.CustomLabelIcon name="triangle" color={theme.colors.success} size={18} />
         ) : (
           <S.CustomLabelEmpty />
@@ -33,7 +37,7 @@ const CustomLabel = ({ sliderValue }: CustomLabelProps) => {
         <S.CustomLabelText>좋아요</S.CustomLabelText>
       </S.CustomLabelRow>
       <S.CustomLabelRow>
-        {sliderValue >= 25 && sliderValue < 50 ? (
+        {sliderValue === 2 ? (
           <S.CustomLabelIcon name="triangle" color={theme.colors.success} size={18} />
         ) : (
           <S.CustomLabelEmpty />
@@ -41,7 +45,7 @@ const CustomLabel = ({ sliderValue }: CustomLabelProps) => {
         <S.CustomLabelText>아쉬워요</S.CustomLabelText>
       </S.CustomLabelRow>
       <S.CustomLabelRow>
-        {sliderValue > 0 && sliderValue < 25 ? (
+        {sliderValue === 1 ? (
           <S.CustomLabelIcon name="triangle" color={theme.colors.success} size={18} />
         ) : (
           <S.CustomLabelEmpty />
@@ -54,11 +58,27 @@ const CustomLabel = ({ sliderValue }: CustomLabelProps) => {
 
 const ChemiRatingScreen = ({ navigation }: ChemiRatingScreenProps) => {
   // States
-  const [sliderValue, setSliderValue] = useState(45)
+  const [sliderValue, setSliderValue] = useState<SliderValue>(2)
+  const [chemiValue, setChemiValue] = useState<ChemiValue>(1)
 
   // Functions
   const handleSliderValueChange = (value: number[]) => {
-    setSliderValue(value[0])
+    const sliderValue = value[0] as SliderValue
+    setSliderValue(sliderValue)
+    switch (sliderValue) {
+      case 4:
+        setChemiValue(2)
+        break
+      case 3:
+        setChemiValue(1)
+        break
+      case 2:
+        setChemiValue(-1)
+        break
+      case 1:
+        setChemiValue(-2)
+        break
+    }
   }
 
   // Effects
@@ -85,8 +105,8 @@ const ChemiRatingScreen = ({ navigation }: ChemiRatingScreenProps) => {
       <S.SliderArea>
         <MultiSlider
           vertical
-          min={0}
-          max={100}
+          min={1}
+          max={4}
           snapped
           values={[sliderValue]}
           onValuesChange={value => handleSliderValueChange(value)}
