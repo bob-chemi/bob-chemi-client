@@ -17,7 +17,7 @@ const MyGroupScreen = () => {
               {group.title}
             </TitleCustomText>
             <FlexDirectionWrapper justifyContent="space-between" flexDirection="row">
-              <FlexDirectionWrapper flexDirection="row">
+              <FlexDirectionWrapper width={200} justifyContent="space-between" flexDirection="row">
                 <GroupCustomText>{group.title}</GroupCustomText>
                 <GroupCustomText>{group.numberPeople}</GroupCustomText>
                 <GroupCustomText>{group.time.toLocaleDateString()}</GroupCustomText>
