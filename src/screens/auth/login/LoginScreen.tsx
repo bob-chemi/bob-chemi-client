@@ -36,11 +36,10 @@ const LoginScreen = () => {
       return
     } else {
       const userData = {
-        id: id.value,
+        email: id.value,
         password: password.value,
       }
       const loginSuccessResponse = await userLogin(userData)
-
       if (rememberID) {
         const newRememberID = { rememberID, userID: id.value }
         await setStorage(newRememberID, REMEMBER_ID_KEY)

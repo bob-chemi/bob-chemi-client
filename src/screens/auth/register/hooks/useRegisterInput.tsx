@@ -61,8 +61,8 @@ const useRegisterInput = () => {
       setPhoneAuthButtonVisible(true)
       return
     }
-    const responseCode = await userSMS(phoneNumber.value)
-    if (responseCode) {
+    const responseSMSCode = await userSMS(phoneNumber.value)
+    if (responseSMSCode.code === 200) {
       setPhoneAuthButtonVisible(false)
     }
   }
@@ -85,7 +85,7 @@ const useRegisterInput = () => {
   }
   const requestSignupOnPress = async () => {
     const userData = {
-      id: formData.id.value,
+      email: formData.id.value,
       password: formData.password.value,
       phone: formData.phoneNumber.value,
       name: '',
