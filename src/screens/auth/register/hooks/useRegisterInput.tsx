@@ -61,8 +61,8 @@ const useRegisterInput = () => {
       setPhoneAuthButtonVisible(true)
       return
     }
-    const responseCode = await userSMS(phoneNumber.value)
-    if (responseCode) {
+    const responseSMSCode = await userSMS(phoneNumber.value)
+    if (responseSMSCode.code === 200) {
       setPhoneAuthButtonVisible(false)
     }
   }

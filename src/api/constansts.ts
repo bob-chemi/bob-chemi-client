@@ -18,7 +18,7 @@ export const requestData: RequestFuncType = async (url, method, params, body) =>
   } catch (error) {
     const msg =
       axios.isAxiosError(error) && error?.response?.data?.message ? error?.response?.data?.message : SERVER_ERROR
-    // Alert.alert(msg)
+    Alert.alert(msg)
     throw { data: null, msg }
   }
 }

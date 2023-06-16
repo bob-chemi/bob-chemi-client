@@ -1,4 +1,4 @@
-type Colors = {
+export type Colors = {
   primary: string
   gray500: string
   gray400: string
@@ -7,6 +7,7 @@ type Colors = {
   gray100: string
   success: string
   white: string
+  warning: string
   black: string
 }
 
@@ -60,6 +61,7 @@ const colors: Colors = {
   gray200: '#D8E2EC',
   gray100: '#e8eff5',
   success: '#7bcc85',
+  warning: '#FB4A59',
   white: '#ffffff',
   black: '#000000',
 }

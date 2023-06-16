@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-catch */
-import { AxiosResponse } from 'axios'
 import { requestData } from './constansts'
+import type { UserLogin, UserLoginReturn, User, UserSMS, UserVerificationCode } from '@/types/authRequestType'
 export const authRequest = {
   userLogin: async (loginData: { email: string; password: string }) => {
     const { data } = await requestData('/auth/login', 'post', null, loginData)
