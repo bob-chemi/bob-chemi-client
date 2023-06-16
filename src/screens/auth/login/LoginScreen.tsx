@@ -36,7 +36,7 @@ const LoginScreen = () => {
       return
     } else {
       const userData = {
-        id: id.value,
+        email: id.value,
         password: password.value,
       }
       const loginSuccessResponse = await userLogin(userData)
@@ -46,6 +46,11 @@ const LoginScreen = () => {
         await setStorage(newRememberID, REMEMBER_ID_KEY)
       } else {
         await removeStorage(REMEMBER_ID_KEY)
+      }
+
+      // 로그인 완료시 홈으로
+      if (loginSuccessResponse) {
+        navigation.navigate('Tab', { screen: 'Home' })
       }
     }
   }
