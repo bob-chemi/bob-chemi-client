@@ -65,7 +65,7 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   const renderImages = ({ item }: { item: any }) => {
     return (
       <FastImage
-        style={{ width: 150, height: 150, backgroundColor: 'red' }}
+        style={{ width: 150, height: 150, backgroundColor: 'gray' }}
         source={{ uri: String(item) }}
         resizeMode={FastImage.resizeMode.cover}
       />
