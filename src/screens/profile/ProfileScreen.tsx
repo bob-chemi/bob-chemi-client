@@ -6,7 +6,8 @@ import * as S from './ProfileScreen.style'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import theme from '@/common/style/theme'
-
+import { Colors } from '@/common/style/theme'
+import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 const ProfileScreen = () => {
   const rangeValue = useRef(new Animated.Value(0)).current
 
@@ -89,10 +90,11 @@ export type ProfileButtonListType = {
   iconName: string
   buttonTxt: string
   rightIcon: string
-  path?: 'MyGroupScreen' | 'EditProfileScreen'
+  iconColor: keyof Colors
+  path?: keyof ProfileStackParamList
 }
 const profileButtonList: ProfileButtonListType[] = [
-  { iconName: 'form', buttonTxt: '나의 소모임', rightIcon: 'right', path: 'MyGroupScreen' },
-  { iconName: 'user', buttonTxt: '프로필 수정', rightIcon: 'right', path: 'EditProfileScreen' },
-  { iconName: 'logout', buttonTxt: '로그 아웃', rightIcon: 'right' },
+  { iconName: 'form', iconColor: 'success', buttonTxt: '나의 소모임', rightIcon: 'right', path: 'MyGroupScreen' },
+  { iconName: 'user', iconColor: 'primary', buttonTxt: '프로필 수정', rightIcon: 'right', path: 'EditProfileScreen' },
+  { iconName: 'logout', iconColor: 'warning', buttonTxt: '로그 아웃', rightIcon: 'right' },
 ]

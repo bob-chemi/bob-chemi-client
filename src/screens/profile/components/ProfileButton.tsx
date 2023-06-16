@@ -11,10 +11,11 @@ import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 interface ProfileButtonProps {
   buttonProps: ProfileButtonListType
 }
-type ProfieScreenProp = NativeStackNavigationProp<ProfileStackParamList, 'ProfileScreen'>
+type ProfieScreenProp = NativeStackNavigationProp<ProfileStackParamList>
 
 const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
   const navigation = useNavigation<ProfieScreenProp>()
+  console.log(navigation)
   return (
     <CustomButton
       variant="gray200"
@@ -31,7 +32,7 @@ const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
           name={buttonProps.iconName}
           size={18}
           style={{ backgroundColor: '#fff', borderRadius: 50, padding: 10, marginRight: 10 }}
-          color={theme.colors.primary}
+          color={theme.colors[buttonProps.iconColor]}
         />
         <CustomText variant="gray500" fontWeight={600}>
           {buttonProps.buttonTxt}

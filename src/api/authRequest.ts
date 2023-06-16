@@ -1,33 +1,26 @@
 /* eslint-disable no-useless-catch */
-import { AxiosResponse } from 'axios'
 import { requestData } from './constansts'
+import type { UserLogin, UserLoginReturn, User, UserSMS, UserVerificationCode } from '@/types/authRequestType'
 export const authRequest = {
-  userLogin: async (loginData: { id: string; password: string }) => {
+  userLogin: async (loginData: UserLogin): Promise<UserLoginReturn> => {
     const { data } = await requestData('/auth/login', 'post', loginData)
     return data
   },
-  userSignUp: async (userData: {
-    id: string
-    password: string
-    phone: string
-    name: string
-    nickname: string
-    gender: 'Male' | 'Female'
-    age: number
-  }) => {
-    const { data } = await requestData('/auth/login', 'post', userData)
+  userSignUp: async (userData: User) => {
+    const { data } = await requestData('/user', 'post', userData)
     return data
   },
   userLogout: async () => {
     const { data } = await requestData('/auth/logout', 'post')
     return data
   },
-  userSMS: async (phone: string) => {
+  userSMS: async (phone: string): Promise<UserSMS> => {
     const { data } = await requestData('/auth/sms', 'post', { phone })
     return data
   },
-  userVerificationCode: async (phone: string, token: string) => {
+  userVerificationCode: async (phone: string, token: string): Promise<UserVerificationCode> => {
     const { data } = await requestData('/auth/sms/check', 'post', { phone, token })
+
     return data
   },
 }
