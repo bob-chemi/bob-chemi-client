@@ -61,8 +61,6 @@ const RatingNumer = styled.Text`
   color: white;
 `
 
-const RatingStar = styled.Text``
-
 const AddressAndOperationCol = styled.View``
 
 const Address = styled.Text`
@@ -189,7 +187,13 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
           </RatingRow>
           <AddressAndOperationCol>
             <Address>{item.vicinity ? item.vicinity : '주소 정보 없음'}</Address>
-            {distanceFromCurrentLocation && <Distance>{distanceFromCurrentLocation}m</Distance>}
+            {distanceFromCurrentLocation && (
+              <Distance>
+                {distanceFromCurrentLocation > 1000
+                  ? `${Number(distanceFromCurrentLocation / 1000).toFixed(1)}km`
+                  : `${distanceFromCurrentLocation}m`}
+              </Distance>
+            )}
             <Operation isOpen={isOpen}>
               {item && item.opening_hours
                 ? item.opening_hours.open_now
