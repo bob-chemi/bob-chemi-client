@@ -1,10 +1,9 @@
 /* eslint-disable no-useless-catch */
 import axios, { AxiosResponse } from 'axios'
 import { Alert } from 'react-native'
-import { BOBServer } from './baseURL'
+import BOBServer from './baseURL'
 type Method = 'post' | 'get' | 'delete' | 'put' | 'patch'
 type RequestFuncType = <T, U>(url: string, method: Method, params?: T, body?: U) => Promise<AxiosResponse>
-
 export const requestData: RequestFuncType = async (url, method, params, body) => {
   const SERVER_ERROR = 'There was an error contacting the server.'
   try {
