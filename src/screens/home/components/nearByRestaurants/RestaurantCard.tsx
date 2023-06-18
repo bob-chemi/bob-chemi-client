@@ -5,9 +5,11 @@ import haversineDistance from 'haversine-distance'
 import React, { useEffect, useState } from 'react'
 import { Text, Pressable, TextProps } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import StarRating from 'react-native-star-rating'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components/native'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
+import theme from '@/common/style/theme'
 import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
 
 const CardLayout = styled.View`
@@ -36,7 +38,7 @@ const Name = styled.Text`
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 36px;
   color: black;
 `
@@ -58,8 +60,6 @@ const RatingNumberWrapper = styled.View`
 const RatingNumer = styled.Text`
   color: white;
 `
-
-const RatingStar = styled.Text``
 
 const AddressAndOperationCol = styled.View``
 
@@ -83,7 +83,7 @@ const Operation = styled.Text<OperationHoursProps>`
   font-family: 'Inter';
   font-style: normal;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 30px;
   display: flex;
   align-items: center;
@@ -159,7 +159,7 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
         <ImageCol>
           {image ? (
             <FastImage
-              style={{ width: 150, height: 150, backgroundColor: 'red' }}
+              style={{ width: 150, height: 150, backgroundColor: 'gray' }}
               source={{ uri: String(image) }}
               resizeMode={FastImage.resizeMode.cover}
             />
@@ -171,14 +171,29 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
         <InfoCol>
           <Name>{item ? item.name : '이름을 알 수 없는 식당'}</Name>
           <RatingRow>
-            <RatingNumberWrapper>
-              <RatingNumer>{item.rating ? item.rating : '평점 없음'}</RatingNumer>
-            </RatingNumberWrapper>
-            <RatingStar>★</RatingStar>
+            {item.rating ? (
+              <StarRating
+                disabled
+                rating={item.rating}
+                fullStarColor={theme.colors.primary}
+                halfStarColor={theme.colors.primary}
+                starSize={20}
+              />
+            ) : (
+              <RatingNumberWrapper>
+                <RatingNumer>평점 없음</RatingNumer>
+              </RatingNumberWrapper>
+            )}
           </RatingRow>
           <AddressAndOperationCol>
             <Address>{item.vicinity ? item.vicinity : '주소 정보 없음'}</Address>
-            {distanceFromCurrentLocation && <Distance>{distanceFromCurrentLocation}m</Distance>}
+            {distanceFromCurrentLocation && (
+              <Distance>
+                {distanceFromCurrentLocation > 1000
+                  ? `${Number(distanceFromCurrentLocation / 1000).toFixed(1)}km`
+                  : `${distanceFromCurrentLocation}m`}
+              </Distance>
+            )}
             <Operation isOpen={isOpen}>
               {item && item.opening_hours
                 ? item.opening_hours.open_now

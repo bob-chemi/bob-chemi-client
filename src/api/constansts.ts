@@ -6,6 +6,7 @@ type Method = 'post' | 'get' | 'delete' | 'put' | 'patch'
 type RequestFuncType = <T, U>(url: string, method: Method, params?: T, body?: U) => Promise<AxiosResponse>
 export const requestData: RequestFuncType = async (url, method, params, body) => {
   const SERVER_ERROR = 'There was an error contacting the server.'
+
   try {
     const res = await BOBServer.request({ url, method, params, data: body })
     console.log(res)

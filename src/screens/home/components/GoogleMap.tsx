@@ -3,6 +3,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import MapView, { Marker, Region } from 'react-native-maps'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import SlidingUpPanel from 'rn-sliding-up-panel'
 import { SliderParamList } from '../navigations/SliderStackNavigatoin'
 import AutoCompleteSearchBar from './AutoCompleteSearchBar'
@@ -34,6 +35,19 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
     if (restaurantSliderRef.current) {
       restaurantSliderRef.current.show()
       navigation.navigate('RestaurantsDetail', { item: restaurant, fetchDetailInfo: true })
+    }
+  }
+
+  const goToCurrentLocation = () => {
+    if (mapViewRef && mapViewRef.current) {
+      mapViewRef.current.animateToRegion(
+        {
+          ...currentLocation,
+          latitudeDelta: 0.0461,
+          longitudeDelta: 0.0211,
+        },
+        1000
+      )
     }
   }
 
@@ -75,9 +89,9 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
         style={{ flex: 1 }}
         ref={mapViewRef}
         showsUserLocation
+        showsMyLocationButton={false}
         followsUserLocation
-        showsMyLocationButton
-        zoomControlEnabled
+        zoomControlEnabled={false}
         initialRegion={{
           ...currentLocation,
           latitudeDelta: 0.0461,
@@ -117,6 +131,12 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
           </Marker>
         )}
       </MapView>
+      {!sliderShowing && (
+        <S.CustomCurrentLocationButton onPress={goToCurrentLocation}>
+          <Icon name="compass-outline" size={28} />
+        </S.CustomCurrentLocationButton>
+      )}
+
       <RestaurantsSlider
         nearByRestaurants={nearByRestaurants}
         ref={restaurantSliderRef}

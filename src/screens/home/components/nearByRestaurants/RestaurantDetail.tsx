@@ -20,7 +20,6 @@ import theme from '@/common/style/theme'
 import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
 import * as S from '@/screens/home/components/nearByRestaurants/RestaurantDetail.style'
 
-// TODO: TIL
 type RestaurantDetailProps = NativeStackScreenProps<SliderParamList, 'RestaurantsDetail'>
 
 type RestaurantDetailNavigationProp = NativeStackNavigationProp<SliderParamList, 'RestaurantsDetail'>
@@ -65,7 +64,7 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   const renderImages = ({ item }: { item: any }) => {
     return (
       <FastImage
-        style={{ width: 150, height: 150, backgroundColor: 'red' }}
+        style={{ width: 150, height: 150, backgroundColor: 'gray' }}
         source={{ uri: String(item) }}
         resizeMode={FastImage.resizeMode.cover}
       />
@@ -210,12 +209,20 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
             {distance ? (
               <S.Distance>
                 <S.IconComponent name="map-marker-distance" size={20} />
-                <S.Text>{distance}m</S.Text>
+                <S.Text>
+                  {distanceFromCurrentLocation > 1000
+                    ? `${Number(distanceFromCurrentLocation / 1000).toFixed(1)}km`
+                    : `${distanceFromCurrentLocation}m`}
+                </S.Text>
               </S.Distance>
             ) : distanceFromCurrentLocation ? (
               <S.Distance>
                 <S.IconComponent name="map-marker-distance" size={20} />
-                <S.Text>{distanceFromCurrentLocation}m</S.Text>
+                <S.Text>
+                  {distanceFromCurrentLocation > 1000
+                    ? `${Number(distanceFromCurrentLocation / 1000).toFixed(1)}km`
+                    : `${distanceFromCurrentLocation}m`}
+                </S.Text>
               </S.Distance>
             ) : null}
 

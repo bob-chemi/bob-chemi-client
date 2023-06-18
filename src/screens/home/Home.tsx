@@ -1,11 +1,9 @@
-import { GOOGLE_MAPS_API_KEY } from '@env'
 import Geolocation from '@react-native-community/geolocation'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
-import { Region } from 'react-native-maps'
 import { useRecoilState } from 'recoil'
 import GoogleMap from './components/GoogleMap'
+import { useRestaurantsQuery } from './hooks/restaurants.hooks'
 import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
 import { nearByRestaurantsAtom } from '@/recoil/atoms/nearByRestaurantsAtom'
 import * as S from '@/screens/home/Home.style'
@@ -14,8 +12,12 @@ const Home = () => {
   // States
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [currentLocation, setCurrentLocation] = useRecoilState(currentLocationAtom)
-  // FIXME: 작업 후 타입 추가
+
+  // Recoils
   const [nearByRestaurants, setNearByRestaurants] = useRecoilState(nearByRestaurantsAtom)
+
+  // React-Query
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useRestaurantsQuery()
 
   //FUNCTIONS
   // 현재 위치정보 가져오기
@@ -41,35 +43,28 @@ const Home = () => {
     )
   }
 
-  // 현재 위치 주변의 식당 정보 가져오기
-  const getNearByRestaurants = async () => {
-    // FIXME: 개발 중 API 중복 호출 방지, 추후 삭제
-    // if (nearByRestaurants.length > 0) return
-    const reqUrl = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${currentLocation.latitude},${currentLocation.longitude}&radius=1500&type=restaurant&key=${GOOGLE_MAPS_API_KEY}`
-    try {
-      const res = await axios.get(reqUrl)
-      if (res.status === 200) {
-        const { results } = res.data
-        setNearByRestaurants(results)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   // EFFECTS
   useEffect(() => {
     getCurrentLocation()
   }, [])
 
-  // 현재 위치에 따라 주변 식당 정보 가져오기
+  // data 에서 nextPageToken을 가져오고 반환 레스토랑을 기존 레스토랑에 추가
   useEffect(() => {
-    getNearByRestaurants()
-  }, [currentLocation])
+    if (data) {
+      const allData = data.pages.flatMap(page => page?.nearByRestaurants)
+      setNearByRestaurants(allData)
+    }
+  }, [data])
 
   // 디버깅
+  // useEffect(() => {
+  //   console.log(nearByRestaurants)
+  // }, [nearByRestaurants])
+
   useEffect(() => {
-    console.log(nearByRestaurants)
+    if (nearByRestaurants) {
+      console.log(nearByRestaurants)
+    }
   }, [nearByRestaurants])
 
   return (
