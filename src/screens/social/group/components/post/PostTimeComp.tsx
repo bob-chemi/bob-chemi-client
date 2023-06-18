@@ -1,20 +1,26 @@
 import React, { useState } from 'react';
-import * as S from './PostedComponent.style'
+import * as S from './PostComponent.style'
 import theme from '@/common/style/theme'
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
-const PostedTimeComp = () => {
-  const [date, setDate] = useState(new Date());
+interface PostTimeCompProps {
+  children?: React.ReactNode;
+  date: Date;
+  time: Date;
+  onChangeDate: (newDate: Date) => void;
+  onChangeTime: (newTime: Date) => void;
+}
+
+const PostTimeComp: React.FC<PostTimeCompProps> = ({ date, time, onChangeDate, onChangeTime }) => {
   const [isShowDatePicker, setShowDatePicker] = useState(false);
-  const [time, setTime] = useState<Date>(new Date());
   const [isShowTimePicker, setShowTimePicker] = useState<boolean>(false);
   const [dateStr, setDateStr] = useState(`${time.getFullYear()}년 ${time.getMonth() + 1}월 ${time.getDate()}일`);
 
   const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => { //날짜 선택 시
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
-    setDate(currentDate);
+    onChangeDate(currentDate);
     setDateStr(`${currentDate.getFullYear()}년 ${currentDate.getMonth() + 1}월 ${currentDate.getDate()}일`);
   };
 
@@ -25,7 +31,7 @@ const PostedTimeComp = () => {
   const handleTimeChange = (event: Event, selectedTime?: Date) => { //시간 선택 시
     const currentTime = selectedTime || time;
     setShowTimePicker(false);
-    setTime(currentTime);
+    onChangeTime(currentTime);
   };
 
   const showTimePicker = () => { //시간 선택 Picker
@@ -69,4 +75,4 @@ const PostedTimeComp = () => {
   );
 }
 
-export default PostedTimeComp
+export default PostTimeComp
