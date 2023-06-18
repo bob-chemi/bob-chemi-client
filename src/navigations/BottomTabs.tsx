@@ -12,7 +12,7 @@ export type TabParamList = {
   Home: undefined
   Chat: undefined
   Matching: undefined
-  Social: undefined
+  Social: { tab?: string }
   Profile: undefined
   PreviewScreen: undefined
   LoginScreen: undefined

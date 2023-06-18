@@ -3,7 +3,7 @@ import { CompositeNavigationProp, useNavigation } from '@react-navigation/native
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
-import { ScrollView } from 'react-native'
+import { ImageSourcePropType, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as S from '../group/GroupScreen.style'
 import theme from '@/common/style/theme'
@@ -31,12 +31,15 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
       headerTitle: ' ',
       headerTitleContainerStyle: { justifyContent: 'center', alignContent: 'center' },
       headerLeft: () => (
-        <Icon name="chevron-left" size={28} onPress={() => navigation.navigate('Tab', { screen: 'Social' })} />
+        <Icon name="chevron-left" size={28} onPress={() => navigation.navigate('Tab', { screen: 'Social', params: { tab: 'group' } })} />
       ),
     })
   }, [navigation])
 
-  return (
+  const imageSource: ImageSourcePropType = groupData.status == 'PUBLIC' ? require('@assets/images/group_public.png') : require('@assets/images/group_private.png');
+  // <S.GroupDetailImage source={imageSource}></S.GroupDetailImage>*/} {/*[TODO] 수정 필요 2023.06.18 by 김주현
+
+  return ( //[TODO] SubTitleText에 user nickname 추가 필요, img 추가 필요 2023.06.18 by 김주현
     <S.Container>
       <S.TitleArea>
         <S.TitleText>{groupData.title}</S.TitleText>
@@ -45,7 +48,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
         </S.SubTitleText>
       </S.TitleArea>
       <S.GroupDetailArea>
-        <S.GroupDetailImage source={groupData.imgsource}></S.GroupDetailImage>
+        <S.GroupDetailImage source={imageSource}></S.GroupDetailImage>
         <S.ChipSetArea>
           <S.Chip>
             <Icon name="account" color={theme.colors.white} size={13}></Icon>

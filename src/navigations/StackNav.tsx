@@ -5,20 +5,24 @@ import ChatRoom from '@/screens/chat/ChatRoom'
 import ChemiRatingScreen from '@/screens/chemiRating/ChemiRatingScreen'
 import IntroduceMatchingScreen from '@/screens/matching/components/IntroduceMatchingScreen'
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
-import { Group } from '@/screens/social/data/Group'
-import GroupDetailScreen from '@/screens/social/group/GroupDetailScreen'
 import PostGroupScreen from '@/screens/social/group/PostGroupScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
+import { Group } from '@/types/socialType'
+import PostFoodieScreen from '@/screens/social/foodie/PostFoodieScreen'
+import GroupDetailScreen from '@/screens/social/group/GroupDetailScreen'
+import FoodieScreen from '@/screens/social/foodie/FoodieScreen'
 
 export type StackParamList = {
   PreviewScreen: undefined
   LoginScreen: undefined
   RegisterScreen: undefined
-  SocialScreen: undefined
+  SocialScreen: { tab?: string }
+  FoodieScreen: undefined
   PostGroupScreen: undefined
   ChatRoom: undefined
   IntroduceMatching: undefined
   ChemiRating: undefined
+  PostFoodieScreen: undefined
   GroupDetailScreen: { group: Group }
 }
 
@@ -31,10 +35,12 @@ const StackNav = () => {
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
       <Stack.Screen name="SocialScreen" component={SocialScreen} />
+      <Stack.Screen name="FoodieScreen" component={FoodieScreen} />
       <Stack.Screen name="PostGroupScreen" component={PostGroupScreen} />
       <Stack.Screen name="ChatRoom" component={ChatRoom} />
       <Stack.Screen name="IntroduceMatching" component={IntroduceMatchingScreen} />
       <Stack.Screen name="ChemiRating" component={ChemiRatingScreen} />
+      <Stack.Screen name="PostFoodieScreen" component={PostFoodieScreen} />
       <Stack.Screen name="GroupDetailScreen" component={GroupDetailScreen} />
     </Stack.Navigator>
   )
