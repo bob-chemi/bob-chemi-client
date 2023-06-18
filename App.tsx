@@ -1,14 +1,25 @@
 import { NavigationContainer } from '@react-navigation/native'
-import RootNavigation from '@/navigations/RootNavigation'
+import { enableLatestRenderer } from 'react-native-maps'
+import { RecoilRoot } from 'recoil'
+import { ThemeProvider } from 'styled-components/native'
+import ModalBase from '@/common/components/ModalBase'
+import theme from '@/common/style/theme'
 import usePermissions from '@/hooks/usePermissions'
+import RootNavigation from '@/navigations/RootNavigation'
+enableLatestRenderer()
 
 const App = () => {
   usePermissions()
 
   return (
-    <NavigationContainer>
-      <RootNavigation />
-    </NavigationContainer>
+    <RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <NavigationContainer>
+          <RootNavigation />
+        </NavigationContainer>
+        <ModalBase />
+      </ThemeProvider>
+    </RecoilRoot>
   )
 }
 

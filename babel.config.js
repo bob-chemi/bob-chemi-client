@@ -13,7 +13,18 @@ module.exports = {
           '@modules': './src/modules',
           '@scenes': './src/scenes',
           '@utils': './src/utils',
+          '@screens': './src/screens',
+          '@assets': './src/assets',
         },
+      },
+    ],
+    [
+      'module:react-native-dotenv',
+      {
+        moduleName: '@env',
+        path: '.env',
+        safe: false,
+        aloowUndefined: true,
       },
     ],
   ],
