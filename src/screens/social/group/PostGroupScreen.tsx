@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, TextInput, View } from 'react-native'
+import { Alert, View } from 'react-native'
 import * as S from './GroupScreen.style'
-import PostedTextComp from './components/post/PostedTextComp';
-import PostedTimeComp from './components/post/PostedTimeComp';
-import PostedLocationComp from './components/post/PostedLocationComp';
-import PostedImgComp from './components/post/PostedImgComp';
+import PostTextComp from './components/post/PostTextComp';
+import PostTimeComp from './components/post/PostTimeComp';
+import PostLocationComp from './components/post/PostLocationComp';
+import PostImgComp from './components/post/PostImgComp';
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TabParamList } from '@/navigations/BottomTabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { groupRequest } from '@/api/groupRequest'
+import PostPeopleComp from './components/post/PostPeopleComp';
 
 type GroupNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
@@ -18,14 +20,59 @@ type GroupNavigationProp = CompositeNavigationProp<
 >
 
 const PostGroupScreen = () => {
-  const [image, setImage] = useState('');
+  const [date, setDate] = useState(new Date());
+  const [time, setTime] = useState<Date>(new Date());
+  const [selectedRegion, setSelectedRegion] = useState("서울특별시");
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [peopleNumber, setPeopleNumber] = useState(0);
   const [title, setTitle] = useState('');
-  const [location, setLocation] = useState('');
-  const [time, setTime] = useState('');
-  const [content, setContent] = useState('');
+  const [description, setDescription] = useState('');
   const navigation = useNavigation<GroupNavigationProp>()
+  const { insertGroup } = groupRequest
+
+  // state 변수 업데이트 함수 정의
+  const handleDateChange = (newDate: Date) => {
+    setDate(newDate);
+  };
+
+  const handleTimeChange = (newTime: Date) => {
+    setTime(newTime);
+  };
+
+  const handleRegionChange = (newRegion: string) => {
+    setSelectedRegion(newRegion);
+  };
+
+  const handleCityChange = (newCity: string | null) => {
+    setSelectedCity(newCity);
+  };
+
+  const handlePeopleNumChange = (newNum: number) => {
+    setPeopleNumber(newNum);
+  };
+
+  const handleTitleChange = (newTitle: string) => {
+    setTitle(newTitle);
+  };
+
+  const handleDescriptionChange = (newDescription: string) => {
+    setDescription(newDescription);
+  };
+
+  const resetState = () => {
+    setDate(new Date());
+    setTime(new Date());
+    setSelectedRegion("서울특별시");
+    setSelectedCity("강남구");
+    setPeopleNumber(0);
+    setTitle('');
+    setDescription('');
+  };
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      resetState();
+    });
     navigation.setOptions({
       headerTitleAlign: 'center',
       headerTitle: '소모임 생성',
@@ -34,18 +81,54 @@ const PostGroupScreen = () => {
         <Icon name="chevron-left" size={28} onPress={() => navigation.navigate('Tab', { screen: 'Social' })} />
       ),
     })
+    return unsubscribe;
   }, [navigation])
+
+
+  const CreateGroupPressed = async () => {
+    if (!title || !description) {
+      Alert.alert('소모임 생성 실패', '제목과 내용을 입력해주세요.');
+      return;
+    }
+    const groupdt = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    try {
+      const GroupData = {
+        title: title,
+        description: description,
+        groupDate: groupdt,
+        groupPeopleLimit: peopleNumber,
+        groupHour: time.getHours(),
+        groupMin: time.getMinutes(),
+        groupLocation: `${selectedRegion} ${selectedCity}`
+      }
+
+      const response = await insertGroup(GroupData)
+      if (response) {
+        console.log("소모임 생성 성공")
+        console.log(response)
+        navigation.goBack()
+      }
+    } catch (error: any) {
+      const { msg } = error
+      Alert.alert('소모임 생성 실패', msg ? msg : '소모임 생성에 실패했습니다.')
+    }
+  }
 
   return (
     <S.PostContainer>
       <View>
-        <PostedImgComp></PostedImgComp>
-        <PostedLocationComp></PostedLocationComp>
-        <PostedTimeComp></PostedTimeComp>
-        <PostedTextComp headTitle='제목' height={35} isContent={false}></PostedTextComp>
-        <PostedTextComp headTitle='내용' height={300} isContent={true}></PostedTextComp>
+        <PostImgComp></PostImgComp>
+        <PostLocationComp
+          selectedCity={selectedCity} selectedRegion={selectedRegion} onChangeCity={handleCityChange} onChangeRegion={handleRegionChange}>
+        </PostLocationComp>
+        <PostTimeComp
+          date={date} time={time} onChangeDate={handleDateChange} onChangeTime={handleTimeChange}>
+        </PostTimeComp>
+        <PostPeopleComp selectedNumber={peopleNumber} onChangeNumber={handlePeopleNumChange}></PostPeopleComp>
+        <PostTextComp text={title} OnChangeText={handleTitleChange} headTitle='제목' height={35} isContent={false}></PostTextComp>
+        <PostTextComp text={description} OnChangeText={handleDescriptionChange} headTitle='내용' height={300} isContent={true}></PostTextComp>
       </View>
-      <S.Btn><S.BtnText>등록</S.BtnText></S.Btn>
+      <S.Btn onPress={CreateGroupPressed}><S.BtnText>등록</S.BtnText></S.Btn>
     </S.PostContainer>
   )
 }

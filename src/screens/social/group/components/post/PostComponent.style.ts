@@ -48,9 +48,9 @@ export const IconButton = styled.TouchableOpacity`
   paddingHorizontal: 5.5px;
 `
 
-export const PickerContainer = styled.View`
+export const PickerContainer = styled.View<{ width: number }>`
   flexDirection: row;
-  width: 145px;
+  width: ${({ width }) => width}px;
   padding: 0;
   height: 35px;
   backgroundColor: 'rgba(0,0,0,.1)';

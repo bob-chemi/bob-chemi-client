@@ -22,9 +22,9 @@ const ContentsBox = ({ GroupData }: { GroupData: Group; }) => {
       <S.TextMain>{GroupData.title}</S.TextMain>
       <View style={{ flexDirection: 'row' }}>
         <Icon name="account" color={theme.colors.gray400} size={15}></Icon>
-        <S.TextSub>{`${GroupData.people}명`}</S.TextSub>
+        <S.TextSub>{`${GroupData.groupPeopleLimit}명`}</S.TextSub>
       </View>
-      <S.TextSub>{`${GroupData.location} | ${GroupData.time}`}</S.TextSub>
+      <S.TextSub>{`${GroupData.groupLocation} | ${GroupData.groupHour}:${GroupData.groupMin}`}</S.TextSub>
     </S.ContentsDiv>
   );
 }

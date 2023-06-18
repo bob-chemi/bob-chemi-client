@@ -3,13 +3,19 @@ import { useState, useEffect } from 'react'
 import { FlatList, } from 'react-native'
 import * as S from '../GroupScreen.style'
 
-const WeekDayPicker = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date().getDate().toString());
+interface PostWeekDayCompProps {
+  children?: React.ReactNode;
+  selectedDate: string;
+  onChangeDate: (newDate: string) => void;
+}
+
+const WeekDayPicker: React.FC<PostWeekDayCompProps> = ({ selectedDate, onChangeDate }) => {
+  //const [selectedDate, setSelectedDate] = useState(new Date().getDate().toString());
   const weekDates = getWeekDates();
   const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
 
   const handleDatePress = (date: string) => {
-    setSelectedDate(date);
+    onChangeDate(date);
   };
 
   const renderDateItem = ({ item, index }: { item: string; index: number }) => {
@@ -24,9 +30,9 @@ const WeekDayPicker = () => {
     );
   };
 
-  const getSelectedToday = () => {
-    setSelectedDate(new Date().getDate().toString());
-  }
+  // const getSelectedToday = () => {
+  //   setSelectedDate(new Date().getDate().toString());
+  // }
 
   return (
     <FlatList

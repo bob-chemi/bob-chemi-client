@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as S from './PostedComponent.style'
+import * as S from './PostComponent.style'
 import ImagePicker, { ImagePickerResponse, launchCamera, launchImageLibrary, ImageLibraryOptions, MediaType } from 'react-native-image-picker'
 import { Button, Alert, Text, TouchableOpacity } from 'react-native';
 import { PermissionsAndroid } from 'react-native/Libraries/PermissionsAndroid/PermissionsAndroid';
@@ -8,7 +8,7 @@ interface ImageData {
   uri: string | undefined;
 }
 
-const PostedImgComp = () => {
+const PostImgComp = () => {
   const [imageData, setImageData] = useState<ImageData>({ uri: undefined });
 
   const handleSelectImage = () => {
@@ -82,4 +82,4 @@ const PostedImgComp = () => {
   )
 }
 
-export default PostedImgComp;
+export default PostImgComp;

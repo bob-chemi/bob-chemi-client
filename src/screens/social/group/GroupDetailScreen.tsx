@@ -41,7 +41,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
       <S.TitleArea>
         <S.TitleText>{groupData.title}</S.TitleText>
         <S.SubTitleText>
-          {groupData.createdAt} {groupData.createid}
+          {groupData.createdAt}
         </S.SubTitleText>
       </S.TitleArea>
       <S.GroupDetailArea>
@@ -49,14 +49,14 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
         <S.ChipSetArea>
           <S.Chip>
             <Icon name="account" color={theme.colors.white} size={13}></Icon>
-            {`${groupData.people}명`}
+            {`${groupData.groupPeopleLimit}명`}
           </S.Chip>
-          <S.Chip>{groupData.location}</S.Chip>
-          <S.Chip>{groupData.time}</S.Chip>
+          <S.Chip>{groupData.groupLocation}</S.Chip>
+          <S.Chip>{`${groupData.groupHour}:${groupData.groupMin}`}</S.Chip>
         </S.ChipSetArea>
         <S.ContextArea>
           <ScrollView>
-            <S.ContextText>{groupData.context}</S.ContextText>
+            <S.ContextText>{groupData.description}</S.ContextText>
           </ScrollView>
         </S.ContextArea>
         <S.Btn style={{ alignSelf: 'center' }}>
