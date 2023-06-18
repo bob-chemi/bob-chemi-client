@@ -8,11 +8,8 @@
       "@containers/*": ["containers/*"],
       "@modules/*": ["modules/*"],
       "@scenes/*": ["scenes/*"],
-      "@utils/*": ["utils/*"],
-      "@screens/*": ["screens/*"],
-      "@assets/*": ["assets/*"]
-    },
-    "types": ["@types/styled-components-react-native"]
+      "@utils/*": ["utils/*"]
+    }
   },
   "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
 }

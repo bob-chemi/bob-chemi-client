@@ -27,16 +27,6 @@ target 'bobChemi' do
   # Flags change depending on the env values.
   flags = get_default_flags()
 
-  # React Native Permissions
-  permissions_path = '../node_modules/react-native-permissions/ios'
-
-  pod 'Permission-LocationAccuracy', :path => "#{permissions_path}/LocationAccuracy"
-  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways"
-  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse"
-
-  # react-native-nmap
-  pod 'NMapsMap','3.15.0'
-
   use_react_native!(
     :path => config[:reactNativePath],
     # Hermes is now enabled by default. Disable by setting this flag to false.
@@ -67,6 +57,4 @@ target 'bobChemi' do
     )
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
-
-  
 end
