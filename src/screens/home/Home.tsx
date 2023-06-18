@@ -3,21 +3,21 @@ import { useEffect, useState } from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import { useRecoilState } from 'recoil'
 import GoogleMap from './components/GoogleMap'
-import { useGetNearByRestaurants } from './hooks/restaurants.hooks'
+import { useRestaurantsQuery } from './hooks/restaurants.hooks'
 import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
+import { nearByRestaurantsAtom } from '@/recoil/atoms/nearByRestaurantsAtom'
 import * as S from '@/screens/home/Home.style'
 
 const Home = () => {
   // States
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [currentLocation, setCurrentLocation] = useRecoilState(currentLocationAtom)
-  // FIXME: 작업 후 타입 추가
+
+  // Recoils
+  const [nearByRestaurants, setNearByRestaurants] = useRecoilState(nearByRestaurantsAtom)
 
   // React-Query
-  const { data: nearByRestaurants, isFetching } = useGetNearByRestaurants(
-    currentLocation.latitude,
-    currentLocation.longitude
-  )
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } = useRestaurantsQuery()
 
   //FUNCTIONS
   // 현재 위치정보 가져오기
@@ -48,17 +48,24 @@ const Home = () => {
     getCurrentLocation()
   }, [])
 
+  // data 에서 nextPageToken을 가져오고 반환 레스토랑을 기존 레스토랑에 추가
+  useEffect(() => {
+    if (data) {
+      const allData = data.pages.flatMap(page => page?.nearByRestaurants)
+      setNearByRestaurants(allData)
+    }
+  }, [data])
+
   // 디버깅
   // useEffect(() => {
   //   console.log(nearByRestaurants)
   // }, [nearByRestaurants])
 
   useEffect(() => {
-    console.log(isFetching)
     if (nearByRestaurants) {
       console.log(nearByRestaurants)
     }
-  }, [nearByRestaurants, isFetching])
+  }, [nearByRestaurants])
 
   return (
     <S.HomeLayout>
