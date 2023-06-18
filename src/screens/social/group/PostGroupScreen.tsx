@@ -5,7 +5,7 @@ import PostTextComp from './components/post/PostTextComp';
 import PostTimeComp from './components/post/PostTimeComp';
 import PostLocationComp from './components/post/PostLocationComp';
 import PostImgComp from './components/post/PostImgComp';
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
@@ -78,7 +78,7 @@ const PostGroupScreen = () => {
       headerTitle: '소모임 생성',
       headerTitleContainerStyle: { justifyContent: 'center', alignContent: 'center' },
       headerLeft: () => (
-        <Icon name="chevron-left" size={28} onPress={() => navigation.navigate('Tab', { screen: 'Social' })} />
+        <Icon name="chevron-left" size={28} onPress={() => navigation.navigate('Tab', { screen: 'Social', params: { tab: 'group' } })} />
       ),
     })
     return unsubscribe;

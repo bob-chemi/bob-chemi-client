@@ -3,9 +3,17 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import * as S from './SocialScreen.style'
 import GroupScreen from './group/GroupScreen';
 import FoodieScreen from './foodie/FoodieScreen';
+import { RouteProp } from '@react-navigation/native';
+import { ParamList } from '@/types/socialType';
 
-const SocialScreen = () => {
-  const [activeTab, setActiveTab] = useState('group');
+type SocialScreenRouteProp = RouteProp<ParamList, 'SocialScreen'>
+
+type SocialProps = {
+  route: SocialScreenRouteProp
+}
+
+const SocialScreen: React.FC<SocialProps> = ({ route }) => {
+  const [activeTab, setActiveTab] = route.params ? useState(route.params.tab) : useState('group');
 
   const renderContent = () => {
     if (activeTab === 'group') {

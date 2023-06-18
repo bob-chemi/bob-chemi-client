@@ -7,9 +7,9 @@ import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import theme from '@/common/style/theme'
 import { Nav } from '@/types/nav'
-import { Group } from '../data/Group';
 import { groupRequest } from '@/api/groupRequest'
-const { getGroupByDate } = groupRequest
+import { Group } from '@/types/socialType'
+const { getGroupList } = groupRequest
 const renderContentsItem = ({ item }: { item: Group }) => {
   return (
     <ContentsBox GroupData={item}></ContentsBox>
@@ -18,7 +18,7 @@ const renderContentsItem = ({ item }: { item: Group }) => {
 
 const GroupScreen = () => {
   const { navigate } = useNavigation<Nav>()
-  const [contentsData, setContentsData] = useState([]);
+  const [contentsData, setContentsData] = useState<Group[]>([]);
   const [selectedDate, setSelectedDate] = useState(new Date().getDate().toString());
 
   const handleDateChange = (newDate: string) => {
@@ -27,8 +27,9 @@ const GroupScreen = () => {
   }
 
   const getList = async () => { //소모임 리스트 GET 요청
-    const isoDate = `${selectedDate}T00:00:00Z`;
-    const response = await getGroupByDate(isoDate)
+    //const isoDate = `${selectedDate}T00:00:00Z`;
+    //const response = await getGroupByDate(isoDate) //[TODO] 날짜별로 가져오기로 수정 필요 2023.06.18 by 김주현
+    const response = await getGroupList()
     if (response) {
       console.log('소모임 가져오기 성공')
       console.log(response)
