@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from '@/navigations/StackNav';
 import { Group } from '@/types/socialType';
+import { SetFormattedTwoDigitNumber } from '@/utils/formattedNum';
 
 const ContentsBox = ({ GroupData }: { GroupData: Group; }) => {
   const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
@@ -25,7 +26,7 @@ const ContentsBox = ({ GroupData }: { GroupData: Group; }) => {
         <Icon name="account" color={theme.colors.gray400} size={15}></Icon>
         <S.TextSub>{`${GroupData.groupPeopleLimit}명`}</S.TextSub>
       </View>
-      <S.TextSub>{`${GroupData.groupLocation} | ${GroupData.groupHour}:${GroupData.groupMin}`}</S.TextSub>
+      <S.TextSub>{`${GroupData.groupLocation} | ${SetFormattedTwoDigitNumber(GroupData.groupHour)}:${SetFormattedTwoDigitNumber(GroupData.groupMin)}`}</S.TextSub>
     </S.ContentsDiv>
   );
 }

@@ -10,7 +10,7 @@ interface PostLocationCompProps {
   selectedRegion: string;
   selectedCity: string | null;
   onChangeRegion: (newRegion: string) => void;
-  onChangeCity: (newCity: string | null) => void;
+  onChangeCity: (newCity: string) => void;
 }
 
 const PostLocationComp: React.FC<PostLocationCompProps> = ({ selectedRegion, selectedCity, onChangeRegion, onChangeCity }) => {
@@ -21,8 +21,8 @@ const PostLocationComp: React.FC<PostLocationCompProps> = ({ selectedRegion, sel
     onChangeCity(value);
   };
 
-  const handleCityChange = (newCity: string | null) => { //시, 구 선택
-    const value = newCity ? newCity : '';
+  const handleCityChange = (newCity: string) => { //시, 구 선택
+    const value = newCity;
     onChangeCity(value);
   }
 

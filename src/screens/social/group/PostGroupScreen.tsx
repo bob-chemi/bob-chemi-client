@@ -13,6 +13,7 @@ import { TabParamList } from '@/navigations/BottomTabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { groupRequest } from '@/api/groupRequest'
 import PostPeopleComp from './components/post/PostPeopleComp';
+import { SetFormattedTwoDigitNumber } from '@/utils/formattedNum';
 
 type GroupNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
@@ -23,8 +24,8 @@ const PostGroupScreen = () => {
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState<Date>(new Date());
   const [selectedRegion, setSelectedRegion] = useState("서울특별시");
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
-  const [peopleNumber, setPeopleNumber] = useState(0);
+  const [selectedCity, setSelectedCity] = useState("강남구");
+  const [peopleNumber, setPeopleNumber] = useState(2);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const navigation = useNavigation<GroupNavigationProp>()
@@ -43,7 +44,7 @@ const PostGroupScreen = () => {
     setSelectedRegion(newRegion);
   };
 
-  const handleCityChange = (newCity: string | null) => {
+  const handleCityChange = (newCity: string) => {
     setSelectedCity(newCity);
   };
 
@@ -64,7 +65,7 @@ const PostGroupScreen = () => {
     setTime(new Date());
     setSelectedRegion("서울특별시");
     setSelectedCity("강남구");
-    setPeopleNumber(0);
+    setPeopleNumber(2);
     setTitle('');
     setDescription('');
   };
@@ -84,13 +85,13 @@ const PostGroupScreen = () => {
     return unsubscribe;
   }, [navigation])
 
-
   const CreateGroupPressed = async () => {
     if (!title || !description) {
       Alert.alert('소모임 생성 실패', '제목과 내용을 입력해주세요.');
       return;
     }
-    const groupdt = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+
+    const groupdt = `${date.getFullYear()}-${SetFormattedTwoDigitNumber(date.getMonth() + 1)}-${SetFormattedTwoDigitNumber(date.getDate())}`
     try {
       const GroupData = {
         title: title,
@@ -101,7 +102,7 @@ const PostGroupScreen = () => {
         groupMin: time.getMinutes(),
         groupLocation: `${selectedRegion} ${selectedCity}`
       }
-
+      console.log(GroupData);
       const response = await insertGroup(GroupData)
       if (response) {
         console.log("소모임 생성 성공")

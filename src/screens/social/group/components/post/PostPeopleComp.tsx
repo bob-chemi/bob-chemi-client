@@ -12,10 +12,14 @@ interface PostPeopleCompProps {
 }
 
 const PostPeopleComp: React.FC<PostPeopleCompProps> = ({ selectedNumber, onChangeNumber }) => {
-
   const handleNumberChange = (newNumber: number) => {
     onChangeNumber(newNumber);
   };
+
+  const numberItems = Array.from({ length: 9 }, (_, index) => {
+    const number = index + 2;
+    return <Picker.Item key={number} label={number.toString()} value={number} />;
+  })
   return (
     <S.CompContainer>
       <S.HeadTitle height={35}>{'인원'}</S.HeadTitle>
@@ -26,9 +30,7 @@ const PostPeopleComp: React.FC<PostPeopleCompProps> = ({ selectedNumber, onChang
           onValueChange={handleNumberChange}
           style={styles.picker}
         >
-          {Array.from({ length: 101 }, (_, index) => (
-            <Picker.Item key={index} label={index.toString()} value={index} />
-          ))}
+          {numberItems}
         </Picker>
       </S.PickerContainer>
     </S.CompContainer>

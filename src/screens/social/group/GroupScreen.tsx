@@ -9,7 +9,7 @@ import theme from '@/common/style/theme'
 import { Nav } from '@/types/nav'
 import { groupRequest } from '@/api/groupRequest'
 import { Group } from '@/types/socialType'
-const { getGroupList } = groupRequest
+const { getGroupByDate } = groupRequest
 const renderContentsItem = ({ item }: { item: Group }) => {
   return (
     <ContentsBox GroupData={item}></ContentsBox>
@@ -23,16 +23,15 @@ const GroupScreen = () => {
 
   const handleDateChange = (newDate: string) => {
     setSelectedDate(newDate);
-    getList();
+    getList(newDate);
   }
 
-  const getList = async () => { //소모임 리스트 GET 요청
-    //const isoDate = `${selectedDate}T00:00:00Z`;
-    //const response = await getGroupByDate(isoDate) //[TODO] 날짜별로 가져오기로 수정 필요 2023.06.18 by 김주현
-    const response = await getGroupList()
+  const getList = async (getDate: string) => { //소모임 리스트 GET 요청
+    const date = new Date();
+    const isoDate = `${date.getFullYear()}-${date.getMonth() + 1}-${getDate}`;
+    const response = await getGroupByDate(isoDate)
     if (response) {
       console.log('소모임 가져오기 성공')
-      console.log(response)
       setContentsData(response);
     } else {
       console.log('실패')
@@ -40,7 +39,7 @@ const GroupScreen = () => {
   }
 
   useEffect(() => {
-    getList()
+    getList(selectedDate)
   }, [])
 
   const NavToCreate = () => {

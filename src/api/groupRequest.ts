@@ -13,7 +13,7 @@ export const groupRequest = {
     }
   },
   getGroupByDate: async (date: string) => {
-    const { data } = await requestData('/groups/date', 'get', { date })
+    const { data } = await requestData(`/groups/date/${date}`, 'get')
     return data;
   },
   insertGroup: async (groupData: {
@@ -25,7 +25,6 @@ export const groupRequest = {
     groupMin: number
     groupLocation: string
   }) => {
-    console.log(groupData);
     const { data } = await requestData('/groups', 'post', null, groupData)
     return data
   },

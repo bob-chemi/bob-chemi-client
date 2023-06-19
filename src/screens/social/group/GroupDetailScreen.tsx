@@ -10,6 +10,7 @@ import theme from '@/common/style/theme'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation'
 import { StackParamList } from '@/navigations/StackNav'
+import { SetFormattedDate, SetFormattedTwoDigitNumber } from '@/utils/formattedNum'
 
 type GroupDetailRouteProp = RouteProp<StackParamList, 'GroupDetailScreen'>
 
@@ -36,6 +37,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
     })
   }, [navigation])
 
+  const date = SetFormattedDate(groupData.createdAt);
   const imageSource: ImageSourcePropType = groupData.status == 'PUBLIC' ? require('@assets/images/group_public.png') : require('@assets/images/group_private.png');
   // <S.GroupDetailImage source={imageSource}></S.GroupDetailImage>*/} {/*[TODO] 수정 필요 2023.06.18 by 김주현
 
@@ -44,7 +46,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
       <S.TitleArea>
         <S.TitleText>{groupData.title}</S.TitleText>
         <S.SubTitleText>
-          {groupData.createdAt}
+          {`${date.year}-${SetFormattedTwoDigitNumber(date.month)}-${SetFormattedTwoDigitNumber(date.day)} ${SetFormattedTwoDigitNumber(date.hour)}:${SetFormattedTwoDigitNumber(date.minute)}:${SetFormattedTwoDigitNumber(date.second)}`}
         </S.SubTitleText>
       </S.TitleArea>
       <S.GroupDetailArea>
@@ -55,7 +57,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
             {`${groupData.groupPeopleLimit}명`}
           </S.Chip>
           <S.Chip>{groupData.groupLocation}</S.Chip>
-          <S.Chip>{`${groupData.groupHour}:${groupData.groupMin}`}</S.Chip>
+          <S.Chip>{`${SetFormattedTwoDigitNumber(groupData.groupHour)}:${SetFormattedTwoDigitNumber(groupData.groupMin)}`}</S.Chip>
         </S.ChipSetArea>
         <S.ContextArea>
           <ScrollView>
