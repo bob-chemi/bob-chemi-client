@@ -3,11 +3,14 @@ import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import GenderCard from '@screens/matching/components/GenderCard'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 import * as S from './FindUser.style'
 import theme from '@/common/style/theme'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { StackParamList } from '@/navigations/StackNav'
+import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
+import { AdministrativeArea } from '@/types/locationAdministrativeAreaTypes'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 
 interface CustomSliderLabelProps {
@@ -22,6 +25,11 @@ type FindUserScreenProps = CompositeScreenProps<
 >
 
 type Gender = 'woman' | 'man' | null
+
+type MatchingOption = {
+  gender: Gender
+  ageRange: [number, number]
+} & AdministrativeArea
 
 const CustomSliderLabel = ({ e }: CustomSliderLabelProps) => {
   const { oneMarkerLeftPosition, oneMarkerValue, twoMarkerLeftPosition, twoMarkerValue } = e
@@ -38,19 +46,25 @@ const CustomSliderLabel = ({ e }: CustomSliderLabelProps) => {
   )
 }
 
-const FindUser = ({ navigation, route }: FindUserScreenProps) => {
+const FindUser = ({ navigation }: FindUserScreenProps) => {
   // Constants
   const sliderValues = [10, 60]
 
   // States
   const [gender, setGender] = useState<Gender>(null)
   const [ageRange, setAgeRange] = useState<[number, number]>([10, 60])
+  const currentLocation = useRecoilValue(currentLocationAtom)
+  const [matchingOption, setMatchingOption] = useState<MatchingOption>({
+    gender,
+    ageRange,
+    administrativeArea: '',
+    sublocality: '',
+  })
 
   // Refs
 
   // Functions
   const handleGenderPress = (pressedGender: Gender) => {
-    console.log('wow')
     if (gender === null) {
       setGender(pressedGender)
     } else {
@@ -59,10 +73,22 @@ const FindUser = ({ navigation, route }: FindUserScreenProps) => {
   }
 
   const handleFindButtonPress = () => {
+    console.log(matchingOption)
     navigation.navigate('ChatRoom')
   }
 
   // Effects
+  useEffect(() => {
+    if (currentLocation) {
+      setMatchingOption({
+        ...matchingOption,
+        gender,
+        ageRange,
+        administrativeArea: currentLocation.administrativeArea,
+        sublocality: currentLocation.sublocality,
+      })
+    }
+  }, [currentLocation, gender, ageRange])
 
   return (
     <S.FindUserLayout>

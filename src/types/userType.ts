@@ -1,9 +1,11 @@
+export type Gender = 'Male' | 'Femail'
+
 export type User = {
   id: string
   email: string
   phone: string
   nickname: string
   name: string
-  gender: 'Male' | 'Femail'
+  gender: Gender
   age: number
 } | null
