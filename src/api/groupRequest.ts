@@ -24,8 +24,8 @@ export const groupRequest = {
     groupHour: number
     groupMin: number
     groupLocation: string
-  }) => {
-    const { data } = await requestData('/groups', 'post', null, groupData)
+  }, userId: string) => {
+    const { data } = await requestData(`/groups/${userId}`, 'post', null, groupData)
     return data
   },
   deleteGroup: async (id: string) => {
