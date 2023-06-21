@@ -14,6 +14,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { groupRequest } from '@/api/groupRequest'
 import PostPeopleComp from './components/post/PostPeopleComp';
 import { SetFormattedTwoDigitNumber } from '@/utils/formattedNum';
+import { useRecoilValue } from 'recoil';
+import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
 
 type GroupNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
@@ -30,6 +32,7 @@ const PostGroupScreen = () => {
   const [description, setDescription] = useState('');
   const navigation = useNavigation<GroupNavigationProp>()
   const { insertGroup } = groupRequest
+  const user = useRecoilValue(userStatesAtom);
 
   // state 변수 업데이트 함수 정의
   const handleDateChange = (newDate: Date) => {
@@ -100,14 +103,14 @@ const PostGroupScreen = () => {
         groupPeopleLimit: peopleNumber,
         groupHour: time.getHours(),
         groupMin: time.getMinutes(),
-        groupLocation: `${selectedRegion} ${selectedCity}`
+        groupLocation: `${selectedRegion} ${selectedCity}`,
       }
       console.log(GroupData);
-      const response = await insertGroup(GroupData)
+      const response = await insertGroup(GroupData, user?.user?.nickname)
       if (response) {
         console.log("소모임 생성 성공")
         console.log(response)
-        navigation.goBack()
+        navigation.navigate('Tab', { screen: 'Social', params: { tab: 'group' } })
       }
     } catch (error: any) {
       const { msg } = error
