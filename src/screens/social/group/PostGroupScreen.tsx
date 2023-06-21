@@ -106,7 +106,7 @@ const PostGroupScreen = () => {
         groupLocation: `${selectedRegion} ${selectedCity}`,
       }
       console.log(GroupData);
-      const response = await insertGroup(GroupData, user?.user?.nickname)
+      const response = await insertGroup(GroupData, user?.user?.id)
       if (response) {
         console.log("소모임 생성 성공")
         console.log(response)
