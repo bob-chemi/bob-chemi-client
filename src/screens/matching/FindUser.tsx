@@ -3,12 +3,10 @@ import type { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 import { CompositeScreenProps } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import GenderCard from '@screens/matching/components/GenderCard'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
-import { io } from 'socket.io-client'
 import * as S from './FindUser.style'
 import theme from '@/common/style/theme'
-import { SocketContext } from '@/contexts/socketContext'
 import useSocket from '@/hooks/useSocket'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { StackParamList } from '@/navigations/StackNav'
@@ -82,8 +80,8 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
 
   const handleFindButtonPress = () => {
     console.log(matchingOption)
-    // setMatchingState(true)
-    socket?.emit('find_matching', matchingOption)
+    setMatchingState(true)
+    socket?.emit('findMatching', matchingOption)
     navigation.navigate('ChatRoom')
   }
 

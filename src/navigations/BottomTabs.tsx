@@ -6,6 +6,7 @@ import { useRecoilValue } from 'recoil'
 import ProfileStackNav from './ProfileStackNav'
 import theme from '@/common/style/theme'
 import { matchingStatesAtom } from '@/recoil/atoms/matchingStatesAtom'
+import Chats from '@/screens/chat/Chats'
 import Home from '@/screens/home/Home'
 import FindUser from '@/screens/matching/FindUser'
 import SocialScreen from '@/screens/social/SocialScreen'
@@ -51,10 +52,6 @@ const getTabBarIcon = (route: RouteProp<TabParamList, keyof TabParamList>, focus
   return iconName
 }
 
-const Settings = () => {
-  return <View></View>
-}
-
 const BottomTabs = () => {
   const matchingState = useRecoilValue(matchingStatesAtom)
   return (
@@ -66,13 +63,16 @@ const BottomTabs = () => {
         tabBarShowLabel: false,
         tabBarIcon: ({ focused, color, size }) => {
           const iconName = getTabBarIcon(route, focused)
+          if (route.name === 'Matching' && matchingState) {
+            return <Icon name={iconName} color={'#91eef8'} size={size} />
+          }
           return <Icon name={iconName} color={color} size={size} />
         },
       })}
     >
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Chat" component={Settings} />
-      <Tab.Screen name="Matching" component={matchingState ? Settings : FindUser} />
+      <Tab.Screen name="Chat" component={Chats} />
+      <Tab.Screen name="Matching" component={matchingState ? Chats : FindUser} />
       <Tab.Screen name="Social" component={SocialScreen} />
       <Tab.Screen name="Profile" component={ProfileStackNav} />
     </Tab.Navigator>
