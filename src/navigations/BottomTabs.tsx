@@ -2,8 +2,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { RouteProp } from '@react-navigation/native'
 import { View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useRecoilValue } from 'recoil'
 import ProfileStackNav from './ProfileStackNav'
 import theme from '@/common/style/theme'
+import { matchingStatesAtom } from '@/recoil/atoms/matchingStatesAtom'
 import Home from '@/screens/home/Home'
 import FindUser from '@/screens/matching/FindUser'
 import SocialScreen from '@/screens/social/SocialScreen'
@@ -52,7 +54,9 @@ const getTabBarIcon = (route: RouteProp<TabParamList, keyof TabParamList>, focus
 const Settings = () => {
   return <View></View>
 }
+
 const BottomTabs = () => {
+  const matchingState = useRecoilValue(matchingStatesAtom)
   return (
     <Tab.Navigator
       initialRouteName="Matching"
@@ -68,7 +72,7 @@ const BottomTabs = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Chat" component={Settings} />
-      <Tab.Screen name="Matching" component={FindUser} />
+      <Tab.Screen name="Matching" component={matchingState ? Settings : FindUser} />
       <Tab.Screen name="Social" component={SocialScreen} />
       <Tab.Screen name="Profile" component={ProfileStackNav} />
     </Tab.Navigator>

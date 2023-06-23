@@ -5,6 +5,7 @@ import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'styled-components/native'
 import ModalBase from '@/common/components/ModalBase'
 import theme from '@/common/style/theme'
+import { socket, SocketContext } from '@/contexts/socketContext'
 import usePermissions from '@/hooks/usePermissions'
 import RootNavigation from '@/navigations/RootNavigation'
 enableLatestRenderer()
@@ -17,12 +18,14 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <ThemeProvider theme={theme}>
-          <NavigationContainer>
-            <RootNavigation />
-          </NavigationContainer>
-          <ModalBase />
-        </ThemeProvider>
+        <SocketContext.Provider value={socket}>
+          <ThemeProvider theme={theme}>
+            <NavigationContainer>
+              <RootNavigation />
+            </NavigationContainer>
+            <ModalBase />
+          </ThemeProvider>
+        </SocketContext.Provider>
       </RecoilRoot>
     </QueryClientProvider>
   )
