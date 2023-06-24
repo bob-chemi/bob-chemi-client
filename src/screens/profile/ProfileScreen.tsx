@@ -4,12 +4,13 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
 import { useSetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import ChemiReview from './components/ChemiReview'
 import ProfileButton from './components/ProfileButton'
 import * as S from './ProfileScreen.style'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
-import theme from '@/common/style/theme'
+import theme, { Colors } from '@/common/style/theme'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation'
 import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
@@ -24,6 +25,7 @@ const ProfileScreen = () => {
 
   const setUserAtom = useSetRecoilState(userStatesAtom)
   const rangeValue = useRef(new Animated.Value(0)).current
+  const { user } = useRecoilValue(userStatesAtom)
 
   const width = rangeValue.interpolate({
     inputRange: [0, 100],
@@ -40,7 +42,7 @@ const ProfileScreen = () => {
 
   const signOut = () => {
     console.log('signOut')
-    setUserAtom(null)
+    setUserAtom({ accessToken: null, user: null })
     navigation.navigate('Stack')
   }
 
@@ -53,10 +55,10 @@ const ProfileScreen = () => {
         <S.ProfileImage />
         <FlexDirectionWrapper flexDirection="column">
           <CustomText fontSize={24} fontWeight={600}>
-            혼밥러
+            {(user && user.name) || ''}
           </CustomText>
           <CustomText fontSize={18} fontWeight={400}>
-            sacultang@gmail.com
+            {(user && user.email) || ''}
           </CustomText>
         </FlexDirectionWrapper>
       </S.ProfileStatus>
@@ -111,10 +113,17 @@ export type ProfileButtonListType = {
   iconName: string
   buttonTxt: string
   rightIcon: string
+  iconColor: keyof Colors
   path?: 'MyGroupScreen' | 'EditProfileScreen' | 'Stack'
 }
 const profileButtonList: ProfileButtonListType[] = [
-  { iconName: 'form', buttonTxt: '나의 소모임', rightIcon: 'right', path: 'MyGroupScreen' },
-  { iconName: 'user', buttonTxt: '프로필 수정', rightIcon: 'right', path: 'EditProfileScreen' },
-  { iconName: 'logout', buttonTxt: '로그 아웃', rightIcon: 'right', path: 'Stack' },
+  {
+    iconName: 'form',
+    buttonTxt: '나의 소모임',
+    iconColor: 'success',
+    rightIcon: 'right',
+    path: 'MyGroupScreen',
+  },
+  { iconName: 'user', buttonTxt: '프로필 수정', iconColor: 'primary', rightIcon: 'right', path: 'EditProfileScreen' },
+  { iconName: 'logout', buttonTxt: '로그 아웃', iconColor: 'warning', rightIcon: 'right', path: 'Stack' },
 ]

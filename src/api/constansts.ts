@@ -9,7 +9,6 @@ export const requestData: RequestFuncType = async (url, method, params, body) =>
 
   try {
     const res = await BOBServer.request({ url, method, params, data: body })
-    console.log(res)
     if (res.status >= 200 && res.status < 300) {
       return res
     } else {

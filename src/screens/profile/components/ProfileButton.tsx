@@ -19,7 +19,7 @@ type ProfieScreenProp = CompositeNavigationProp<
 
 const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
   const navigation = useNavigation<ProfieScreenProp>()
-  console.log(navigation)
+
   return (
     <CustomButton
       variant="gray200"
