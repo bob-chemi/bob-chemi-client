@@ -88,8 +88,8 @@ const useRegisterInput = () => {
       email: formData.id.value,
       password: formData.password.value,
       phone: formData.phoneNumber.value,
-      name: '',
-      nickname: formData.nickname.value,
+      name: formData.nickname.value,
+      nickname: '',
       gender: formData.gender.value as 'Male' | 'Female',
       age: calculateAge(birthDay.year, birthDay.month, birthDay.day),
     }

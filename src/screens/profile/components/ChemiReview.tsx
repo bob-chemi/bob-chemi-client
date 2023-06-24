@@ -1,13 +1,18 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import UsersIcon from 'react-native-vector-icons/Feather'
 import type { ChemiReviewListType } from '../ProfileScreen'
+import { authRequest } from '@/api/authRequest'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
-
+const { getUserChemi } = authRequest
 interface ChemiReviewProps {
   review: ChemiReviewListType
 }
 const ChemiReview = ({ review }: ChemiReviewProps) => {
+  useEffect(() => {
+    const res = getUserChemi()
+    console.log(res)
+  }, [])
   return (
     <FlexDirectionWrapper mb={20} alignItems="center">
       <UsersIcon name={review.iconName} size={20} style={{ marginRight: 10 }} />
