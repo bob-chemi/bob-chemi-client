@@ -20,7 +20,8 @@ const FoodieScreen = () => {
     if (response) {
       console.log('맛잘알 가져오기 성공')
       console.log(response)
-      setSearchResults(foodieVirtualData);
+      setSearchResults(response);
+      //setSearchResults(foodieVirtualData);
     } else {
       console.log('실패')
     }

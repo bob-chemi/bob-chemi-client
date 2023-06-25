@@ -18,7 +18,8 @@ export interface Group {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
-  members: Member[];
+  image: string;
+  owner: User;
 }
 
 export interface Member {
@@ -40,11 +41,55 @@ export interface FoodieBoard {
   images: FoodieImage
 }
 
+export interface GroupRequest {
+  title: string;
+  pendingId: string;
+  groupId: number;
+}
+
 export interface FoodieImage {
   id: string;
   url: string;
   // foodieBoard: {};
 }
+
+export const groupRequestVirtualData: GroupRequest[] = [
+  {
+    title: "소모임모집합니다.",
+    pendingId: "user1",
+    groupId: 37
+  },
+  {
+    title: "소모임2",
+    pendingId: "user2",
+    groupId: 37
+  },
+  {
+    title: "소모임3",
+    pendingId: "user3",
+    groupId: 37
+  },
+  {
+    title: "소모임4",
+    pendingId: "user4",
+    groupId: 37
+  },
+  {
+    title: "소모임5",
+    pendingId: "user5",
+    groupId: 37
+  },
+  {
+    title: "소모임6",
+    pendingId: "user6",
+    groupId: 37
+  },
+  {
+    title: "소모임7",
+    pendingId: "user7",
+    groupId: 37
+  }
+]
 
 export const foodieVirtualData: FoodieBoard[] = [
   {

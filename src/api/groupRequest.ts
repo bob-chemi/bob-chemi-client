@@ -1,4 +1,5 @@
 /* eslint-disable no-useless-catch */
+import { GroupRequest } from '@/types/socialType'
 import { requestData } from './constansts'
 export const groupRequest = {
   getGroupList: async () => {
@@ -28,11 +29,24 @@ export const groupRequest = {
     const { data } = await requestData(`/groups/${userId}`, 'post', null, groupData)
     return data
   },
-  deleteGroup: async (id: string) => {
-    try {
-      await requestData('/groups', 'delete', { id })
-    } catch (error) {
-      throw error
-    }
+  deleteGroup: async (id: number) => {
+    const { data } = await requestData(`/groups/${id}`, 'delete')
+    return data;
   },
+  getCreatedGroup: async (userId: string) => {
+    const { data } = await requestData(`/groups/created/${userId}`, 'get')
+    return data;
+  },
+  getGroupPending: async (groupid: number) => {
+    const { data } = await requestData(`/groups/${groupid}/pending`, 'get')
+    return data;
+  },
+  AcceptGroupRequest: async (request: GroupRequest) => {
+    const { data } = await requestData(`/groups/${request.pendingId}/${request.groupId}/accept`, 'post')
+    return data;
+  },
+  DenyGroupRequest: async (request: GroupRequest) => {
+    const { data } = await requestData(`/groups/${request.pendingId}/${request.groupId}/deny`, 'delete')
+    return data;
+  }
 }
