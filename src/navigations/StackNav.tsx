@@ -11,6 +11,7 @@ import { Group } from '@/types/socialType'
 import PostFoodieScreen from '@/screens/social/foodie/PostFoodieScreen'
 import GroupDetailScreen from '@/screens/social/group/GroupDetailScreen'
 import FoodieScreen from '@/screens/social/foodie/FoodieScreen'
+import JoinListScreen from '@/screens/social/group/JoinListScreen'
 
 export type StackParamList = {
   PreviewScreen: undefined
@@ -19,6 +20,7 @@ export type StackParamList = {
   SocialScreen: { tab?: string }
   FoodieScreen: undefined
   PostGroupScreen: undefined
+  JoinListScreen: undefined
   ChatRoom: undefined
   IntroduceMatching: undefined
   ChemiRating: undefined
@@ -37,6 +39,7 @@ const StackNav = () => {
       <Stack.Screen name="SocialScreen" component={SocialScreen} />
       <Stack.Screen name="FoodieScreen" component={FoodieScreen} />
       <Stack.Screen name="PostGroupScreen" component={PostGroupScreen} />
+      <Stack.Screen name="JoinListScreen" component={JoinListScreen} />
       <Stack.Screen name="ChatRoom" component={ChatRoom} />
       <Stack.Screen name="IntroduceMatching" component={IntroduceMatchingScreen} />
       <Stack.Screen name="ChemiRating" component={ChemiRatingScreen} />
