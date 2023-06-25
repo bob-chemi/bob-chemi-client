@@ -32,7 +32,6 @@ const GroupScreen = () => {
     const isoDate = `${date.getFullYear()}-${date.getMonth() + 1}-${getDate}`;
     const response = await getGroupByDate(isoDate)
     if (response) {
-      console.log('소모임 가져오기 성공')
       setContentsData(response);
     } else {
       console.log('실패')

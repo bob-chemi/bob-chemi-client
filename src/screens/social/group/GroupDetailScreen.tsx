@@ -29,9 +29,9 @@ type GroupNavigationProp = CompositeNavigationProp<
 const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
   const groupData = route.params.group
   const user = useRecoilValue(userStatesAtom);
-  const isMyPost = groupData.owner.id === user?.user.id ? true : false;
+  const isMyPost = groupData.owner?.id === user.user?.id ? true : false;
   const navigation = useNavigation<GroupNavigationProp>()
-  const { deleteGroup } = groupRequest
+  const { deleteGroup, joinGroupRequest } = groupRequest
 
   useEffect(() => {
     navigation.setOptions({
@@ -59,10 +59,27 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
   }
 
   const DeleteGroup = async () => {
-    await deleteGroup(groupData.groupId);
+    const response = await deleteGroup(groupData.groupId);
+    console.log(response);
     navigation.navigate('Tab', { screen: 'Social', params: { tab: 'group' } });
   }
 
+  const handleJoin = async () => {
+    if (user.user) {
+      const response = await joinGroupRequest(user.user?.email, groupData.groupId);
+      if (response) {
+        Alert.alert(
+          '가입 신청',
+          '가입이 신청 되었습니다.',
+          [
+            { text: "확인", style: "default" }
+          ]
+        )
+        navigation.navigate('Tab', { screen: 'Social', params: { tab: 'group' } });
+      }
+      console.log(response);
+    }
+  }
   // <S.GroupDetailImage source={imageSource}></S.GroupDetailImage>*/} {/*[TODO] 수정 필요 2023.06.18 by 김주현
 
   return ( //[TODO] img 추가 필요 2023.06.18 by 김주현
@@ -70,7 +87,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
       <S.TitleArea>
         <S.TitleText>{groupData.title}</S.TitleText>
         <S.SubTitleText>
-          {`${date.year}-${SetFormattedTwoDigitNumber(date.month)}-${SetFormattedTwoDigitNumber(date.day)} ${SetFormattedTwoDigitNumber(date.hour)}:${SetFormattedTwoDigitNumber(date.minute)}:${SetFormattedTwoDigitNumber(date.second)} | ${groupData.owner.nickname}`}
+          {`${date.year}-${SetFormattedTwoDigitNumber(date.month)}-${SetFormattedTwoDigitNumber(date.day)} ${SetFormattedTwoDigitNumber(date.hour)}:${SetFormattedTwoDigitNumber(date.minute)}:${SetFormattedTwoDigitNumber(date.second)} | ${groupData.owner?.nickname ? groupData.owner?.nickname : groupData.owner?.name}`}
         </S.SubTitleText>
       </S.TitleArea>
       <S.GroupDetailArea>
@@ -99,7 +116,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
           </S.BetweenBtnArea>
         ) :
           (
-            <S.Btn style={{ alignSelf: 'center' }}>
+            <S.Btn style={{ alignSelf: 'center' }} onPress={handleJoin}>
               <S.BtnText>참여하기</S.BtnText>
             </S.Btn>
           )

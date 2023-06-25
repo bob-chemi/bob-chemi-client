@@ -41,12 +41,17 @@ export const groupRequest = {
     const { data } = await requestData(`/groups/${groupid}/pending`, 'get')
     return data;
   },
-  AcceptGroupRequest: async (request: GroupRequest) => {
-    const { data } = await requestData(`/groups/${request.pendingId}/${request.groupId}/accept`, 'post')
+  acceptGroupRequest: async (request: GroupRequest) => {
+    console.log(request.pendingUser);
+    const { data } = await requestData(`/groups/${request.MemberId}/${request.groupId}/accept`, 'post')
     return data;
   },
-  DenyGroupRequest: async (request: GroupRequest) => {
-    const { data } = await requestData(`/groups/${request.pendingId}/${request.groupId}/deny`, 'delete')
+  denyGroupRequest: async (request: GroupRequest) => {
+    const { data } = await requestData(`/groups/${request.MemberId}/${request.groupId}/deny`, 'delete')
+    return data;
+  },
+  joinGroupRequest: async (email: string, groupId: number) => {
+    const { data } = await requestData(`/groups/${email}/${groupId}/join`, 'post')
     return data;
   }
 }

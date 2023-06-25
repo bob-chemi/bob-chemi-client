@@ -105,12 +105,13 @@ const PostGroupScreen = () => {
         groupMin: time.getMinutes(),
         groupLocation: `${selectedRegion} ${selectedCity}`,
       }
-      console.log(GroupData);
-      const response = await insertGroup(GroupData, user?.user?.id)
-      if (response) {
-        console.log("소모임 생성 성공")
-        console.log(response)
-        navigation.navigate('Tab', { screen: 'Social', params: { tab: 'group' } })
+      if (user.user) {
+        const response = await insertGroup(GroupData, user?.user?.id)
+        if (response) {
+          console.log("소모임 생성 성공")
+          console.log(response)
+          navigation.navigate('Tab', { screen: 'Social', params: { tab: 'group' } })
+        }
       }
     } catch (error: any) {
       const { msg } = error
