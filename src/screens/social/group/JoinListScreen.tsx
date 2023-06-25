@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import * as S from './GroupScreen.style'
-import { FlatList, Text, View } from 'react-native';
+import { Alert, FlatList, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { groupRequest } from '@/api/groupRequest'
-import { Group, GroupRequest, groupRequestVirtualData } from '@/types/socialType'
+import { Group, GroupRequest } from '@/types/socialType'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation';
@@ -12,6 +12,8 @@ import { TabParamList } from '@/navigations/BottomTabs';
 import { useRecoilValue } from 'recoil';
 import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
 import theme from '@/common/style/theme';
+import { User } from '@/types/userType';
+import { Nav } from '@/types/nav';
 
 type GroupNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
@@ -19,32 +21,33 @@ type GroupNavigationProp = CompositeNavigationProp<
 >
 
 const JoinListScreen = () => {
+  const { navigate } = useNavigation<Nav>()
   const navigation = useNavigation<GroupNavigationProp>()
-  const { getCreatedGroup, getGroupPending, AcceptGroupRequest, DenyGroupRequest } = groupRequest
+  const { getCreatedGroup, getGroupPending, acceptGroupRequest, denyGroupRequest } = groupRequest
   const user = useRecoilValue(userStatesAtom);
   const [requestGroupList, setRequestGroupList] = useState<GroupRequest[]>([]);
 
   const getCreatedList = async () => {
-    const userId = user?.user?.id;
-    const response = await getCreatedGroup(userId);
-    if (response) {
-      console.log('내가 만든 소모임 가져오기 성공')
-      console.log(response);
-      response.forEach((r: { groupId: number, title: string }) => {
-        getJoinRequest(r.groupId, r.title);
-      });
-    } else {
-      console.log('실패')
+    if (user.user) {
+      const userId = user.user?.id
+      const response = await getCreatedGroup(userId);
+      if (response) {
+        response.forEach((r: { groupId: number, title: string }) => {
+          getJoinRequest(r.groupId, r.title);
+        });
+      } else {
+        console.log('실패')
+      }
     }
   }
 
   const getJoinRequest = async (groupId: number, title: string) => {
     const response = await getGroupPending(groupId);
     if (response) {
-      console.log('가입 대기중인 멤버 조회')
       console.log(response);
-      response.forEach((r: { id: string }) => {
-        requestGroupList.push({ title: title, pendingId: r.id, groupId: groupId });
+      response.forEach((r: { user: User["user"], memberId: string }) => {
+        console.log(r.user);
+        requestGroupList.push({ title: title, groupId: groupId, pendingUser: r.user, MemberId: r.memberId });
         setRequestGroupList([...requestGroupList]);
       });
     } else {
@@ -53,13 +56,31 @@ const JoinListScreen = () => {
   }
 
   const handleAccept = async (request: GroupRequest) => {
-    const response = await AcceptGroupRequest(request);
-    console.log(response);
+    const response = await acceptGroupRequest(request);
+    if (response) {
+      Alert.alert(
+        '신청 수락',
+        '가입 신청이 수락 되었습니다.',
+        [
+          { text: "확인", style: "default" }
+        ]
+      )
+      navigate('JoinListScreen');
+    }
   };
 
   const handleDeny = async (request: GroupRequest) => {
-    const response = await DenyGroupRequest(request);
-    console.log(response);
+    const response = await denyGroupRequest(request);
+    if (response) {
+      Alert.alert(
+        '신청 거절',
+        '가입 신청이 거절 되었습니다.',
+        [
+          { text: "확인", style: "default" }
+        ]
+      )
+      navigate('JoinListScreen');
+    }
   };
 
   const renderGroupRequest = ({ item }: { item: GroupRequest }) => {
@@ -67,7 +88,7 @@ const JoinListScreen = () => {
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 12, alignItems: 'center', borderBottomColor: theme.colors.gray200, borderBottomWidth: 1 }}>
         <S.RequestTextView>
           <Text>
-            <S.GroupTitleText>{item.title}</S.GroupTitleText>에 <S.GroupTitleText>{item.pendingId}</S.GroupTitleText>님이 가입 신청을 하였습니다.
+            <S.GroupTitleText>{item.title}</S.GroupTitleText>에 <S.GroupTitleText>{item.pendingUser?.email}</S.GroupTitleText>님이 가입 신청을 하였습니다.
           </Text>
         </S.RequestTextView>
         <S.RequestBtnView>
@@ -85,8 +106,9 @@ const JoinListScreen = () => {
   }
 
   useEffect(() => {
-    const handleNavigationFocus = () => {
-      getCreatedList();
+    const handleNavigationFocus = async () => {
+      setRequestGroupList([]);
+      await getCreatedList();
     };
     const unSubscribe = navigation.addListener('focus', handleNavigationFocus);
     navigation.setOptions({
@@ -101,17 +123,12 @@ const JoinListScreen = () => {
     return unSubscribe;
   }, [])
 
-  useEffect(() => {
-    getCreatedList();
-  }, [])
-
   return (
     <S.Container>
       <FlatList
         data={requestGroupList}
         renderItem={renderGroupRequest}
-        keyExtractor={(item) => item.pendingId}>
-
+        keyExtractor={(item, i) => i.toString()}>
       </FlatList>
     </S.Container>
   );
