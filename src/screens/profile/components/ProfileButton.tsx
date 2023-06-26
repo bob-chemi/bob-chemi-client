@@ -24,7 +24,6 @@ const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
   const navigation = useNavigation<ProfieScreenProp>()
   const setUserAtom = useSetRecoilState(userStatesAtom)
   const signOut = () => {
-    console.log('signOut')
     setUserAtom({ accessToken: null, user: null })
     navigation.navigate('Stack')
   }

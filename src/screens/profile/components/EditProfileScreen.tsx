@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState, useEffect } from 'react'
-import { Alert, SafeAreaView, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Alert, Modal, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { ImagePickerResponse, launchCamera, launchImageLibrary, ImageLibraryOptions } from 'react-native-image-picker'
 import Icon from 'react-native-vector-icons/Entypo'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
@@ -12,25 +12,28 @@ import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
-import { nickNameValidator, idValidator } from '@/utils/validator'
+import { nickNameValidator, idValidator, passwordValidator, confirmPwValidator } from '@/utils/validator'
 const { editUserProfile } = authRequest
+
 type ProfieScreenProp = NativeStackScreenProps<ProfileStackParamList, 'EditProfileScreen'>
 
 interface ImageData {
   uri: string | undefined
 }
+
 const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
+  const [isBtnDisabled, setIsBtnDisabled] = useState(false)
+  const [editPwBtnDisalbed, setEditPwDisabled] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
   const setUserAtom = useSetRecoilState(userStatesAtom)
   const { user, accessToken } = useRecoilValue(userStatesAtom)
-
   const [formData, setFormData] = useState({
     name: { value: user?.name || '', error: '' },
     email: { value: user?.email || '', error: '' },
+    password: { value: '', error: '' },
+    confirmPassword: { value: '', error: '' },
   })
-  const [isBtnDisabled, setIsBtnDisabled] = useState(false)
-  const { email, name } = formData
-
-  useEffect(() => {})
+  const { email, name, password, confirmPassword } = formData
 
   /**
    * 프로필 이미지
@@ -118,8 +121,38 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
 
   const onSaveProfile = async () => {
     const userData = { email: email.value, name: name.value }
+    console.log(user)
     const { data, status } = await editUserProfile(user?.id as string, userData)
+    console.log(data)
+    if (status === 200) {
+      setUserAtom({ accessToken, user: data })
+      navigation.navigate('ProfileScreen')
+    }
+  }
 
+  /**
+   * 비밀번호 수정
+   */
+  const passwordError = passwordValidator(password.value)
+  const confirmPwError = confirmPwValidator(password.value, confirmPassword.value)
+
+  useEffect(() => {
+    if (passwordError || confirmPwError) {
+      setFormData({
+        ...formData,
+        password: { ...password, error: passwordError },
+        confirmPassword: { ...confirmPassword, error: confirmPwError },
+      })
+      setEditPwDisabled(true)
+    } else {
+      setEditPwDisabled(false)
+    }
+  }, [confirmPassword.value, password.value])
+
+  const onSaveChangePassword = async () => {
+    const userData = { password: password.value }
+    const { data, status } = await editUserProfile(user?.id as string, userData)
+    console.log(data)
     if (status === 200) {
       setUserAtom({ accessToken, user: data })
       navigation.navigate('ProfileScreen')
@@ -168,24 +201,6 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
             />
           </FlexDirectionWrapper>
 
-          {/* <FlexDirectionWrapper height={100}>
-            <TextInputComp
-              labelText="비밀번호"
-              placeholder="비밀번호"
-              onChangeText={() => handleSave}
-              validate=""
-              fullWidth
-            />
-          </FlexDirectionWrapper>
-          <FlexDirectionWrapper height={100}>
-            <TextInputComp
-              labelText="비밀번호 확인"
-              placeholder="비밀번호 확인"
-              onChangeText={() => handleSave}
-              validate=""
-              fullWidth
-            />
-          </FlexDirectionWrapper> */}
           <S.ImageArea>
             <CustomButton
               variant="gray300"
@@ -207,10 +222,97 @@ const EditProfileScreen = ({ navigation }: ProfieScreenProp) => {
               <CustomText variant="white">저장</CustomText>
             </CustomButton>
           </S.ImageArea>
+          <S.ImageArea>
+            <CustomButton
+              variant="primary"
+              fullWidth
+              height={40}
+              borderRadius={10}
+              onPress={() => setModalVisible(true)}
+            >
+              <CustomText variant="white">비밀번호 수정</CustomText>
+            </CustomButton>
+          </S.ImageArea>
         </FlexDirectionWrapper>
       </ScrollView>
+      <Modal animationType="slide" transparent={true} visible={modalVisible} style={{ flex: 1 }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <CustomText variant="primary">비밀번호 수정</CustomText>
+            <View>
+              <FlexDirectionWrapper height={100}>
+                <TextInputComp
+                  value={password.value}
+                  secureTextEntry
+                  labelText="비밀번호"
+                  placeholder="비밀번호"
+                  onChangeText={password => handleOnChangeText(password, 'password')}
+                  validate={password.error}
+                  fullWidth
+                />
+              </FlexDirectionWrapper>
+              <FlexDirectionWrapper height={100}>
+                <TextInputComp
+                  value={confirmPassword.value}
+                  secureTextEntry
+                  labelText="비밀번호 확인"
+                  placeholder="비밀번호 확인"
+                  onChangeText={confirmPw => handleOnChangeText(confirmPw, 'confirmPassword')}
+                  validate={confirmPassword.error}
+                  fullWidth
+                />
+              </FlexDirectionWrapper>
+            </View>
+            <S.ImageArea>
+              <CustomButton
+                variant="gray300"
+                width={170}
+                height={40}
+                borderRadius={10}
+                onPress={() => setModalVisible(!modalVisible)}
+              >
+                <CustomText variant="white">취소</CustomText>
+              </CustomButton>
+              <CustomButton
+                variant="primary"
+                width={170}
+                height={40}
+                borderRadius={10}
+                disabled={editPwBtnDisalbed}
+                onPress={onSaveChangePassword}
+              >
+                <CustomText variant="white">저장</CustomText>
+              </CustomButton>
+            </S.ImageArea>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   )
 }
 
 export default EditProfileScreen
+
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalView: {
+    height: '100%',
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+})
