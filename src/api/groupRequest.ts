@@ -42,11 +42,11 @@ export const groupRequest = {
     return data;
   },
   acceptGroupRequest: async (request: GroupRequest) => {
-    console.log(request.pendingUser);
     const { data } = await requestData(`/groups/${request.MemberId}/${request.groupId}/accept`, 'post')
     return data;
   },
   denyGroupRequest: async (request: GroupRequest) => {
+    console.log(request);
     const { data } = await requestData(`/groups/${request.MemberId}/${request.groupId}/deny`, 'delete')
     return data;
   },
