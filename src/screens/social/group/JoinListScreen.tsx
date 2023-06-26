@@ -44,12 +44,13 @@ const JoinListScreen = () => {
   const getJoinRequest = async (groupId: number, title: string) => {
     const response = await getGroupPending(groupId);
     if (response) {
-      console.log(response);
-      response.forEach((r: { user: User["user"], memberId: string }) => {
-        console.log(r.user);
-        requestGroupList.push({ title: title, groupId: groupId, pendingUser: r.user, MemberId: r.memberId });
-        setRequestGroupList([...requestGroupList]);
-      });
+      const newGroupRequests = response.map((r: { user: User["user"], memberId: string }) => ({
+        title: title,
+        groupId: groupId,
+        pendingUser: r.user,
+        MemberId: r.memberId
+      }));
+      setRequestGroupList((prevGroupRequests) => [...prevGroupRequests, ...newGroupRequests]);
     } else {
       console.log('실패')
     }
@@ -65,7 +66,8 @@ const JoinListScreen = () => {
           { text: "확인", style: "default" }
         ]
       )
-      navigate('JoinListScreen');
+      setRequestGroupList([]);
+      await getCreatedList();
     }
   };
 
@@ -79,7 +81,8 @@ const JoinListScreen = () => {
           { text: "확인", style: "default" }
         ]
       )
-      navigate('JoinListScreen');
+      setRequestGroupList([]);
+      await getCreatedList();
     }
   };
 
