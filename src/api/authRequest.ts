@@ -33,9 +33,9 @@ export const authRequest = {
   getUserChemi: async () => {
     const { data } = await requestData('/user', 'get')
   },
-  editUserProfile: async (id: string, userData: { email: string; name: string }) => {
+  editUserProfile: async (id: string, userData: { email?: string; name?: string; password?: string }) => {
     const { data, status } = await requestData(`/user/${id}`, 'patch', null, userData)
-
+    console.log(data)
     return { data, status }
   },
 }
