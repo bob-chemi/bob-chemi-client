@@ -5,6 +5,7 @@ import { useRecoilState } from 'recoil'
 import GoogleMap from './components/GoogleMap'
 import { useRestaurantsQuery } from './hooks/restaurants.hooks'
 import { restaurantsRequest } from '@/api/restaurantsRequest'
+import useFavoriteRestaurant from '@/hooks/useFavoriteRestaurant'
 import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
 import { nearByRestaurantsAtom } from '@/recoil/atoms/nearByRestaurantsAtom'
 import * as S from '@/screens/home/Home.style'
@@ -19,6 +20,8 @@ const Home = () => {
 
   // React-Query
   const { data } = useRestaurantsQuery()
+  // Hooks
+  const { favoriteRestaurant, setFavoriteRestaurantInfo } = useFavoriteRestaurant()
 
   //FUNCTIONS
   // 현재 위치정보 가져오기
@@ -66,6 +69,10 @@ const Home = () => {
   useEffect(() => {
     if (data) {
       const allData = data.pages.flatMap(page => page?.nearByRestaurants)
+      // 즐겨찾기 한 식당 데이터 저장
+      const favoritePlaceIds = favoriteRestaurant.map(favRestaurant => favRestaurant.placeId)
+      const favoriteRestaurantInfo = allData.filter(restaurant => favoritePlaceIds.includes(restaurant.place_id))
+      setFavoriteRestaurantInfo(favoriteRestaurantInfo)
       setNearByRestaurants(allData)
     }
   }, [data])

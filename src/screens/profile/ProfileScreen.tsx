@@ -93,17 +93,11 @@ export type ProfileButtonListType = {
   iconName: string
   buttonTxt: string
   rightIcon: string
-  iconColor: keyof Colors
-  path?: 'MyGroupScreen' | 'EditProfileScreen' | 'Stack'
+  path?: 'MyGroupScreen' | 'EditProfileScreen' | 'Stack' | 'MyFavoriteRestaurantScreen'
 }
 const profileButtonList: ProfileButtonListType[] = [
-  {
-    iconName: 'form',
-    buttonTxt: '나의 소모임',
-    iconColor: 'success',
-    rightIcon: 'right',
-    path: 'MyGroupScreen',
-  },
-  { iconName: 'user', buttonTxt: '프로필 수정', iconColor: 'primary', rightIcon: 'right', path: 'EditProfileScreen' },
-  { iconName: 'logout', buttonTxt: '로그 아웃', iconColor: 'warning', rightIcon: 'right', path: 'Stack' },
+  { iconName: 'staro', buttonTxt: '즐겨찾기한 식당', rightIcon: 'right', path: 'MyFavoriteRestaurantScreen' },
+  { iconName: 'form', buttonTxt: '나의 소모임', rightIcon: 'right', path: 'MyGroupScreen' },
+  { iconName: 'user', buttonTxt: '프로필 수정', rightIcon: 'right', path: 'EditProfileScreen' },
+  { iconName: 'logout', buttonTxt: '로그 아웃', rightIcon: 'right', path: 'Stack' },
 ]

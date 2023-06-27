@@ -1,7 +1,7 @@
 export type Gender = 'Male' | 'Femail' | string
 export type Token = string | null
 export type User = {
-  accessToken: Token
+  accessToken: string
   user: {
     id: string
     email: string
@@ -10,5 +10,5 @@ export type User = {
     name: string
     gender: Gender
     age: number
-  } | null
-}
+  }
+} | null

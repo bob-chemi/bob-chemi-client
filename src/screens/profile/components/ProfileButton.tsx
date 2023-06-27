@@ -7,7 +7,6 @@ import type { ProfileButtonListType } from '../ProfileScreen'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
-import theme from '@/common/style/theme'
 import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation'
 import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
@@ -22,11 +21,6 @@ type ProfieScreenProp = CompositeNavigationProp<
 
 const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
   const navigation = useNavigation<ProfieScreenProp>()
-  const setUserAtom = useSetRecoilState(userStatesAtom)
-  const signOut = () => {
-    setUserAtom({ accessToken: null, user: null })
-    navigation.navigate('Stack')
-  }
   return (
     <CustomButton
       variant="gray200"
@@ -45,7 +39,6 @@ const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
           name={buttonProps.iconName}
           size={18}
           style={{ backgroundColor: '#fff', borderRadius: 50, padding: 10, marginRight: 10 }}
-          color={theme.colors[buttonProps.iconColor]}
         />
         <CustomText variant="gray500" fontWeight={600}>
           {buttonProps.buttonTxt}

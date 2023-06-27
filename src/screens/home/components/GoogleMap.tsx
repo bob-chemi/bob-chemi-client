@@ -9,7 +9,9 @@ import { SliderParamList } from '../navigations/SliderStackNavigatoin'
 import AutoCompleteSearchBar from './AutoCompleteSearchBar'
 import * as S from './GoogleMap.style'
 import RestaurantsSlider from './RestaurantsSlider'
+import RestaurantFavoritelIcon from '@/assets/icons/restaurantFavorite.svg'
 import RestaurantNormalIcon from '@/assets/icons/restaurantNormal.svg'
+import useFavoriteRestaurant from '@/hooks/useFavoriteRestaurant'
 
 interface GoogleMapProps {
   currentLocation: Region
@@ -28,6 +30,8 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
   // Refs
   const mapViewRef = useRef<MapView>(null)
   const restaurantSliderRef = useRef<SlidingUpPanel>(null)
+  // Hooks
+  const { favoriteRestaurant } = useFavoriteRestaurant()
 
   // Functions
   const showRestaurantDetail = (restaurant: any) => {
@@ -101,6 +105,9 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
         {nearByRestaurants &&
           nearByRestaurants.map((restaurant, index) => {
             const { lat, lng } = restaurant.geometry.location
+            const placeId = restaurant.place_id ? restaurant.place_id : restaurant.reference ? restaurant.reference : ''
+            const isFavorite = favoriteRestaurant.some(favRestaurant => favRestaurant.placeId === placeId)
+
             return (
               <Marker
                 key={index}
@@ -110,7 +117,11 @@ const GoogleMap = ({ currentLocation, nearByRestaurants }: GoogleMapProps) => {
                 onPress={() => showRestaurantDetail(restaurant)}
               >
                 <View>
-                  <RestaurantNormalIcon width={30} height={30} />
+                  {isFavorite ? (
+                    <RestaurantFavoritelIcon width={50} height={50} />
+                  ) : (
+                    <RestaurantNormalIcon width={30} height={30} />
+                  )}
                 </View>
               </Marker>
             )
