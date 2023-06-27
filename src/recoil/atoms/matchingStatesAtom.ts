@@ -1,8 +1,16 @@
 import { atom } from 'recoil'
 
-type MatchingState = boolean
+type MatchingState = {
+  isMatching: boolean
+  isMatched: boolean
+  isOnChatRoom: boolean
+}
 
 export const matchingStatesAtom = atom<MatchingState>({
   key: 'matchingStatesAtom',
-  default: false,
+  default: {
+    isMatching: false,
+    isMatched: false,
+    isOnChatRoom: false,
+  },
 })

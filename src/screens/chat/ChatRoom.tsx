@@ -38,7 +38,7 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
   const [chats, setChats] = useState<Message[]>(tempDefaultMessages)
   const [textInputValue, setTextInputValue] = useState<string>('')
   const userInfo = useRecoilValue(userStatesAtom)
-  const [matcingState, setMatchingState] = useRecoilState(matchingStatesAtom)
+  const [matchingState, setMatchingState] = useRecoilState(matchingStatesAtom)
 
   // Navigaton
   const navigation = useNavigation<ChatRoomNavigationProp>()
@@ -51,12 +51,13 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
 
   // Functions
   const renderChats: ListRenderItem<Message> = ({ item }) => {
+    console.log(item)
     const isMine = item.userId === '2'
     return (
       <S.ChatRow isMine={isMine}>
         {isMine && <S.ChatDate>{String(item.createdAt).substring(0, 15)}</S.ChatDate>}
         <S.ChatBubble isMine={isMine}>
-          <S.ChatText isMine={isMine}>{item.message}</S.ChatText>
+          <S.ChatText isMine={isMine}>{item ? item.message : 'Good'}</S.ChatText>
         </S.ChatBubble>
         {!isMine && <S.ChatDate>{String(item.createdAt).substring(0, 15)}</S.ChatDate>}
       </S.ChatRow>
@@ -78,16 +79,21 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
   }
 
   const goToChemiRating = () => {
-    setMatchingState(false)
+    setMatchingState({
+      isMatching: false,
+      isMatched: false,
+      isOnChatRoom: false,
+    })
     screenNavigation.navigate('ChemiRating')
   }
 
   const onPressBack = () => {
-    setMatchingState(false)
-    navigation.navigate('Tab', { screen: 'Matching' })
+    setMatchingState(prev => ({ ...prev, isOnChatRoom: false }))
+    navigation.navigate('Tab', { screen: 'Profile' })
   }
 
   // Effects
+  // 네비게이션 설정 / 마운트시 matchingState.isOnChatRoom 설정
   useEffect(() => {
     navigation.setOptions({
       headerTitleAlign: 'center',
@@ -96,6 +102,8 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
       headerRight: () => <Icon name="exit-run" size={28} />,
       headerLeft: () => <Icon name="chevron-left" size={28} onPress={onPressBack} />,
     })
+    console.log('isOnChat')
+    setMatchingState(prev => ({ ...prev, isOnChatRoom: true }))
   }, [navigation])
 
   useEffect(() => {
@@ -145,7 +153,7 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
   return (
     <S.ChatRoomLayout>
       <S.ChatsArea>
-        {matcingState ? (
+        {!matchingState.isMatched ? (
           <S.LottieWrapper>
             <Lottie source={require('@assets/lotties/find-people.json')} autoPlay autoSize />
             <S.LottieText>식사 메이트를 찾는 중 입니다.</S.LottieText>

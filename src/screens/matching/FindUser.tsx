@@ -80,7 +80,11 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
 
   const handleFindButtonPress = () => {
     console.log(matchingOption)
-    setMatchingState(true)
+    setMatchingState({
+      isMatching: true,
+      isMatched: false,
+      isOnChatRoom: true,
+    })
     console.log('소켓 상태', socket)
     if (!socket.connected) {
       socket.connect()

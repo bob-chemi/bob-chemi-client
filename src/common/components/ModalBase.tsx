@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import * as S from './ModalBase.style'
 import { useModal } from '@/hooks/useModal'
+import UserFoundModal from '@/screens/matching/components/modals/UserFoundModal'
 
 const ModalBase = () => {
   const {

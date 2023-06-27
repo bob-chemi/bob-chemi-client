@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { RouteProp } from '@react-navigation/native'
-import { View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useRecoilValue } from 'recoil'
 import ProfileStackNav from './ProfileStackNav'
@@ -63,7 +62,7 @@ const BottomTabs = () => {
         tabBarShowLabel: false,
         tabBarIcon: ({ focused, color, size }) => {
           const iconName = getTabBarIcon(route, focused)
-          if (route.name === 'Matching' && matchingState) {
+          if (route.name === 'Matching' && matchingState.isMatching) {
             return <Icon name={iconName} color={'#91eef8'} size={size} />
           }
           return <Icon name={iconName} color={color} size={size} />
@@ -72,7 +71,7 @@ const BottomTabs = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Chat" component={Chats} />
-      <Tab.Screen name="Matching" component={matchingState ? Chats : FindUser} />
+      <Tab.Screen name="Matching" component={matchingState.isMatching ? Chats : FindUser} />
       <Tab.Screen name="Social" component={SocialScreen} />
       <Tab.Screen name="Profile" component={ProfileStackNav} />
     </Tab.Navigator>
