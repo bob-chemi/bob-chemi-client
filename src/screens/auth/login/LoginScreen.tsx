@@ -56,7 +56,10 @@ const LoginScreen = () => {
       try {
         setIsLoggingIn(true)
         const loginSuccessResponse = await userLogin(userData)
+        console.log(loginSuccessResponse)
         if (loginSuccessResponse) {
+          const { accessToken } = loginSuccessResponse
+          await setStorage(accessToken, 'token')
           setUserAtom(loginSuccessResponse)
           navigation.navigate('Tab', { screen: 'Home' })
         }

@@ -81,6 +81,10 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
   const handleFindButtonPress = () => {
     console.log(matchingOption)
     setMatchingState(true)
+    console.log('소켓 상태', socket)
+    if (!socket.connected) {
+      socket.connect()
+    }
     socket?.emit('findMatching', matchingOption)
     navigation.navigate('ChatRoom')
   }
@@ -101,6 +105,9 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
   // 디버깅
   useEffect(() => {
     console.log(socket)
+    if (!socket.connected) {
+      socket.connect()
+    }
   }, [socket])
 
   return (

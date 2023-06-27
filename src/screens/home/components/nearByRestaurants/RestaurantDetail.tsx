@@ -14,6 +14,7 @@ import StarRating from 'react-native-star-rating'
 import { useRecoilValue } from 'recoil'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
 import ReviewCard, { Review } from './ReviewCard'
+import favoriteRequest from '@/api/favoriteRequest'
 import FlatListSeparator from '@/common/components/FlatListSeparator'
 import LoadingSpinner from '@/common/components/LoadingSpinner'
 import theme from '@/common/style/theme'
@@ -36,6 +37,7 @@ const FavoriteElement = () => {
   const [isFavorite, setIsFavorite] = useState(false)
 
   const toggleFavorite = () => {
+    favoriteRequest.addFavoriteRestaurant('ChIJy-rjFwScfDURP3Dt0rDh-t4')
     setIsFavorite(prev => !prev)
   }
 
