@@ -1,4 +1,5 @@
 import { requestData } from './constansts'
+import { FavoriteRestaurantI } from '@/recoil/atoms/favoriteRestaurantAtom'
 const favoriteRequest = {
   // 즐겨찾기 추가
   addFavoriteRestaurant: async (placeId: string) => {
@@ -15,7 +16,7 @@ const favoriteRequest = {
   },
 
   // 즐겨찾기 조회
-  queryCurrentFavoriteRestaurants: async () => {
+  queryCurrentFavoriteRestaurants: async (): Promise<FavoriteRestaurantI[]> => {
     const { data } = await requestData('/mark', 'get')
     return data
   },

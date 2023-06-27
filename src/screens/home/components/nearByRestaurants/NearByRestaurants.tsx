@@ -6,6 +6,7 @@ import { useRestaurantsQuery } from '../../hooks/restaurants.hooks'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
 import RestaurantCard from './RestaurantCard'
 import theme from '@/common/style/theme'
+import useFavoriteRestaurant from '@/hooks/useFavoriteRestaurant'
 import { nearByRestaurantsAtom } from '@/recoil/atoms/nearByRestaurantsAtom'
 
 type NearByRestaurantsProps = NativeStackScreenProps<SliderParamList, 'Restaurants'>
@@ -14,11 +15,17 @@ const NearByRestaurants = ({ route }: NearByRestaurantsProps) => {
   // Recoils
   const nearByRestaurants = useRecoilValue(nearByRestaurantsAtom)
 
+  // Hooks
+  const { favoriteRestaurant } = useFavoriteRestaurant()
+
   // React-Query
   const { fetchNextPage, hasNextPage, isFetchingNextPage } = useRestaurantsQuery()
 
   const renderRestaurantCard = ({ item, index }: { item: any; index: number }) => {
-    return <RestaurantCard item={item} index={index} />
+    const placeId = item.place_id ? item.place_id : item.reference ? item.reference : ''
+    const isFavorite = favoriteRestaurant.some(favRestaurant => favRestaurant.placeId === placeId)
+
+    return <RestaurantCard item={item} isFavorite={isFavorite} index={index} />
   }
 
   return (

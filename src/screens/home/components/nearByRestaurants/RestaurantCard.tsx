@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react'
 import { Text, Pressable, TextProps } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import StarRating from 'react-native-star-rating'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useRecoilValue } from 'recoil'
 import styled from 'styled-components/native'
 import { SliderParamList } from '../../navigations/SliderStackNavigatoin'
@@ -34,6 +35,12 @@ const InfoCol = styled.View`
   flex: 1.5;
 `
 
+const NameRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const Name = styled.Text`
   font-family: 'Inter';
   font-style: normal;
@@ -41,6 +48,11 @@ const Name = styled.Text`
   font-size: 18px;
   line-height: 36px;
   color: black;
+`
+
+const FavoriteWrapper = styled.View`
+  justify-content: center;
+  align-items: center;
 `
 
 const RatingRow = styled.View`
@@ -93,10 +105,11 @@ const Operation = styled.Text<OperationHoursProps>`
 
 interface RestaurantCardProps {
   item: any
+  isFavorite: boolean
   index?: number
 }
 
-const RestaurantCard = ({ item }: RestaurantCardProps) => {
+const RestaurantCard = ({ item, isFavorite }: RestaurantCardProps) => {
   // Navigations
   const navigation = useNavigation<NativeStackNavigationProp<SliderParamList>>()
 
@@ -169,7 +182,12 @@ const RestaurantCard = ({ item }: RestaurantCardProps) => {
         </ImageCol>
         <Separator />
         <InfoCol>
-          <Name>{item ? item.name : '이름을 알 수 없는 식당'}</Name>
+          <NameRow>
+            <Name>{item ? item.name : '이름을 알 수 없는 식당'}</Name>
+            <FavoriteWrapper>
+              {isFavorite && <Icon name="star" size={24} color={theme.colors.primary} />}
+            </FavoriteWrapper>
+          </NameRow>
           <RatingRow>
             {item.rating ? (
               <StarRating

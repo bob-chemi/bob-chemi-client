@@ -48,8 +48,6 @@ interface FavoriteElementI {
 
 const FavoriteElement = ({ isFavorite, setIsFavorite, placeId }: FavoriteElementI) => {
   const toggleFavorite = async () => {
-    console.log(isFavorite)
-    console.log(placeId)
     if (isFavorite.isFavorite) {
       console.log('삭제 요청')
       await favoriteRequest.deleteFavoriteRestaurant(isFavorite.favoriteInfo.id)
@@ -180,18 +178,14 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
         const placeId = detailInfo.place_id ? detailInfo.place_id : detailInfo.reference ? detailInfo.reference : ''
         const favoriteRestaurants: { id: string; placeId: string }[] =
           await favoriteRequest.queryCurrentFavoriteRestaurants()
-        //TODO: console 정리
-        console.log('현재 서버 즐겨찾기', favoriteRestaurants)
+
         if (favoriteRestaurants.length > 0) {
-          console.log('현재 서버 즐겨찾기 존재')
           const exist = favoriteRestaurants.some(restaurant => restaurant.placeId === placeId)
           if (exist) {
             const info = favoriteRestaurants.find(restaurant => restaurant.placeId === placeId)
             info && setIsFavorite({ isFavorite: true, favoriteInfo: info })
-            console.log('서버에 즐겨찾기 존재', info)
           }
         } else {
-          console.log('즐겨찾기 없음')
           setIsFavorite({ isFavorite: false, favoriteInfo: { id: '', placeId: '' } })
         }
 
