@@ -1,12 +1,10 @@
-import StarEmpty from '@assets/icons/starEmpty.svg'
-import StarFilled from '@assets/icons/starFilled.svg'
 import { GOOGLE_MAPS_API_KEY } from '@env'
 import { useNavigation } from '@react-navigation/native'
 import type { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import haversineDistance from 'haversine-distance'
-import React, { useEffect, useState } from 'react'
+import React, { Dispatch, useEffect, useState } from 'react'
 import { FlatList, Pressable } from 'react-native'
 import { Linking } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -25,6 +23,14 @@ type RestaurantDetailProps = NativeStackScreenProps<SliderParamList, 'Restaurant
 
 type RestaurantDetailNavigationProp = NativeStackNavigationProp<SliderParamList, 'RestaurantsDetail'>
 
+interface FavoriteInfoI {
+  isFavorite: boolean
+  favoriteInfo: {
+    id: string
+    placeId: string
+  }
+}
+
 interface PhotoOfApi {
   width: number
   height: number
@@ -33,15 +39,55 @@ interface PhotoOfApi {
 }
 
 // 헤더 오른쪽에 있는 즐겨찾기 기능의 별 아이콘
-const FavoriteElement = () => {
-  const [isFavorite, setIsFavorite] = useState(false)
 
-  const toggleFavorite = () => {
-    favoriteRequest.addFavoriteRestaurant('ChIJy-rjFwScfDURP3Dt0rDh-t4')
-    setIsFavorite(prev => !prev)
+interface FavoriteElementI {
+  isFavorite: FavoriteInfoI
+  setIsFavorite: Dispatch<React.SetStateAction<FavoriteInfoI>>
+  placeId: string
+}
+
+const FavoriteElement = ({ isFavorite, setIsFavorite, placeId }: FavoriteElementI) => {
+  const toggleFavorite = async () => {
+    console.log(isFavorite)
+    console.log(placeId)
+    if (isFavorite.isFavorite) {
+      console.log('삭제 요청')
+      await favoriteRequest.deleteFavoriteRestaurant(isFavorite.favoriteInfo.id)
+      setIsFavorite({
+        isFavorite: false,
+        favoriteInfo: {
+          id: '',
+          placeId: '',
+        },
+      })
+    } else {
+      console.log('추가 요청')
+      await favoriteRequest.addFavoriteRestaurant(placeId)
+      const currentFavoriteRestaurants: { id: string; placeId: string }[] =
+        await favoriteRequest.queryCurrentFavoriteRestaurants()
+      const addedRestaurant = currentFavoriteRestaurants.find(restaurant => restaurant.placeId === placeId)
+      console.log(addedRestaurant)
+      if (addedRestaurant) {
+        setIsFavorite({
+          isFavorite: true,
+          favoriteInfo: {
+            id: addedRestaurant.id,
+            placeId: addedRestaurant.placeId,
+          },
+        })
+      }
+    }
   }
 
-  return <Pressable onPress={toggleFavorite}>{isFavorite ? <StarFilled /> : <StarEmpty />}</Pressable>
+  return (
+    <Pressable onPress={toggleFavorite}>
+      {isFavorite.isFavorite ? (
+        <S.IconComponent name="star" size={28} color={theme.colors.primary} />
+      ) : (
+        <S.IconComponent name="star-outline" size={28} />
+      )}
+    </Pressable>
+  )
 }
 
 const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
@@ -58,6 +104,13 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   const [operationHours, setOperationHours] = useState<string[]>([])
   const [showOperationHoursMore, setShowOperationHoursMore] = useState<boolean>(false)
   const [distanceFromCurrentLocation, setDistanceFromCurrentLocation] = useState<number>(0)
+  const [isFavorite, setIsFavorite] = useState<FavoriteInfoI>({
+    isFavorite: false,
+    favoriteInfo: {
+      id: '',
+      placeId: '',
+    },
+  })
 
   // Recoils
   const currentLocation = useRecoilValue(currentLocationAtom)
@@ -123,6 +176,24 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
           longitude: detailInfo.geometry.location.lng,
         }
         const distance = Math.floor(haversineDistance(currentLocationObj, restaurantLocationObj))
+        // 즐겨찾기 등록된 식당인지 확인
+        const placeId = detailInfo.place_id ? detailInfo.place_id : detailInfo.reference ? detailInfo.reference : ''
+        const favoriteRestaurants: { id: string; placeId: string }[] =
+          await favoriteRequest.queryCurrentFavoriteRestaurants()
+        //TODO: console 정리
+        console.log('현재 서버 즐겨찾기', favoriteRestaurants)
+        if (favoriteRestaurants.length > 0) {
+          console.log('현재 서버 즐겨찾기 존재')
+          const exist = favoriteRestaurants.some(restaurant => restaurant.placeId === placeId)
+          if (exist) {
+            const info = favoriteRestaurants.find(restaurant => restaurant.placeId === placeId)
+            info && setIsFavorite({ isFavorite: true, favoriteInfo: info })
+            console.log('서버에 즐겨찾기 존재', info)
+          }
+        } else {
+          console.log('즐겨찾기 없음')
+          setIsFavorite({ isFavorite: false, favoriteInfo: { id: '', placeId: '' } })
+        }
 
         setOperationHours(operationHours)
         setOpenNow(openNow)
@@ -169,12 +240,14 @@ const RestaurantDetail = ({ route }: RestaurantDetailProps) => {
   // Effects
   // 헤더 타이틀 설정, 헤더 오른쪽에 즐겨찾기 컴포넌트 추가
   useEffect(() => {
+    const placeId = detailInfo ? (detailInfo.place_id ? detailInfo.place_id : detailInfo.reference) : ''
+
     navigation.setOptions({
       headerShown: true,
       headerTitle: item && item.name ? item.name : detailInfo && detailInfo.name ? detailInfo.name : '상세보기',
-      headerRight: () => <FavoriteElement />,
+      headerRight: () => <FavoriteElement isFavorite={isFavorite} setIsFavorite={setIsFavorite} placeId={placeId} />,
     })
-  }, [navigation, item, detailInfo])
+  }, [navigation, item, detailInfo, isFavorite])
 
   // 장소 상세정보 불러오기
   useEffect(() => {
