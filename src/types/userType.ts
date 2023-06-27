@@ -11,4 +11,4 @@ export type User = {
     gender: Gender
     age: number
   }
-} | null
+}

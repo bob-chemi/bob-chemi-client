@@ -1,15 +1,19 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { useRecoilValue } from 'recoil'
 import ChemiReview from './components/ChemiReview'
 import ProfileButton from './components/ProfileButton'
 import * as S from './ProfileScreen.style'
+import { authRequest } from '@/api/authRequest'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
-import theme, { Colors } from '@/common/style/theme'
+import theme from '@/common/style/theme'
 import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
 
 const ProfileScreen = () => {
+  // States
+  const [myChemiRating, setMyChemiRating] = useState(36.5)
+
   const rangeValue = useRef(new Animated.Value(0)).current
   const { user } = useRecoilValue(userStatesAtom)
 
@@ -18,16 +22,33 @@ const ProfileScreen = () => {
     outputRange: ['0%', '100%'],
     extrapolate: 'clamp',
   })
-  const load = () => {
+
+  const load = (toValue: number) => {
     Animated.timing(rangeValue, {
-      toValue: 37.7,
+      toValue,
       duration: 500,
       useNativeDriver: false,
     }).start()
   }
 
+  const getMyChemiRating = async () => {
+    const { data: rating, status } = await authRequest.getMyChemiRating(user.id)
+    return { rating, status }
+  }
+
+  const initProfileScreen = async () => {
+    const { rating, status } = await getMyChemiRating()
+    if (status === 200) {
+      load(rating)
+      setMyChemiRating(rating)
+    } else {
+      load(36.5)
+      setMyChemiRating(36.5)
+    }
+  }
+
   useEffect(() => {
-    load()
+    initProfileScreen()
   }, [])
   return (
     <S.Container>
@@ -50,7 +71,7 @@ const ProfileScreen = () => {
           <CustomText>첫 온도 36.5&#8451;</CustomText>
 
           <CustomText fontSize={20} fontWeight={600} variant="primary">
-            37.9&#8451;
+            {String(myChemiRating)}&#8451;
           </CustomText>
         </FlexDirectionWrapper>
         <S.TempBackground>

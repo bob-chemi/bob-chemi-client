@@ -38,4 +38,8 @@ export const authRequest = {
     console.log(data)
     return { data, status }
   },
+  getMyChemiRating: async (id: string) => {
+    const { data, status } = await requestData(`/user/${id}`, 'get')
+    return { data, status }
+  },
 }
