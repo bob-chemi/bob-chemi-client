@@ -68,7 +68,7 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
     const newMessage: Message = {
       createdAt: new Date(),
       message: textInputValue,
-      userId: userInfo ? userInfo.id : '2',
+      userId: userInfo?.user ? userInfo.user.id : '2',
       roomId: '9Q5Pj6w9OkNiXs38AAAF#K2HjKHelwF5KC7TuAAAH',
       key: String(Math.random()),
     }
@@ -82,6 +82,11 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
     screenNavigation.navigate('ChemiRating')
   }
 
+  const onPressBack = () => {
+    setMatchingState(false)
+    navigation.navigate('Tab', { screen: 'Matching' })
+  }
+
   // Effects
   useEffect(() => {
     navigation.setOptions({
@@ -89,9 +94,7 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
       headerTitle: '사용자 ID',
       headerTitleContainerStyle: { justifyContent: 'center', alignContent: 'center' },
       headerRight: () => <Icon name="exit-run" size={28} />,
-      headerLeft: () => (
-        <Icon name="chevron-left" size={28} onPress={() => navigation.navigate('Tab', { screen: 'Chat' })} />
-      ),
+      headerLeft: () => <Icon name="chevron-left" size={28} onPress={onPressBack} />,
     })
   }, [navigation])
 
