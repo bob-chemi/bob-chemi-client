@@ -2,12 +2,15 @@ import { CompositeNavigationProp, useNavigation } from '@react-navigation/native
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React from 'react'
 import Icon from 'react-native-vector-icons/AntDesign'
+import { useSetRecoilState } from 'recoil'
 import type { ProfileButtonListType } from '../ProfileScreen'
 import CustomButton from '@/common/components/CustomButton'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
 import { ProfileStackParamList } from '@/navigations/ProfileStackNav'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation'
+import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
+
 interface ProfileButtonProps {
   buttonProps: ProfileButtonListType
 }
@@ -18,7 +21,6 @@ type ProfieScreenProp = CompositeNavigationProp<
 
 const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
   const navigation = useNavigation<ProfieScreenProp>()
-
   return (
     <CustomButton
       variant="gray200"
@@ -29,9 +31,7 @@ const ProfileButton = ({ buttonProps }: ProfileButtonProps) => {
       justifyContent="space-between"
       mb={10}
       onPress={() =>
-        buttonProps.path !== 'Stack'
-          ? buttonProps.path && navigation.navigate(buttonProps.path)
-          : buttonProps.path && navigation.navigate('Stack')
+        buttonProps.path !== 'Stack' ? buttonProps.path && navigation.navigate(buttonProps.path) : signOut()
       }
     >
       <FlexDirectionWrapper alignItems="center" pl={20}>

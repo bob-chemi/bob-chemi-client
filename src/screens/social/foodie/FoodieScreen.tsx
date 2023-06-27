@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { foodieRequest } from '@/api/foodieRequest';
-import { FoodieBoard, foodieVirtualData } from '@/types/socialType';
+import { FoodieBoard } from '@/types/socialType';
 import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, FlatList } from 'react-native';
 import BoardItem from './components/BoardItem';
@@ -20,7 +20,8 @@ const FoodieScreen = () => {
     if (response) {
       console.log('맛잘알 가져오기 성공')
       console.log(response)
-      setSearchResults(foodieVirtualData);
+      setSearchResults(response);
+      //setSearchResults(foodieVirtualData);
     } else {
       console.log('실패')
     }

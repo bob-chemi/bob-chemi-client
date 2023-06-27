@@ -1,5 +1,5 @@
-export type Gender = 'Male' | 'Femail'
-
+export type Gender = 'Male' | 'Femail' | string
+export type Token = string | null
 export type User = {
   accessToken: string
   user: {

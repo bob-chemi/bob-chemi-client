@@ -117,6 +117,14 @@ export const BtnText = styled.Text`
   color: ${theme.colors.white};
 `
 
+export const JoinBtn = styled.TouchableOpacity`
+  position: absolute;
+  right: 5px;
+  top: -35px;
+  width: 24px;
+  height: 24px;
+`
+
 /* GroupDetailScreen */
 export const TitleArea = styled.View`
   height: 80px;
@@ -181,4 +189,42 @@ export const ContextArea = styled.View`
 export const ContextText = styled.Text`
   textAlignVertical: top;
   color: ${theme.colors.gray500};
+`
+
+export const BetweenBtnArea = styled.View`
+  flexDirection: row;
+  justify-content: space-around;
+`
+
+export const BetweenBtn = styled.TouchableOpacity`
+  margin-top: 40px;
+  backgroundColor: ${theme.colors.primary};
+  width: 45%;
+  padding: 5px;
+  border-radius: 10px;
+  align-items: center;
+  align-self: center;  
+`
+
+/* JoinListScreen */
+export const RequestBtnBtn = styled.TouchableOpacity`
+  backgroundColor: ${theme.colors.primary};
+  width: 45px;
+  border-radius: 10px;
+  align-items: center;  
+`
+
+export const RequestTextView = styled.View`
+  width: 75%;
+`
+export const RequestBtnView = styled.View`
+  width: 25%;
+  justify-content: space-around;
+  flexDirection: row;
+`
+
+export const GroupTitleText = styled.Text`
+  color: ${theme.colors.success};
+  font-weight:600;
+  font-size: 15px;
 `

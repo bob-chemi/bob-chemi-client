@@ -3,8 +3,8 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useEffect, useState, useCallback } from 'react'
-import { Alert, Text, TouchableOpacity } from 'react-native'
-import { useSetRecoilState } from 'recoil'
+import { Text, TouchableOpacity } from 'react-native'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import * as S from '../Auth.style'
 import TextInputComp from '../register/components/TextInputComp'
 import { authRequest } from '@/api/authRequest'
@@ -32,6 +32,7 @@ const LoginScreen = () => {
   const [isLoggingIn, setIsLoggingIn] = useState(false)
   const navigation = useNavigation<NavigationProp>()
   const { userLogin } = authRequest
+  const { user } = useRecoilValue(userStatesAtom)
 
   const loginOnPressed = async () => {
     const idError = idValidator(id.value)
@@ -65,8 +66,8 @@ const LoginScreen = () => {
         }
       } catch (error: any) {
         setIsLoggingIn(false)
-        const { msg } = error
-        Alert.alert('로그인 실패', msg ? msg : '로그인에 실패했습니다.')
+      } finally {
+        setIsLoggingIn(false)
       }
 
       // 로그인 완료시 홈으로
@@ -85,7 +86,13 @@ const LoginScreen = () => {
 
   useEffect(() => {
     getData()
-  }, [])
+    if (!user) {
+      setPassword({ value: '', error: '' })
+      if (!rememberID) {
+        setId({ value: '', error: '' })
+      }
+    }
+  }, [user])
 
   // 개발 중 로그인 버튼 클릭시 홈으로 이동
   // FIXME: 로그인 기능 구현 후 로그인 성공시 홈으로 이동으로 수정
@@ -107,6 +114,7 @@ const LoginScreen = () => {
           fullWidth
         />
         <TextInputComp
+          value={password.value}
           labelText="비밀번호"
           validate={password.error}
           placeholder="* * * * * * *"

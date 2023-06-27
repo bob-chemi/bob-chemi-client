@@ -1,29 +1,17 @@
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
-import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useEffect, useRef } from 'react'
 import { Animated } from 'react-native'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import ChemiReview from './components/ChemiReview'
 import ProfileButton from './components/ProfileButton'
 import * as S from './ProfileScreen.style'
 import CustomText from '@/common/components/CustomText'
 import FlexDirectionWrapper from '@/common/components/FlexDirectionWrapper'
-import theme from '@/common/style/theme'
-import { TabParamList } from '@/navigations/BottomTabs'
-import { RootNativeStackParamList } from '@/navigations/RootNavigation'
+import theme, { Colors } from '@/common/style/theme'
 import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
 
-type NavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<TabParamList, 'Profile'>,
-  NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>
->
-
 const ProfileScreen = () => {
-  const navigation = useNavigation<NavigationProp>()
-
-  const setUserAtom = useSetRecoilState(userStatesAtom)
   const rangeValue = useRef(new Animated.Value(0)).current
+  const { user } = useRecoilValue(userStatesAtom)
 
   const width = rangeValue.interpolate({
     inputRange: [0, 100],
@@ -38,12 +26,6 @@ const ProfileScreen = () => {
     }).start()
   }
 
-  const signOut = () => {
-    console.log('signOut')
-    setUserAtom(null)
-    navigation.navigate('Stack')
-  }
-
   useEffect(() => {
     load()
   }, [])
@@ -53,10 +35,10 @@ const ProfileScreen = () => {
         <S.ProfileImage />
         <FlexDirectionWrapper flexDirection="column">
           <CustomText fontSize={24} fontWeight={600}>
-            혼밥러
+            {(user && user.name) || ''}
           </CustomText>
           <CustomText fontSize={18} fontWeight={400}>
-            sacultang@gmail.com
+            {(user && user.email) || ''}
           </CustomText>
         </FlexDirectionWrapper>
       </S.ProfileStatus>
