@@ -9,8 +9,8 @@ const ChatRoomCard = ({ createdAt, messages, user }: ChatRoomProps) => {
 
   return (
     <S.ChatRoomCardLayout>
-      <S.Name>{userInfo ? (user[0] === userInfo.name ? user[0] : user[1]) : 'Temp'}</S.Name>
-      <S.LastMessage>{messages[messages.length - 1].message}</S.LastMessage>
+      <S.Name>{userInfo.user ? (user[0] === userInfo.user.name ? user[0] : user[1]) : 'Temp'}</S.Name>
+      {/* <S.LastMessage>{messages[messages.length - 1].message}</S.LastMessage> */}
     </S.ChatRoomCardLayout>
   )
 }
