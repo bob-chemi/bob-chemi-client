@@ -28,33 +28,32 @@ type FindUserScreenProps = CompositeScreenProps<
 
 type Gender = 'woman' | 'man' | null
 
+type AgeGroup = 'TEENAGER' | 'TWENTIES' | 'THIRTIES' | 'FORTIES' | 'FIFTIES'
+
 type MatchingOption = {
   gender: Gender
-  ageRange: [number, number]
+  ageRange: AgeGroup
 } & AdministrativeArea
 
 const CustomSliderLabel = ({ e }: CustomSliderLabelProps) => {
-  const { oneMarkerLeftPosition, oneMarkerValue, twoMarkerLeftPosition, twoMarkerValue } = e
+  const { oneMarkerLeftPosition, oneMarkerValue } = e
 
   return (
     <S.SliderLabelLayout>
       <S.SliderLabelWrapper left={oneMarkerLeftPosition}>
-        <S.SliderLabel>{oneMarkerValue}</S.SliderLabel>
+        <S.SliderLabel>{oneMarkerValue === 0 ? String(10) : String(oneMarkerValue)}</S.SliderLabel>
       </S.SliderLabelWrapper>
-      <S.SliderLabelWrapper left={twoMarkerLeftPosition}>
+      {/* <S.SliderLabelWrapper left={twoMarkerLeftPosition}>
         <S.SliderLabel>{twoMarkerValue}</S.SliderLabel>
-      </S.SliderLabelWrapper>
+      </S.SliderLabelWrapper> */}
     </S.SliderLabelLayout>
   )
 }
 
 const FindUser = ({ navigation }: FindUserScreenProps) => {
-  // Constants
-  const sliderValues = [10, 60]
-
   // States
   const [gender, setGender] = useState<Gender>(null)
-  const [ageRange, setAgeRange] = useState<[number, number]>([10, 60])
+  const [ageRange, setAgeRange] = useState<AgeGroup>('TEENAGER')
   const currentLocation = useRecoilValue(currentLocationAtom)
   const [matchingOption, setMatchingOption] = useState<MatchingOption>({
     gender,
@@ -93,6 +92,31 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
     navigation.navigate('ChatRoom')
   }
 
+  const handleSliderValue = (value: number[]) => {
+    if (value) {
+      const sliderValue = value[0]
+      switch (sliderValue) {
+        case 10:
+          setAgeRange('TEENAGER')
+          break
+        case 20:
+          setAgeRange('TWENTIES')
+          break
+        case 30:
+          setAgeRange('THIRTIES')
+          break
+        case 40:
+          setAgeRange('FORTIES')
+          break
+        case 50:
+          setAgeRange('FIFTIES')
+          break
+        default:
+          break
+      }
+    }
+  }
+
   // Effects
   useEffect(() => {
     if (currentLocation) {
@@ -128,11 +152,11 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
       </S.GenderArea>
       <S.AgeArea>
         <S.SubTitle>연령</S.SubTitle>
-        <MultiSlider
+        {/* <MultiSlider
           values={[...sliderValues]}
           step={10}
           min={10}
-          max={60}
+          max={50}
           snapped
           sliderLength={SCREEN_WIDTH - 72}
           customLabel={e => <CustomSliderLabel e={e} />}
@@ -147,6 +171,27 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
           trackStyle={{ backgroundColor: theme.colors.gray300 }}
           selectedStyle={{ backgroundColor: theme.colors.primary }}
           onValuesChange={values => setAgeRange(values as [number, number])}
+        /> */}
+        <MultiSlider
+          // values={[]}
+          step={10}
+          min={10}
+          max={50}
+          snapped
+          sliderLength={SCREEN_WIDTH - 72}
+          customLabel={e => <CustomSliderLabel e={e} />}
+          enableLabel
+          containerStyle={{
+            width: SCREEN_WIDTH - 48,
+            justifyContent: 'center',
+            alignItems: 'center',
+            position: 'relative',
+          }}
+          markerStyle={{ backgroundColor: theme.colors.primary, width: 20, height: 20, borderRadius: 10 }}
+          trackStyle={{ backgroundColor: theme.colors.gray300 }}
+          selectedStyle={{ backgroundColor: theme.colors.primary }}
+          onValuesChange={values => handleSliderValue(values)}
+          enabledTwo={false}
         />
       </S.AgeArea>
       <S.ButtonArea>
