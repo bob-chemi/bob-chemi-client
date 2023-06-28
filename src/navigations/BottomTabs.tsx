@@ -3,6 +3,7 @@ import { RouteProp } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useRecoilValue } from 'recoil'
 import ProfileStackNav from './ProfileStackNav'
+import MatchingTabBar from '@/common/components/MatchingTabBar'
 import theme from '@/common/style/theme'
 import { matchingStatesAtom } from '@/recoil/atoms/matchingStatesAtom'
 import Chats from '@/screens/chat/Chats'
@@ -63,7 +64,7 @@ const BottomTabs = () => {
         tabBarIcon: ({ focused, color, size }) => {
           const iconName = getTabBarIcon(route, focused)
           if (route.name === 'Matching' && matchingState.isMatching) {
-            return <Icon name={iconName} color={'#91eef8'} size={size} />
+            return <MatchingTabBar color={color} size={size} iconName={iconName} />
           }
           return <Icon name={iconName} color={color} size={size} />
         },
@@ -71,6 +72,7 @@ const BottomTabs = () => {
     >
       <Tab.Screen name="Home" component={Home} />
       <Tab.Screen name="Chat" component={Chats} />
+      {/** TODO: 매칭 완료되서 채팅방 생성시 누르면 채팅창으로 이동 */}
       <Tab.Screen name="Matching" component={matchingState.isMatching ? Chats : FindUser} />
       <Tab.Screen name="Social" component={SocialScreen} />
       <Tab.Screen name="Profile" component={ProfileStackNav} />
