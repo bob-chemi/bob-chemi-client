@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, View } from 'react-native'
-import * as S from './GroupScreen.style'
-import PostTextComp from './components/post/PostTextComp';
+import * as S from '../commonComp/GroupScreen.style'
+import PostTextComp from '../commonComp/PostTextComp';
 import PostTimeComp from './components/post/PostTimeComp';
 import PostLocationComp from './components/post/PostLocationComp';
-import PostImgComp from './components/post/PostImgComp';
+import PostImgComp from '../commonComp/PostImgComp';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation';

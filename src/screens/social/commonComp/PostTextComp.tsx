@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as S from './PostComponent.style'
+import * as S from '../group/components/post/PostComponent.style'
 
 interface PostPeopleCompProps {
   children?: React.ReactNode;

@@ -31,10 +31,10 @@ export const FoodieContainer = styled.View`
 
 export const SearchInput = styled.TextInput`
   height: 40px;
-  border-width: 1;
+  border-width: 1px;
   border-color: ${theme.colors.gray300};
   margin-bottom: 16px;
-  paddingHorizontal: 8;
+  paddingHorizontal: 8px;
   marginHorizontal: ${theme.paddings.default};
 `
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import * as S from './GroupScreen.style'
+import * as S from '../commonComp/GroupScreen.style'
 import { Alert, FlatList, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { groupRequest } from '@/api/groupRequest'

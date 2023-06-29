@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import * as S from './GroupScreen.style'
+import * as S from '../commonComp/GroupScreen.style'
 import WeekDayPicker from './components/WeekDayPicker'
 import ContentsBox from './components/ContentsBox'
 import { FlatList } from 'react-native';

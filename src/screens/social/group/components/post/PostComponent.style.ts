@@ -59,7 +59,7 @@ export const PickerContainer = styled.View<{ width: number }>`
 `
 
 export const UploadImgContainer = styled.View`
-  flex: 1;
+  flex: 1;  
   justify-content: center;
   align-items: center;
   backgroundColor: 'rgba(0,0,0,.1)';
