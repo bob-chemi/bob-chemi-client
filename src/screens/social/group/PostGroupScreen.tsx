@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, View } from 'react-native'
-import * as S from '../commonComp/GroupScreen.style'
+import { Alert, Keyboard, TouchableWithoutFeedback, View } from 'react-native'
+import * as S from './GroupScreen.style'
 import PostTextComp from '../commonComp/PostTextComp';
 import PostTimeComp from './components/post/PostTimeComp';
 import PostLocationComp from './components/post/PostLocationComp';
@@ -119,22 +119,28 @@ const PostGroupScreen = () => {
     }
   }
 
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
+  };
+
   return (
-    <S.PostContainer>
-      <View>
-        <PostImgComp></PostImgComp>
-        <PostLocationComp
-          selectedCity={selectedCity} selectedRegion={selectedRegion} onChangeCity={handleCityChange} onChangeRegion={handleRegionChange}>
-        </PostLocationComp>
-        <PostTimeComp
-          date={date} time={time} onChangeDate={handleDateChange} onChangeTime={handleTimeChange}>
-        </PostTimeComp>
-        <PostPeopleComp selectedNumber={peopleNumber} onChangeNumber={handlePeopleNumChange}></PostPeopleComp>
-        <PostTextComp text={title} OnChangeText={handleTitleChange} headTitle='제목' height={35} isContent={false}></PostTextComp>
-        <PostTextComp text={description} OnChangeText={handleDescriptionChange} headTitle='내용' height={300} isContent={true}></PostTextComp>
-      </View>
-      <S.Btn onPress={CreateGroupPressed}><S.BtnText>등록</S.BtnText></S.Btn>
-    </S.PostContainer>
+    <TouchableWithoutFeedback onPress={dismissKeyboard}>
+      <S.PostContainer>
+        <View>
+          <PostImgComp></PostImgComp>
+          <PostLocationComp
+            selectedCity={selectedCity} selectedRegion={selectedRegion} onChangeCity={handleCityChange} onChangeRegion={handleRegionChange}>
+          </PostLocationComp>
+          <PostTimeComp
+            date={date} time={time} onChangeDate={handleDateChange} onChangeTime={handleTimeChange}>
+          </PostTimeComp>
+          <PostPeopleComp selectedNumber={peopleNumber} onChangeNumber={handlePeopleNumChange}></PostPeopleComp>
+          <PostTextComp text={title} OnChangeText={handleTitleChange} headTitle='제목' height={35} isContent={false}></PostTextComp>
+          <PostTextComp text={description} OnChangeText={handleDescriptionChange} headTitle='내용' height={300} isContent={true}></PostTextComp>
+        </View>
+        <S.Btn onPress={CreateGroupPressed}><S.BtnText>등록</S.BtnText></S.Btn>
+      </S.PostContainer>
+    </TouchableWithoutFeedback>
   )
 }
 export default PostGroupScreen

@@ -56,3 +56,46 @@ export const CreateButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `
+
+/* PostFoodieScreen */
+export const PostContainer = styled.View`
+  flex: 1;
+  height: ${SCREEN_HEIGHT}px;
+  align-items: center;
+`
+
+export const TitleInput = styled.TextInput`
+  padding: 10px;
+  width: 100%;
+  border-bottom-width: 1px;
+  border-bottom-color: ${theme.colors.gray200};
+`
+
+export const BtnArea = styled.View`
+  width: 100%;
+  border-bottom-width: 1px;
+  border-bottom-color: ${theme.colors.gray200};
+  padding: 10px;
+`
+
+export const AttachBtn = styled.TouchableOpacity`  
+  width: 30px;
+  height: 24px;
+`
+
+export const ContentInput = styled.TextInput`
+  padding: 10px;
+  width: 100%;
+`
+
+export const PostBtn = styled.TouchableOpacity`
+  backgroundColor: ${theme.colors.primary};
+  padding: 5px;
+  border-radius: 5px;
+`
+
+export const BtnText = styled.Text`
+  font-weight: 600;
+  font-size: 13px;
+  color: ${theme.colors.white};
+`

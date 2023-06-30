@@ -5,4 +5,11 @@ export const foodieRequest = {
     const { data } = await requestData('/foodieBoard', 'get')
     return data
   },
+  insertFoodie: async (foodieData: {
+    title: string
+    content: string
+  }) => {
+    const { data } = await requestData(`/foodieBoard`, 'post', null, foodieData)
+    return data
+  },
 }
