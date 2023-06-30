@@ -5,7 +5,7 @@ import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-naviga
 import React, { useEffect } from 'react'
 import { Alert, ImageSourcePropType, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import * as S from '../group/GroupScreen.style'
+import * as S from './GroupScreen.style'
 import theme from '@/common/style/theme'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation'

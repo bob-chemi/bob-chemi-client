@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as S from './PostComponent.style'
+import * as S from '../group/components/post/PostComponent.style'
 import ImagePicker, { ImagePickerResponse, launchCamera, launchImageLibrary, ImageLibraryOptions, MediaType } from 'react-native-image-picker'
 import { Button, Alert, Text, TouchableOpacity } from 'react-native';
 import { PermissionsAndroid } from 'react-native/Libraries/PermissionsAndroid/PermissionsAndroid';
