@@ -12,6 +12,7 @@ import PostFoodieScreen from '@/screens/social/foodie/PostFoodieScreen'
 import GroupDetailScreen from '@/screens/social/group/GroupDetailScreen'
 import FoodieScreen from '@/screens/social/foodie/FoodieScreen'
 import JoinListScreen from '@/screens/social/group/JoinListScreen'
+import { ScreenType } from '@/types/postGroupTypes'
 
 export type StackParamList = {
   PreviewScreen: undefined
@@ -19,7 +20,7 @@ export type StackParamList = {
   RegisterScreen: undefined
   SocialScreen: { tab?: string }
   FoodieScreen: undefined
-  PostGroupScreen: undefined
+  PostGroupScreen: { screenType: ScreenType, groupData?: Group };
   JoinListScreen: undefined
   ChatRoom: undefined
   IntroduceMatching: undefined

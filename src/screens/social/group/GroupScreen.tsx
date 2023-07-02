@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/native'
+import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import * as S from './GroupScreen.style'
 import WeekDayPicker from './components/WeekDayPicker'
@@ -9,8 +9,11 @@ import theme from '@/common/style/theme'
 import { Nav } from '@/types/nav'
 import { groupRequest } from '@/api/groupRequest'
 import { Group } from '@/types/socialType'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { StackParamList } from '@/navigations/StackNav'
 
 const GroupScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
   const { navigate } = useNavigation<Nav>()
   const { getGroupByDate } = groupRequest
   const [contentsData, setContentsData] = useState<Group[]>([]);
@@ -43,7 +46,7 @@ const GroupScreen = () => {
   }, [])
 
   const NavToCreate = () => {
-    navigate('PostGroupScreen');
+    navigation.navigate('PostGroupScreen', { screenType: 'Post' });
   }
 
   const NavToJoinList = () => {

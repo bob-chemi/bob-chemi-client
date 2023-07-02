@@ -9,6 +9,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Alert, Button, Keyboard, Text, TouchableWithoutFeedback } from 'react-native';
 import theme from '@/common/style/theme';
 import { foodieRequest } from '@/api/foodieRequest'
+import { useRecoilValue } from 'recoil';
+import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
 
 type GroupNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
@@ -20,6 +22,7 @@ const PostFoodieScreen = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const { insertFoodie } = foodieRequest
+  const user = useRecoilValue(userStatesAtom);
 
   // state 변수 업데이트 함수 정의
   const handleTitleChange = (newTitle: string) => {
@@ -49,7 +52,8 @@ const PostFoodieScreen = () => {
     try {
       const FoodieData = {
         title: title,
-        content: content
+        content: content,
+        token: user.accessToken
       }
       const response = await insertFoodie(FoodieData)
       if (response) {

@@ -31,6 +31,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
   const user = useRecoilValue(userStatesAtom);
   const isMyPost = groupData.owner?.id === user.user?.id ? true : false;
   const navigation = useNavigation<GroupNavigationProp>()
+  const stackNavigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
   const { deleteGroup, joinGroupRequest } = groupRequest
 
   useEffect(() => {
@@ -47,6 +48,9 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
   const date = SetFormattedDate(groupData.createdAt);
   const imageSource: ImageSourcePropType = groupData.status == 'PUBLIC' ? require('@assets/images/group_public.png') : require('@assets/images/group_private.png');
 
+  const handleModify = () => {
+    stackNavigation.navigate('PostGroupScreen', { screenType: 'Modify', groupData: groupData });
+  }
   const handleDelete = () => {
     Alert.alert(
       '삭제 확인',
@@ -107,7 +111,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
         </S.ContextArea>
         {isMyPost ? (
           <S.BetweenBtnArea>
-            <S.BetweenBtn>
+            <S.BetweenBtn onPress={handleModify}>
               <S.BtnText>수정하기</S.BtnText>
             </S.BetweenBtn>
             <S.BetweenBtn onPress={handleDelete}>

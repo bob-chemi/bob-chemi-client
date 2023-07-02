@@ -103,7 +103,7 @@ export const PostContainer = styled.View`
 `
 
 export const Btn = styled.TouchableOpacity`
-  margin-top: 40px;
+  margin-top: 20px;
   backgroundColor: ${theme.colors.primary};
   width: 50%;
   padding: 5px;
