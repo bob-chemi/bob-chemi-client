@@ -29,6 +29,18 @@ export const groupRequest = {
     const { data } = await requestData(`/groups/${userId}`, 'post', null, groupData)
     return data
   },
+  patchGroup: async (groupData: {
+    title: string
+    description: string
+    groupDate: string
+    groupPeopleLimit: number
+    groupHour: number
+    groupMin: number
+    groupLocation: string
+  }, groupId: number) => {
+    const { data } = await requestData(`/groups/${groupId}/group`, 'patch', null, groupData)
+    return data
+  },
   deleteGroup: async (id: number) => {
     const { data } = await requestData(`/groups/${id}`, 'delete')
     return data;

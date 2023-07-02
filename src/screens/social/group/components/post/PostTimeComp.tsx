@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './PostComponent.style'
 import theme from '@/common/style/theme'
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
@@ -16,8 +16,7 @@ const PostTimeComp: React.FC<PostTimeCompProps> = ({ date, time, onChangeDate, o
   const [isShowDatePicker, setShowDatePicker] = useState(false);
   const [isShowTimePicker, setShowTimePicker] = useState<boolean>(false);
   const [dateStr, setDateStr] = useState(`${time.getFullYear()}년 ${time.getMonth() + 1}월 ${time.getDate()}일`);
-
-  const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => { //날짜 선택 시
+  const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => { //날짜 선택 시    
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
     onChangeDate(currentDate);
@@ -42,6 +41,10 @@ const PostTimeComp: React.FC<PostTimeCompProps> = ({ date, time, onChangeDate, o
     hour: "2-digit",
     minute: "2-digit",
   };
+
+  useEffect(() => {
+    setDateStr(`${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`);
+  }, [date])
 
   return (
     <S.CompContainer>
