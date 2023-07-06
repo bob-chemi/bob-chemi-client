@@ -10,6 +10,8 @@ const useSocket = () => {
   const [matchingState, setMatchingState] = useRecoilState(matchingStatesAtom)
   const { openModal } = useModal()
 
+  // Function
+
   useEffect(() => {
     if (!socket.connected) {
       console.log('소켓연결안됨')
@@ -19,13 +21,40 @@ const useSocket = () => {
     socket.on('findMatching', data => console.log('매칭 등록 : ', data))
 
     socket.on('matchFound', data => {
-      console.log('매칭 완료')
       console.log(data)
       setMatchingState(prev => ({ ...prev, isMatched: true, isMatching: false }))
       openModal({ content: <UserFoundModal /> })
     })
 
-    socket.emit('test', '테스트중!!!')
+    socket.on('matchingSuccess', data => {
+      console.log(data)
+      setMatchingState(prev => ({ ...prev, isMatched: true, isMatching: false }))
+      // matchedUser 의 id가 채팅룸 아이디
+      socket.emit('joinRoom', {
+        chatRoomId: data.matchedUser.id,
+      })
+    })
+
+    socket.on('joinedRoom', data => {
+      console.log('joinedRoom')
+      console.log(data)
+    })
+
+    socket.on('matchingFailure', data => {
+      console.log('매칭 실패')
+      console.log(data)
+    })
+
+    socket.on('usersConnected', data => {
+      console.log(data)
+    })
+
+    // 채팅 보내기
+    socket.on('chated', data => {
+      console.log(data)
+    })
+
+    socket.emit('test', `Socket Id from App Id is : ${socket.id}`)
   }, [socket, matchingState, setMatchingState])
 
   return socket

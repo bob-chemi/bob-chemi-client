@@ -14,6 +14,13 @@ export interface ChatRoomProps {
   messages: Message[]
 }
 
+export interface MessageData {
+  sender: string
+  receiver: string
+  message: string
+  roomId: string
+}
+
 export const tempDefaultMessages: Message[] = [
   {
     key: '1',
