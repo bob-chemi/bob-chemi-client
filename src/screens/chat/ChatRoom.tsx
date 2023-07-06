@@ -4,7 +4,7 @@ import { CompositeNavigationProp, useNavigation } from '@react-navigation/native
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
 import Lottie from 'lottie-react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { FlatList, ListRenderItem } from 'react-native'
+import { FlatList, ListRenderItem, View } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import * as S from './ChatRoom.style'
@@ -51,7 +51,7 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
 
   // Functions
   const renderChats: ListRenderItem<Message> = ({ item }) => {
-    console.log(item)
+    // console.log(item)
     const isMine = item.userId === '2'
     return (
       <S.ChatRow isMine={isMine}>
@@ -66,14 +66,13 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
 
   const sendMessage = () => {
     if (!textInputValue) return
-    const newMessage: Message = {
-      createdAt: new Date(),
+    const newMessage: any = {
       message: textInputValue,
-      userId: userInfo?.user ? userInfo.user.id : '2',
-      roomId: '9Q5Pj6w9OkNiXs38AAAF#K2HjKHelwF5KC7TuAAAH',
-      key: String(Math.random()),
+      sender: 'f5b6f995-6f87-49c2-af04-043a36d217f1',
+      receiver: 'f5b6f995-6f87-49c2-af04-043a36d217f1',
+      roomId: 'dd42acbf-9fd5-4b89-8851-b112b4baa1cd',
     }
-    socket.emit('chatMessage', newMessage)
+    socket.emit('chat', newMessage)
     setChats(prev => [...prev, newMessage])
     setTextInputValue('')
   }
@@ -159,12 +158,13 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
             <S.LottieText>식사 메이트를 찾는 중 입니다.</S.LottieText>
           </S.LottieWrapper>
         ) : (
-          <FlatList
-            ref={flatListRef}
-            data={chats}
-            renderItem={renderChats}
-            ItemSeparatorComponent={() => <FlatListSeparator direction="vertical" />}
-          />
+          <View></View>
+          // <FlatList
+          //   ref={flatListRef}
+          //   data={chats}
+          //   renderItem={renderChats}
+          //   ItemSeparatorComponent={() => <FlatListSeparator direction="vertical" />}
+          // />
         )}
 
         <S.AskWrapper onPress={() => goToChemiRating()}>

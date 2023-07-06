@@ -4,7 +4,7 @@ import axios, { AxiosRequestConfig } from 'axios'
 import { getStorage } from '@/utils/storage'
 
 const config: AxiosRequestConfig = {
-  baseURL: BASE_URL,
+  baseURL: 'https://itchy-windows-watch.loca.lt',
 }
 const BOBServer = axios.create(config)
 

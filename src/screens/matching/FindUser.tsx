@@ -6,12 +6,14 @@ import GenderCard from '@screens/matching/components/GenderCard'
 import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import * as S from './FindUser.style'
+import matchingRequest from '@/api/matchingRequest'
 import theme from '@/common/style/theme'
 import useSocket from '@/hooks/useSocket'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { StackParamList } from '@/navigations/StackNav'
 import { currentLocationAtom } from '@/recoil/atoms/currentLocationAtom'
 import { matchingStatesAtom } from '@/recoil/atoms/matchingStatesAtom'
+import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
 import { AdministrativeArea } from '@/types/locationAdministrativeAreaTypes'
 import { SCREEN_WIDTH } from '@/utils/getScreenSize'
 
@@ -26,14 +28,16 @@ type FindUserScreenProps = CompositeScreenProps<
   NativeStackScreenProps<StackParamList>
 >
 
-type Gender = 'woman' | 'man' | null
+type Gender = 'Female' | 'Male' | null
 
 type AgeGroup = 'TEENAGER' | 'TWENTIES' | 'THIRTIES' | 'FORTIES' | 'FIFTIES'
 
 type MatchingOption = {
-  gender: Gender
-  ageRange: AgeGroup
-} & AdministrativeArea
+  userId: string
+  targetGender: Gender
+  targetAgeGroup: AgeGroup
+  location: string
+}
 
 const CustomSliderLabel = ({ e }: CustomSliderLabelProps) => {
   const { oneMarkerLeftPosition, oneMarkerValue } = e
@@ -51,15 +55,17 @@ const CustomSliderLabel = ({ e }: CustomSliderLabelProps) => {
 }
 
 const FindUser = ({ navigation }: FindUserScreenProps) => {
+  // Recoil
+  const userInfo = useRecoilValue(userStatesAtom)
   // States
-  const [gender, setGender] = useState<Gender>(null)
-  const [ageRange, setAgeRange] = useState<AgeGroup>('TEENAGER')
+  const [targetGender, setTargetGender] = useState<Gender>(null)
+  const [targetAgeGroup, setTargetAgeGroup] = useState<AgeGroup>('TEENAGER')
   const currentLocation = useRecoilValue(currentLocationAtom)
   const [matchingOption, setMatchingOption] = useState<MatchingOption>({
-    gender,
-    ageRange,
-    administrativeArea: '',
-    sublocality: '',
+    userId: userInfo.user.id,
+    targetGender,
+    targetAgeGroup,
+    location: '서울시 은평구',
   })
   const [matchingState, setMatchingState] = useRecoilState(matchingStatesAtom)
 
@@ -70,25 +76,28 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
 
   // Functions
   const handleGenderPress = (pressedGender: Gender) => {
-    if (gender === null) {
-      setGender(pressedGender)
+    if (targetGender === null) {
+      setTargetGender(pressedGender)
     } else {
-      setGender(pressedGender)
+      setTargetGender(pressedGender)
     }
   }
 
-  const handleFindButtonPress = () => {
+  const handleFindButtonPress = async () => {
     console.log(matchingOption)
     setMatchingState({
       isMatching: true,
       isMatched: false,
       isOnChatRoom: true,
     })
-    console.log('소켓 상태', socket)
+
+    // const data = await matchingRequest.findMatching(matchingOption)
+
+    // console.log('소켓 상태', socket)
     if (!socket.connected) {
       socket.connect()
     }
-    socket?.emit('findMatching', matchingOption)
+    socket?.emit('requestMatching', matchingOption)
     navigation.navigate('ChatRoom')
   }
 
@@ -97,19 +106,19 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
       const sliderValue = value[0]
       switch (sliderValue) {
         case 10:
-          setAgeRange('TEENAGER')
+          setTargetAgeGroup('TEENAGER')
           break
         case 20:
-          setAgeRange('TWENTIES')
+          setTargetAgeGroup('TWENTIES')
           break
         case 30:
-          setAgeRange('THIRTIES')
+          setTargetAgeGroup('THIRTIES')
           break
         case 40:
-          setAgeRange('FORTIES')
+          setTargetAgeGroup('FORTIES')
           break
         case 50:
-          setAgeRange('FIFTIES')
+          setTargetAgeGroup('FIFTIES')
           break
         default:
           break
@@ -122,21 +131,24 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
     if (currentLocation) {
       setMatchingOption({
         ...matchingOption,
-        gender,
-        ageRange,
-        administrativeArea: currentLocation.administrativeArea,
-        sublocality: currentLocation.sublocality,
+        targetGender,
+        targetAgeGroup,
       })
+      // console.log(matchingOption)
     }
-  }, [currentLocation, gender, ageRange])
+  }, [currentLocation, targetGender, targetAgeGroup])
 
   // 디버깅
-  useEffect(() => {
-    console.log(socket)
-    if (!socket.connected) {
-      socket.connect()
-    }
-  }, [socket])
+  // useEffect(() => {
+  //   console.log(socket)
+  //   if (!socket.connected) {
+  //     socket.connect()
+  //   }
+  // }, [socket])
+
+  // useEffect(() => {
+  //   console.log(matchingOption)
+  // }, [matchingOption])
 
   return (
     <S.FindUserLayout>
@@ -146,8 +158,8 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
       <S.GenderArea>
         <S.SubTitle>성별</S.SubTitle>
         <S.CardWrapper>
-          <GenderCard gender="woman" onPress={() => handleGenderPress('woman')} selected={gender === 'woman'} />
-          <GenderCard gender="man" onPress={() => handleGenderPress('man')} selected={gender === 'man'} />
+          <GenderCard gender="woman" onPress={() => handleGenderPress('Female')} selected={targetGender === 'Female'} />
+          <GenderCard gender="man" onPress={() => handleGenderPress('Male')} selected={targetGender === 'Male'} />
         </S.CardWrapper>
       </S.GenderArea>
       <S.AgeArea>
