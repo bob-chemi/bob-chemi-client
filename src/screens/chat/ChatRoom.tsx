@@ -68,9 +68,9 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
     if (!textInputValue) return
     const newMessage: any = {
       message: textInputValue,
-      sender: 'f5b6f995-6f87-49c2-af04-043a36d217f1',
+      sender: 'be554949-0c6a-421f-a26f-b55ac6f37554',
       receiver: 'f5b6f995-6f87-49c2-af04-043a36d217f1',
-      roomId: 'dd42acbf-9fd5-4b89-8851-b112b4baa1cd',
+      roomId: '2d092bb8-c1a3-4f0a-b2ce-1a395072e113',
     }
     socket.emit('chat', newMessage)
     setChats(prev => [...prev, newMessage])
