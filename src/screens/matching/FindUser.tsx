@@ -91,13 +91,16 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
       isOnChatRoom: true,
     })
 
-    // const data = await matchingRequest.findMatching(matchingOption)
+    const response = await matchingRequest.findMatching(matchingOption)
 
-    // console.log('소켓 상태', socket)
-    if (!socket.connected) {
-      socket.connect()
+    console.log('포스트 요청')
+    console.log(response)
+    if (response) {
+      const { id } = response
+      console.log('퀵매칭 id', id)
+      socket?.emit('requestMatching', id)
     }
-    socket?.emit('requestMatching', matchingOption)
+
     navigation.navigate('ChatRoom')
   }
 

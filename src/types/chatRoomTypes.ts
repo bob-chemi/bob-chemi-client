@@ -14,11 +14,24 @@ export interface ChatRoomProps {
   messages: Message[]
 }
 
+export type JoinedRoomData = {
+  chatRoomId: string
+  message: string
+  user1Id: string
+  user2Id: string
+}
+
 export interface MessageData {
   sender: string
   receiver: string
   message: string
   roomId: string
+}
+
+export interface ReceivedChat {
+  message: string
+  sender: string
+  time: string
 }
 
 export const tempDefaultMessages: Message[] = [
