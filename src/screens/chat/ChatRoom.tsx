@@ -66,12 +66,25 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
 
   const sendMessage = () => {
     if (!textInputValue) return
+    // const newMessage: any = {
+    //   message: textInputValue,
+    //   sender: 'be554949-0c6a-421f-a26f-b55ac6f37554',
+    //   receiver: 'f5b6f995-6f87-49c2-af04-043a36d217f1',
+    //   roomId: '2d092bb8-c1a3-4f0a-b2ce-1a395072e113',
+    // }
     const newMessage: any = {
       message: textInputValue,
-      sender: 'be554949-0c6a-421f-a26f-b55ac6f37554',
-      receiver: 'f5b6f995-6f87-49c2-af04-043a36d217f1',
-      roomId: '2d092bb8-c1a3-4f0a-b2ce-1a395072e113',
+      sender: matchingState.matchingInfo?.user2Id,
+      receiver: matchingState.matchingInfo?.user1Id,
+      roomId: matchingState.matchingInfo?.chatRoomId,
     }
+    // console.log('메세지 소켓에 보내는 것 ')
+    // console.log(newMessage)
+
+    // TODO : 채팅방 처음 들어올때 로컬에 저장, (로컬 채팅 데이터가 빈 경우 실행하고 받은 Array 로컬에 저장)
+
+    socket.emit('getChatHistory', matchingState.matchingInfo?.chatRoomId)
+
     socket.emit('chat', newMessage)
     setChats(prev => [...prev, newMessage])
     setTextInputValue('')
@@ -101,7 +114,7 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
       headerRight: () => <Icon name="exit-run" size={28} />,
       headerLeft: () => <Icon name="chevron-left" size={28} onPress={onPressBack} />,
     })
-    console.log('isOnChat')
+    // console.log('isOnChat')
     setMatchingState(prev => ({ ...prev, isOnChatRoom: true }))
   }, [navigation])
 
@@ -114,7 +127,7 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
     const handleChatRooms = async () => {
       const chatRooms: ChatRoomProps[] = await getStorage('chatRooms')
       if (chatRooms) {
-        console.log(chatRooms)
+        // console.log(chatRooms)
         const exists = chatRooms.some(chatRoom => chatRoom.roomId === room.roomId)
         if (!exists) {
           const newChatRooms = [...chatRooms, room]
@@ -148,6 +161,12 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
       socket.off('chatMessage')
     }
   }, [])
+
+  // 디버깅
+  useEffect(() => {
+    console.log('매칭 state')
+    console.log(matchingState.matchingInfo)
+  }, [matchingState])
 
   return (
     <S.ChatRoomLayout>

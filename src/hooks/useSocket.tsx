@@ -53,8 +53,14 @@ const useSocket = () => {
       console.log(data)
     })
 
-    // 채팅 보내기
+    // 채팅 메세지 받기
     socket.on('chated', data => {
+      console.log(data)
+    })
+
+    // 채팅방 대화 히스토리 받기
+    socket.on('chatHistory', data => {
+      console.log('채팅방 채팅 히스토리')
       console.log(data)
     })
 

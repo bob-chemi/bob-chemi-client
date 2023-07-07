@@ -92,6 +92,7 @@ const FindUser = ({ navigation }: FindUserScreenProps) => {
     })
 
     const response = await matchingRequest.findMatching(matchingOption)
+
     console.log('포스트 요청')
     console.log(response)
     if (response) {
