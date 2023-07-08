@@ -28,10 +28,10 @@ export interface MessageData {
   roomId: string
 }
 
-export interface ReceivedChat {
+export interface ChatType {
   message: string
   sender: string
-  time: string
+  timestamp: string
 }
 
 export const tempDefaultMessages: Message[] = [
