@@ -1,12 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
 import Lottie from 'lottie-react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { FlatList, ListRenderItem, View } from 'react-native'
+import { FlatList, ListRenderItem } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 import * as S from './ChatRoom.style'
 import FlatListSeparator from '@/common/components/FlatListSeparator'
 import theme from '@/common/style/theme'
@@ -14,10 +13,9 @@ import { SocketContext } from '@/contexts/socketContext'
 import { TabParamList } from '@/navigations/BottomTabs'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation'
 import { StackParamList } from '@/navigations/StackNav'
+import { matchingChatArrayAtom } from '@/recoil/atoms/matchingChatArrayAtom'
 import { matchingStatesAtom } from '@/recoil/atoms/matchingStatesAtom'
-import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
-import { ChatRoomProps, Message, tempDefaultMessages } from '@/types/chatRoomTypes'
-import { getStorage, setStorage } from '@/utils/storage'
+import { ChatType } from '@/types/chatRoomTypes'
 
 type ChatRoomNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
@@ -28,17 +26,10 @@ type ChatRoomScreenProp = NativeStackScreenProps<StackParamList, 'ChatRoom'>
 
 const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
   // States
-  const [room, setRoom] = useState<ChatRoomProps>({
-    createdAt: '2023-06-23',
-    matchingId: '1234',
-    messages: [],
-    roomId: '12344',
-    user: ['', ''],
-  })
-  const [chats, setChats] = useState<Message[]>(tempDefaultMessages)
   const [textInputValue, setTextInputValue] = useState<string>('')
-  const userInfo = useRecoilValue(userStatesAtom)
+
   const [matchingState, setMatchingState] = useRecoilState(matchingStatesAtom)
+  const [chats, setChats] = useRecoilState<ChatType[]>(matchingChatArrayAtom)
 
   // Navigaton
   const navigation = useNavigation<ChatRoomNavigationProp>()
@@ -50,28 +41,23 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
   const socket = useContext(SocketContext)
 
   // Functions
-  const renderChats: ListRenderItem<Message> = ({ item }) => {
+  const renderChats: ListRenderItem<ChatType> = ({ item }) => {
     // console.log(item)
-    const isMine = item.userId === '2'
+    const isMine = item.sender === matchingState.matchingInfo?.user2Id
     return (
       <S.ChatRow isMine={isMine}>
-        {isMine && <S.ChatDate>{String(item.createdAt).substring(0, 15)}</S.ChatDate>}
+        {isMine && <S.ChatDate>{String(item.timestamp).substring(0, 15)}</S.ChatDate>}
         <S.ChatBubble isMine={isMine}>
           <S.ChatText isMine={isMine}>{item ? item.message : 'Good'}</S.ChatText>
         </S.ChatBubble>
-        {!isMine && <S.ChatDate>{String(item.createdAt).substring(0, 15)}</S.ChatDate>}
+        {!isMine && <S.ChatDate>{String(item.timestamp).substring(0, 15)}</S.ChatDate>}
       </S.ChatRow>
     )
   }
 
   const sendMessage = () => {
     if (!textInputValue) return
-    // const newMessage: any = {
-    //   message: textInputValue,
-    //   sender: 'be554949-0c6a-421f-a26f-b55ac6f37554',
-    //   receiver: 'f5b6f995-6f87-49c2-af04-043a36d217f1',
-    //   roomId: '2d092bb8-c1a3-4f0a-b2ce-1a395072e113',
-    // }
+
     const newMessage: any = {
       message: textInputValue,
       sender: matchingState.matchingInfo?.user2Id,
@@ -81,12 +67,7 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
     // console.log('메세지 소켓에 보내는 것 ')
     // console.log(newMessage)
 
-    // TODO : 채팅방 처음 들어올때 로컬에 저장, (로컬 채팅 데이터가 빈 경우 실행하고 받은 Array 로컬에 저장)
-
-    socket.emit('getChatHistory', matchingState.matchingInfo?.chatRoomId)
-
     socket.emit('chat', newMessage)
-    setChats(prev => [...prev, newMessage])
     setTextInputValue('')
   }
 
@@ -109,58 +90,39 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
   useEffect(() => {
     navigation.setOptions({
       headerTitleAlign: 'center',
-      headerTitle: '사용자 ID',
+      headerTitle: matchingState.matchingInfo?.user1Id ? matchingState.matchingInfo?.user1Id : '사용자를 찾는중입니다.',
       headerTitleContainerStyle: { justifyContent: 'center', alignContent: 'center' },
       headerRight: () => <Icon name="exit-run" size={28} />,
       headerLeft: () => <Icon name="chevron-left" size={28} onPress={onPressBack} />,
     })
     // console.log('isOnChat')
     setMatchingState(prev => ({ ...prev, isOnChatRoom: true }))
+
+    //채팅방 처음 들어올때 로컬에 저장, (로컬 채팅 데이터가 빈 경우 실행하고 받은 Array 로컬에 저장)
+    socket.emit('getChatHistory', matchingState.matchingInfo?.chatRoomId)
+    // 채팅방 대화 히스토리 받기
+    socket.on('chatHistory', (chatHistory: ChatType[]) => {
+      console.log('채팅방 채팅 히스토리')
+      console.log(chatHistory)
+      setChats(chatHistory)
+    })
+
+    // 나갈시 이벤트 해제
+    return () => {
+      socket.off('chatHistory')
+    }
   }, [navigation])
 
+  // 소켓 메세지 받고 스크로 아래로 내리기
   useEffect(() => {
+    // 채팅 메세지 받기
+    socket.on('chated', (chat: ChatType) => {
+      console.log(chat)
+      setChats(prev => [...prev, chat])
+    })
+    // 스크롤 아래로 내리기
     flatListRef.current?.scrollToEnd({ animated: true })
   }, [chats])
-
-  // 채팅창의 상태 업데이트
-  useEffect(() => {
-    const handleChatRooms = async () => {
-      const chatRooms: ChatRoomProps[] = await getStorage('chatRooms')
-      if (chatRooms) {
-        // console.log(chatRooms)
-        const exists = chatRooms.some(chatRoom => chatRoom.roomId === room.roomId)
-        if (!exists) {
-          const newChatRooms = [...chatRooms, room]
-          console.log('newChatRooms', newChatRooms)
-          await setStorage(newChatRooms, 'chatRooms')
-        }
-      } else {
-        const stringifyedRooms = JSON.stringify([room])
-        await AsyncStorage.setItem('chatRooms', stringifyedRooms)
-      }
-    }
-
-    setRoom(prev => {
-      return {
-        ...prev,
-        messages: chats,
-      }
-    })
-
-    handleChatRooms()
-  }, [chats])
-
-  // 소켓 서버에서 메세지 받는 것 처리
-  useEffect(() => {
-    socket.on('chatMessage', message => {
-      console.log(message)
-      setChats(prev => [...prev, message])
-    })
-
-    return () => {
-      socket.off('chatMessage')
-    }
-  }, [])
 
   // 디버깅
   useEffect(() => {
@@ -177,13 +139,12 @@ const ChatRoom = ({ navigation: screenNavigation }: ChatRoomScreenProp) => {
             <S.LottieText>식사 메이트를 찾는 중 입니다.</S.LottieText>
           </S.LottieWrapper>
         ) : (
-          <View></View>
-          // <FlatList
-          //   ref={flatListRef}
-          //   data={chats}
-          //   renderItem={renderChats}
-          //   ItemSeparatorComponent={() => <FlatListSeparator direction="vertical" />}
-          // />
+          <FlatList
+            ref={flatListRef}
+            data={chats}
+            renderItem={renderChats}
+            ItemSeparatorComponent={() => <FlatListSeparator direction="vertical" />}
+          />
         )}
 
         <S.AskWrapper onPress={() => goToChemiRating()}>

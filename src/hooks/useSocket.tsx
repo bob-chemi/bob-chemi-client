@@ -20,6 +20,7 @@ const useSocket = () => {
       socket.connect()
     }
 
+    // 나의 테스트 서버
     socket.on('findMatching', data => console.log('매칭 등록 : ', data))
 
     socket.on('matchFound', data => {
@@ -28,6 +29,7 @@ const useSocket = () => {
       openModal({ content: <UserFoundModal /> })
     })
 
+    // 실제 서버
     socket.on('matchingSuccess', data => {
       console.log(data)
       setMatchingState(prev => ({ ...prev, isMatched: true, isMatching: false }))
@@ -50,17 +52,6 @@ const useSocket = () => {
     })
 
     socket.on('usersConnected', data => {
-      console.log(data)
-    })
-
-    // 채팅 메세지 받기
-    socket.on('chated', data => {
-      console.log(data)
-    })
-
-    // 채팅방 대화 히스토리 받기
-    socket.on('chatHistory', data => {
-      console.log('채팅방 채팅 히스토리')
       console.log(data)
     })
 
