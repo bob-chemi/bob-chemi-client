@@ -3,12 +3,12 @@ import axios, { AxiosResponse } from 'axios'
 import { Alert } from 'react-native'
 import BOBServer from './baseURL'
 type Method = 'post' | 'get' | 'delete' | 'put' | 'patch'
-type RequestFuncType = <T, U>(url: string, method: Method, params?: T, body?: U) => Promise<AxiosResponse>
-export const requestData: RequestFuncType = async (url, method, params, body) => {
+type RequestFuncType = <T, U>(url: string, method: Method, params?: T, body?: U, token?: string) => Promise<AxiosResponse>
+export const requestData: RequestFuncType = async (url, method, params, body, token) => {
   const SERVER_ERROR = 'There was an error contacting the server.'
 
   try {
-    const res = await BOBServer.request({ url, method, params, data: body })
+    const res = await BOBServer.request({ url, method, params, data: body, headers: { Authorization: `Bearer ${token}` } });
     if (res.status >= 200 && res.status < 300) {
       return res
     } else {

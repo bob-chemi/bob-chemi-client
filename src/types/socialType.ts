@@ -36,7 +36,7 @@ export interface FoodieBoard {
   id: string;
   title: string;
   content: string;
-  createAt: string;
+  creadeAt: string;
   user: User["user"];
   images: FoodieImage
 }
