@@ -1,5 +1,5 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { CompositeNavigationProp, useNavigation } from '@react-navigation/native'
+import { CompositeNavigationProp, RouteProp, useNavigation } from '@react-navigation/native'
 import { RootNativeStackParamList } from '@/navigations/RootNavigation';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import { TabParamList } from '@/navigations/BottomTabs';
@@ -11,18 +11,33 @@ import theme from '@/common/style/theme';
 import { foodieRequest } from '@/api/foodieRequest'
 import { useRecoilValue } from 'recoil';
 import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
+import { ScreenType } from '@/types/postGroupTypes';
+import { FoodieBoard } from '@/types/socialType';
 
 type GroupNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
   BottomTabNavigationProp<TabParamList>
 >
 
-const PostFoodieScreen = () => {
+type RootStackParamList = {
+  PostFoodieScreen: { screenType: ScreenType, boardData?: FoodieBoard },
+};
+type PostScreenRouteProp = RouteProp<RootStackParamList, 'PostFoodieScreen'>;
+type PostScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'PostFoodieScreen'>;
+
+type PostScreenProps = {
+  route: PostScreenRouteProp;
+  navigation: PostScreenNavigationProp;
+};
+
+const PostFoodieScreen: React.FC<PostScreenProps> = ({ route }) => {
+  const { screenType, boardData } = route.params;
   const navigation = useNavigation<GroupNavigationProp>()
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const { insertFoodie } = foodieRequest
+  const { insertFoodie, patchFoodie } = foodieRequest
   const user = useRecoilValue(userStatesAtom);
+  const isPost = screenType === "Post";
 
   // state 변수 업데이트 함수 정의
   const handleTitleChange = (newTitle: string) => {
@@ -42,25 +57,39 @@ const PostFoodieScreen = () => {
   };
 
   const handlePost = async () => {
-    console.log(title);
-    console.log(content);
     if (!title || !content) {
       Alert.alert('맛잘알 글쓰기 실패', '제목과 내용을 입력해주세요.');
       return;
     }
 
     try {
-      const FoodieData = {
+      const data = {
         title: title,
         content: content,
         token: user.accessToken
       }
-      const response = await insertFoodie(FoodieData)
-      if (response) {
-        console.log("맛잘알 생성 성공")
-        console.log(response)
-        navigation.navigate('Tab', { screen: 'Social', params: { tab: 'foodie' } })
+      if (user.user) {
+        if (screenType == "Post") {
+          const response = await insertFoodie(data)
+          if (response) {
+            console.log("맛잘알 생성 성공")
+            console.log(response)
+            navigation.navigate('Tab', { screen: 'Social', params: { tab: 'foodie' } })
+          }
+        }
+        else {
+          if (boardData?.id) {
+            const response = await patchFoodie(data, boardData.id)
+            if (response) {
+              console.log("맛잘알 수정 성공")
+              console.log(response)
+              navigation.navigate('Tab', { screen: 'Social', params: { tab: 'foodie' } })
+            }
+          }
+        }
       }
+
+
     } catch (error: any) {
       const { msg } = error
       Alert.alert('맛잘알 생성 실패', msg ? msg : '맛잘알 생성에 실패했습니다.')
@@ -72,22 +101,33 @@ const PostFoodieScreen = () => {
     setContent('');
   };
 
+  const setState = () => {
+    if (boardData) {
+      setTitle(boardData.title);
+      setContent(boardData.content);
+    }
+  }
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      resetState();
+      const isPost = screenType === "Post";
+      navigation.setOptions({
+        headerTitleAlign: 'center',
+        headerTitle: isPost ? '맛잘알 글쓰기' : '맛잘알 수정',
+        headerLeft: () => (
+          <Icon name="chevron-left" size={28} onPress={() => navigation.navigate('Tab', { screen: 'Social', params: { tab: 'foodie' } })} />
+        )
+      })
+      if (isPost) {
+        resetState();
+      }
+      else {
+        setState();
+      }
     });
-    navigation.setOptions({
-      headerTitleAlign: 'center',
-      headerTitle: '맛잘알 글쓰기',
-      headerLeft: () => (
-        <Icon name="chevron-left" size={28} onPress={() => navigation.navigate('Tab', { screen: 'Social', params: { tab: 'foodie' } })} />
-      ),
-      headerRight: () => (
-        <S.PostBtn onPress={handlePost}><S.BtnText>등록</S.BtnText></S.PostBtn>
-      )
-    })
+
     return unsubscribe;
-  }, [navigation])
+  }, [navigation, screenType, boardData])
 
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -96,7 +136,7 @@ const PostFoodieScreen = () => {
           style={{ padding: 10 }}
           placeholder="제목"
           value={title}
-          onChangeText={handleTitleChange}>
+          onChangeText={text => handleTitleChange(text)}>
         </S.TitleInput>
         <S.BtnArea style={{ flexDirection: 'row' }}>
           <S.AttachBtn onPress={(handleImageAttach)}>
@@ -109,9 +149,10 @@ const PostFoodieScreen = () => {
         <S.ContentInput
           placeholder="내용을 입력해주세요"
           value={content}
-          onChangeText={handleContentChange}
+          onChangeText={text => handleContentChange(text)}
           multiline>
         </S.ContentInput>
+        <S.Btn onPress={handlePost}><S.BtnText>{isPost ? '등록' : '수정'}</S.BtnText></S.Btn>
       </S.PostContainer>
     </TouchableWithoutFeedback>
   );

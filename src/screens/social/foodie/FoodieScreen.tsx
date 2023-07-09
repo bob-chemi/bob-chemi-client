@@ -8,9 +8,12 @@ import * as S from './FoodieScreen.style'
 import theme from '@/common/style/theme';
 import { Nav } from '@/types/nav';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackParamList } from '@/navigations/StackNav';
 const { getFoodieList } = foodieRequest
 
 const FoodieScreen = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<StackParamList>>()
   const { navigate } = useNavigation<Nav>()
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState<FoodieBoard[]>([]);
@@ -47,7 +50,7 @@ const FoodieScreen = () => {
   }
 
   const NavToCreate = () => {
-    navigate('PostFoodieScreen');
+    navigation.navigate('PostFoodieScreen', { screenType: 'Post' });
   }
 
   return (

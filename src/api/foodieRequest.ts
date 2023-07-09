@@ -10,7 +10,18 @@ export const foodieRequest = {
     content: string
     token: string
   }) => {
-    const { data } = await requestData(`/foodieBoard`, 'post', null, foodieData)
+    const { data } = await requestData(`/foodieBoard`, 'post', null, foodieData, foodieData.token)
     return data
   },
+  patchFoodie: async (foodieData: {
+    title: string
+    content: string
+  }, id: string) => {
+    const { data } = await requestData(`/foodieBoard/${id}`, 'patch', null, foodieData)
+    return data
+  },
+  deleteFoodie: async (id: string, token: string) => {
+    const { data } = await requestData(`/foodieBoard/${id}`, 'delete', null, null, token)
+    return data;
+  }
 }

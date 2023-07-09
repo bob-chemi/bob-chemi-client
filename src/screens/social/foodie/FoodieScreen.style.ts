@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '@/utils/getScreenSize'
 import theme from '@/common/style/theme'
 
-export const PostItemContainer = styled.View`
+export const PostItemContainer = styled.TouchableOpacity`
   flex: 1;
   height: 60px;
   justify-content: center;
@@ -88,14 +88,79 @@ export const ContentInput = styled.TextInput`
   width: 100%;
 `
 
-export const PostBtn = styled.TouchableOpacity`
+export const Btn = styled.TouchableOpacity`
+  position:absolute;
+  bottom: 30px;
+  margin-top: 20px;
   backgroundColor: ${theme.colors.primary};
+  width: 50%;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 10px;
+  align-items: center;
 `
 
 export const BtnText = styled.Text`
   font-weight: 600;
   font-size: 13px;
   color: ${theme.colors.white};
+`
+
+/* FoodieDetailScreen */
+export const DetailContainer = styled.View`
+  flex: 1;
+  height: ${SCREEN_HEIGHT}px;
+`
+
+export const TitleArea = styled.View`
+  height: 80px;
+  width: 100%;
+  paddingHorizontal: ${({ theme }) => theme.paddings.default};  
+  justify-content: center;
+  border-bottom-width: 1px;
+  border-bottom-color: ${theme.colors.gray200};
+`
+
+export const TitleText = styled.Text`
+  color: ${theme.colors.black};
+  font-size: 20px;
+  font-weight: 600;
+`
+
+export const SubTitleText = styled.Text`
+  color: ${theme.colors.gray400};
+  font-size: 15px;
+  font-weight: 500;
+`
+
+export const BoardDetailArea = styled.View`
+  flex: 1;
+  height: ${SCREEN_HEIGHT - 80}px;
+  padding: ${({ theme }) => theme.paddings.default};      
+`
+
+export const ContextArea = styled.View`
+  width: 100%;
+  height: ${SCREEN_HEIGHT - 80}px;
+`
+
+export const ContextText = styled.Text`
+  textAlignVertical: top;
+  color: ${theme.colors.gray500};
+`
+
+export const IconBtnArea = styled.View`
+  position: absolute;
+  flexDirection: row;
+  justify-content: space-around;
+  right: 20px;
+  bottom: 12px;
+`
+
+export const BetweenBtn = styled.TouchableOpacity`
+  backgroundColor: ${theme.colors.primary};
+  width: 45%;
+  padding: 5px;
+  border-radius: 10px;
+  align-items: center;
+  align-self: center;  
 `
