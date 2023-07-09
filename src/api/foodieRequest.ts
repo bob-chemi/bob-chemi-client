@@ -8,6 +8,7 @@ export const foodieRequest = {
   insertFoodie: async (foodieData: {
     title: string
     content: string
+    token: string
   }) => {
     const { data } = await requestData(`/foodieBoard`, 'post', null, foodieData)
     return data
