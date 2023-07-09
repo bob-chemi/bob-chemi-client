@@ -7,12 +7,13 @@ import IntroduceMatchingScreen from '@/screens/matching/components/IntroduceMatc
 import PreviewScreen from '@/screens/previewScreen/PreviewScreen'
 import PostGroupScreen from '@/screens/social/group/PostGroupScreen'
 import SocialScreen from '@/screens/social/SocialScreen'
-import { Group } from '@/types/socialType'
+import { FoodieBoard, Group } from '@/types/socialType'
 import PostFoodieScreen from '@/screens/social/foodie/PostFoodieScreen'
 import GroupDetailScreen from '@/screens/social/group/GroupDetailScreen'
 import FoodieScreen from '@/screens/social/foodie/FoodieScreen'
 import JoinListScreen from '@/screens/social/group/JoinListScreen'
 import { ScreenType } from '@/types/postGroupTypes'
+import FoodieDetailScreen from '@/screens/social/foodie/FoodieDetailScreen'
 
 export type StackParamList = {
   PreviewScreen: undefined
@@ -20,13 +21,14 @@ export type StackParamList = {
   RegisterScreen: undefined
   SocialScreen: { tab?: string }
   FoodieScreen: undefined
-  PostGroupScreen: { screenType: ScreenType, groupData?: Group };
+  PostGroupScreen: { screenType: ScreenType, groupData?: Group }
   JoinListScreen: undefined
   ChatRoom: undefined
   IntroduceMatching: undefined
   ChemiRating: undefined
-  PostFoodieScreen: undefined
+  PostFoodieScreen: { screenType: ScreenType, boardData?: FoodieBoard }
   GroupDetailScreen: { group: Group }
+  FoodieDetailScreen: { board: FoodieBoard }
 }
 
 const Stack = createNativeStackNavigator<StackParamList>()
@@ -46,6 +48,7 @@ const StackNav = () => {
       <Stack.Screen name="ChemiRating" component={ChemiRatingScreen} />
       <Stack.Screen name="PostFoodieScreen" component={PostFoodieScreen} />
       <Stack.Screen name="GroupDetailScreen" component={GroupDetailScreen} />
+      <Stack.Screen name="FoodieDetailScreen" component={FoodieDetailScreen} />
     </Stack.Navigator>
   )
 }
