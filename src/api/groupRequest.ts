@@ -25,6 +25,7 @@ export const groupRequest = {
     groupHour: number
     groupMin: number
     groupLocation: string
+    image: string
   }, userId: string) => {
     const { data } = await requestData(`/groups/${userId}`, 'post', null, groupData)
     return data

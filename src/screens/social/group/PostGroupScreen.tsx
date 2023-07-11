@@ -17,7 +17,7 @@ import { SetFormattedTwoDigitNumber } from '@/utils/formattedNum';
 import { useRecoilValue } from 'recoil';
 import { userStatesAtom } from '@/recoil/atoms/userStatesAtom'
 import { ScreenType } from '@/types/postGroupTypes';
-import { Group } from '@/types/socialType';
+import { Group, ImageData } from '@/types/socialType';
 
 type GroupNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootNativeStackParamList, 'Stack'>,
@@ -45,6 +45,7 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
   const [peopleNumber, setPeopleNumber] = useState(2);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [imageUri, setImageUri] = useState('');
   const navigation = useNavigation<GroupNavigationProp>()
   const { insertGroup, patchGroup } = groupRequest
   const user = useRecoilValue(userStatesAtom);
@@ -79,6 +80,10 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
     setDescription(newDescription);
   };
 
+  const handleImageUriChange = (newUri: string) => {
+    setImageUri(newUri);
+  }
+
   const resetState = () => {
     setDate(new Date());
     setTime(new Date());
@@ -87,6 +92,7 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
     setPeopleNumber(2);
     setTitle('');
     setDescription('');
+    setImageUri('');
   };
 
   const setState = () => {
@@ -143,6 +149,7 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
         groupHour: time.getHours(),
         groupMin: time.getMinutes(),
         groupLocation: `${selectedRegion} ${selectedCity}`,
+        image: imageUri,
       }
       if (user.user) {
         if (screenType === "Post") {
@@ -179,7 +186,7 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <S.PostContainer>
         <View>
-          <PostImgComp></PostImgComp>
+          <PostImgComp imageUri={imageUri} onChangeImageUri={handleImageUriChange}></PostImgComp>
           <PostLocationComp
             selectedCity={selectedCity} selectedRegion={selectedRegion} onChangeCity={handleCityChange} onChangeRegion={handleRegionChange}>
           </PostLocationComp>

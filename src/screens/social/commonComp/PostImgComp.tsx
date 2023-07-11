@@ -3,14 +3,17 @@ import * as S from '../group/components/post/PostComponent.style'
 import ImagePicker, { ImagePickerResponse, launchCamera, launchImageLibrary, ImageLibraryOptions, MediaType } from 'react-native-image-picker'
 import { Button, Alert, Text, TouchableOpacity } from 'react-native';
 import { PermissionsAndroid } from 'react-native/Libraries/PermissionsAndroid/PermissionsAndroid';
+import { ImageData } from '@/types/socialType'
 
-interface ImageData {
-  uri: string | undefined;
+interface PostImgCompProps {
+  children?: React.ReactNode;
+  imageUri: string;
+  onChangeImageUri: (imageUri: string) => void;
 }
 
-const PostImgComp = () => {
-  const [imageData, setImageData] = useState<ImageData>({ uri: undefined });
-
+const PostImgComp: React.FC<PostImgCompProps> = ({ imageUri, onChangeImageUri }) => {
+  //const [imageData, setImageData] = useState<ImageData>({ uri: undefined });
+  //const [imageData, setImageData] = useState<ImageData>({ uri: imageUri });
   const handleSelectImage = () => {
     const options = {
       title: '이미지 첨부',
@@ -48,7 +51,7 @@ const PostImgComp = () => {
         console.log('ImagePicker Error:', response.errorCode, response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
         const imageData: ImageData = { uri: response.assets[0].uri! };
-        setImageData(imageData);
+        onChangeImageUri(imageData.uri);
       }
     });
   }
@@ -66,7 +69,7 @@ const PostImgComp = () => {
         console.log('ImagePicker Error:', response.errorCode, response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
         const imageData: ImageData = { uri: response.assets[0].uri! };
-        setImageData(imageData);
+        onChangeImageUri(imageData.uri);
       }
     });
   }
@@ -76,7 +79,7 @@ const PostImgComp = () => {
       <S.HeadTitle height={120}>{'이미지'}</S.HeadTitle>
       <S.UploadImgContainer>
         <S.UploadImgBtn onPress={() => handleSelectImage()}><Text>이미지 첨부</Text></S.UploadImgBtn>
-        {imageData && <S.Img source={{ uri: imageData.uri }} />}
+        <S.Img source={{ uri: imageUri }} />
       </S.UploadImgContainer>
     </S.CompContainer>
   )
