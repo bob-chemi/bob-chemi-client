@@ -3,13 +3,16 @@ import * as S from '../group/components/post/PostComponent.style'
 import ImagePicker, { ImagePickerResponse, launchCamera, launchImageLibrary, ImageLibraryOptions, MediaType } from 'react-native-image-picker'
 import { Button, Alert, Text, TouchableOpacity } from 'react-native';
 import { PermissionsAndroid } from 'react-native/Libraries/PermissionsAndroid/PermissionsAndroid';
+import { ImageData } from '@/types/socialType'
 
-interface ImageData {
-  uri: string | undefined;
+interface PostImgCompProps {
+  children?: React.ReactNode;
+  imageData: ImageData;
+  onChangeImageData: (imageData: ImageData) => void; 
 }
 
-const PostImgComp = () => {
-  const [imageData, setImageData] = useState<ImageData>({ uri: undefined });
+const PostImgComp: React.FC<PostImgCompProps> = ({imageData, onChangeImageData}) => {
+  //const [imageData, setImageData] = useState<ImageData>({ uri: undefined });
 
   const handleSelectImage = () => {
     const options = {
@@ -48,7 +51,7 @@ const PostImgComp = () => {
         console.log('ImagePicker Error:', response.errorCode, response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
         const imageData: ImageData = { uri: response.assets[0].uri! };
-        setImageData(imageData);
+        onChangeImageData(imageData);
       }
     });
   }
@@ -66,7 +69,7 @@ const PostImgComp = () => {
         console.log('ImagePicker Error:', response.errorCode, response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
         const imageData: ImageData = { uri: response.assets[0].uri! };
-        setImageData(imageData);
+        onChangeImageData(imageData);
       }
     });
   }
