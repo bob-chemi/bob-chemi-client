@@ -45,7 +45,7 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
   const [peopleNumber, setPeopleNumber] = useState(2);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [image, setImage] = useState<ImageData>();
+  const [imageUri, setImageUri] = useState('');
   const navigation = useNavigation<GroupNavigationProp>()
   const { insertGroup, patchGroup } = groupRequest
   const user = useRecoilValue(userStatesAtom);
@@ -80,8 +80,8 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
     setDescription(newDescription);
   };
 
-  const handleImageChange = (newImage: ImageData) => {
-    setImage(newImage);
+  const handleImageUriChange = (newUri: string) => {
+    setImageUri(newUri);
   }
 
   const resetState = () => {
@@ -92,6 +92,7 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
     setPeopleNumber(2);
     setTitle('');
     setDescription('');
+    setImageUri('');
   };
 
   const setState = () => {
@@ -148,7 +149,7 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
         groupHour: time.getHours(),
         groupMin: time.getMinutes(),
         groupLocation: `${selectedRegion} ${selectedCity}`,
-        image: image.uri,
+        image: imageUri,
       }
       if (user.user) {
         if (screenType === "Post") {
@@ -185,7 +186,7 @@ const PostGroupScreen: React.FC<PostScreenProps> = ({ route }) => {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <S.PostContainer>
         <View>
-          <PostImgComp imageData={image} onChangeImageData={handleImageChange}></PostImgComp>
+          <PostImgComp imageUri={imageUri} onChangeImageUri={handleImageUriChange}></PostImgComp>
           <PostLocationComp
             selectedCity={selectedCity} selectedRegion={selectedRegion} onChangeCity={handleCityChange} onChangeRegion={handleRegionChange}>
           </PostLocationComp>

@@ -55,5 +55,5 @@ export interface FoodieImage {
 }
 
 export interface ImageData {
-  uri: string | undefined;
+  uri: string;
 }

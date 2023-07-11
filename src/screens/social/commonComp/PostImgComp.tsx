@@ -7,13 +7,13 @@ import { ImageData } from '@/types/socialType'
 
 interface PostImgCompProps {
   children?: React.ReactNode;
-  imageData: ImageData;
-  onChangeImageData: (imageData: ImageData) => void; 
+  imageUri: string;
+  onChangeImageUri: (imageUri: string) => void;
 }
 
-const PostImgComp: React.FC<PostImgCompProps> = ({imageData, onChangeImageData}) => {
+const PostImgComp: React.FC<PostImgCompProps> = ({ imageUri, onChangeImageUri }) => {
   //const [imageData, setImageData] = useState<ImageData>({ uri: undefined });
-
+  //const [imageData, setImageData] = useState<ImageData>({ uri: imageUri });
   const handleSelectImage = () => {
     const options = {
       title: '이미지 첨부',
@@ -51,7 +51,7 @@ const PostImgComp: React.FC<PostImgCompProps> = ({imageData, onChangeImageData})
         console.log('ImagePicker Error:', response.errorCode, response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
         const imageData: ImageData = { uri: response.assets[0].uri! };
-        onChangeImageData(imageData);
+        onChangeImageUri(imageData.uri);
       }
     });
   }
@@ -69,7 +69,7 @@ const PostImgComp: React.FC<PostImgCompProps> = ({imageData, onChangeImageData})
         console.log('ImagePicker Error:', response.errorCode, response.errorMessage);
       } else if (response.assets && response.assets.length > 0) {
         const imageData: ImageData = { uri: response.assets[0].uri! };
-        onChangeImageData(imageData);
+        onChangeImageUri(imageData.uri);
       }
     });
   }
@@ -79,7 +79,7 @@ const PostImgComp: React.FC<PostImgCompProps> = ({imageData, onChangeImageData})
       <S.HeadTitle height={120}>{'이미지'}</S.HeadTitle>
       <S.UploadImgContainer>
         <S.UploadImgBtn onPress={() => handleSelectImage()}><Text>이미지 첨부</Text></S.UploadImgBtn>
-        {imageData && <S.Img source={{ uri: imageData.uri }} />}
+        <S.Img source={{ uri: imageUri }} />
       </S.UploadImgContainer>
     </S.CompContainer>
   )

@@ -3,7 +3,7 @@ import { CompositeNavigationProp, useNavigation } from '@react-navigation/native
 import { RouteProp } from '@react-navigation/native'
 import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
-import { Alert, ImageSourcePropType, ScrollView } from 'react-native'
+import { Alert, Image, ImageSourcePropType, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as S from './GroupScreen.style'
 import theme from '@/common/style/theme'
@@ -46,7 +46,7 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
   }, [navigation])
 
   const date = SetFormattedDate(groupData.createdAt);
-  const imageSource: ImageSourcePropType = groupData.status == 'PUBLIC' ? require('@assets/images/group_public.png') : require('@assets/images/group_private.png');
+  const imageSource: ImageSourcePropType = Image.resolveAssetSource({ uri: groupData.image });
 
   const handleModify = () => {
     stackNavigation.navigate('PostGroupScreen', { screenType: 'Modify', groupData: groupData });
@@ -84,9 +84,8 @@ const GroupDetailScreen: React.FC<GroupDetailProps> = ({ route }) => {
       console.log(response);
     }
   }
-  // <S.GroupDetailImage source={imageSource}></S.GroupDetailImage>*/} {/*[TODO] 수정 필요 2023.06.18 by 김주현
 
-  return ( //[TODO] img 추가 필요 2023.06.18 by 김주현
+  return (
     <S.Container>
       <S.TitleArea>
         <S.TitleText>{groupData.title}</S.TitleText>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import * as S from '../GroupScreen.style'
-import { ImageSourcePropType, View, } from 'react-native';
+import { Image, ImageSourcePropType, View, } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import theme from '@/common/style/theme'
 import { useNavigation } from '@react-navigation/native'
@@ -16,7 +16,7 @@ const ContentsBox = ({ GroupData }: { GroupData: Group; }) => {
   const handleGroupPress = (group: Group) => {
     navigation.navigate('GroupDetailScreen', { group });
   };
-  const imageSource: ImageSourcePropType = GroupData.status == 'PUBLIC' ? require('@assets/images/group_public.png') : require('@assets/images/group_private.png');
+  const imageSource: ImageSourcePropType = Image.resolveAssetSource({ uri: GroupData.image });
 
   return (
     <S.ContentsDiv onPress={() => handleGroupPress(GroupData)}>
